@@ -2,10 +2,22 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>Mon calendrier de l'avent</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Notre calendrier de l'avent</title>
+  <style>
+    body { background: #2b1030; color: white; font-family: Georgia, serif; text-align: center; }
+    .grille { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 400px; margin: auto; }
+    button { padding: 20px; font-size: 24px; border-radius: 12px; border: 2px solid pink; background: #4a1d4f; color: white; }
+  </style>
 </head>
 <body>
-  <h1>Pour toi, mon amour</h1>
-  <p>Ici, je mettrai mes 24 cases.</p>
+  <h1>Notre calendrier de l'avent</h1>
+  <div class="grille" id="grille"></div>
+  <script>
+    var grille = document.getElementById("grille");
+    for (var jour = 1; jour <= 24; jour++) {
+      grille.innerHTML += "<button>" + jour + "</button>";
+    }
+  </script>
 </body>
 </html>
