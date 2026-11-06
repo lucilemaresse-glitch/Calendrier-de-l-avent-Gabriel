@@ -200,6 +200,31 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
   text-decoration: underline; cursor: pointer; margin-top: 6px;
 }
 
+/* ---------- Lettre de bienvenue ---------- */
+.love-letter {
+  background: #fffdf7;
+  border: 1px solid #e3cf9f;
+  border-radius: 8px;
+  padding: 22px 20px;
+  text-align: left;
+  box-shadow: inset 0 0 0 4px #fffdf7, inset 0 0 0 5px #efe0b8;
+}
+.letter-greeting {
+  font-family: 'Great Vibes', cursive;
+  color: var(--red);
+  font-size: 32px;
+  margin: 0 0 10px;
+}
+.love-letter p { margin: 0 0 12px; white-space: pre-line; }
+.letter-placeholder { color: #9a8a7c; font-style: italic; }
+.letter-signature {
+  font-family: 'Great Vibes', cursive;
+  color: var(--red);
+  font-size: 28px;
+  text-align: right;
+  margin-top: 18px;
+}
+
 @media (max-width: 420px) {
   .calendar { gap: 8px; }
   .day { min-height: 85px; border-radius: 12px; }
@@ -279,6 +304,51 @@ const activities = [
   "Joyeux Noël mon amour ! ❤️ Voici ta dernière surprise."
 ];
 
+/* =====================================================
+   CASE 1 : LETTRE DE BIENVENUE
+   -> Remplace le texte ci-dessous par le tien.
+   Chaque élément de "paragraphs" est un paragraphe.
+   Tant que "placeholder" est true, le texte s'affiche en gris italique.
+===================================================== */
+const WELCOME_LETTER = {
+  greeting: "Mon amour,",
+  placeholder: true,
+  paragraphs: [
+    "✏️ [Ici viendra ta lettre de bienvenue : comment tu te sens, ce que ce calendrier représente pour toi, ce que tu lui souhaites pour ce mois de décembre...]",
+    "[Un deuxième paragraphe si tu veux]"
+  ],
+  closing: "Avec tout mon amour,",
+  signature: "[Ta signature]"
+};
+
+function showWelcomeLetter() {
+  const body = document.getElementById("modal-body");
+  body.innerHTML = "";
+
+  const letter = document.createElement("div");
+  letter.className = "love-letter";
+
+  const greeting = document.createElement("div");
+  greeting.className = "letter-greeting";
+  greeting.textContent = WELCOME_LETTER.greeting;
+  letter.appendChild(greeting);
+
+  WELCOME_LETTER.paragraphs.forEach(text => {
+    const p = document.createElement("p");
+    if (WELCOME_LETTER.placeholder) p.className = "letter-placeholder";
+    p.textContent = text;
+    letter.appendChild(p);
+  });
+
+  const closing = document.createElement("div");
+  closing.className = "letter-signature";
+  closing.textContent = `${WELCOME_LETTER.closing}\n${WELCOME_LETTER.signature}`;
+  closing.style.whiteSpace = "pre-line";
+  letter.appendChild(closing);
+
+  body.appendChild(letter);
+}
+
 /* ---------- Petit stockage sécurisé ---------- */
 function store(key, value) {
   try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
@@ -323,7 +393,11 @@ function openDay(day) {
     return;
   }
 
-  if (day === 2) {
+  if (day === 1) {
+    title.textContent = "Bienvenue ❤️";
+    modalContent.classList.add("wide");
+    showWelcomeLetter();
+  } else if (day === 2) {
     title.textContent = "Notre méli-mélo amoureux ❤️";
     modalContent.classList.add("wide");
     showMelimelo();
