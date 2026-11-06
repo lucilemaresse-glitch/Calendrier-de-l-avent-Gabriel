@@ -233,6 +233,36 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
 .quiz-skip { background: none; border: 0; color: var(--red); font: inherit; font-size: 13px; text-decoration: underline; cursor: pointer; }
 .quiz-big-score { font-size: 42px; font-weight: 800; color: var(--green); margin: 6px 0; }
 
+/* ---------- Pendu amoureux ---------- */
+.hang-lives { font-size: 22px; letter-spacing: 3px; margin: 10px 0 2px; min-height: 32px; }
+.modal-content p.hang-hint { font-style: italic; color: var(--green); font-weight: 700; margin: 6px 0 14px; }
+.hang-word-box { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 22px; margin: 10px 0 18px; }
+.hang-word { display: flex; gap: 5px; }
+.hang-slot {
+  min-width: 26px; height: 38px; padding: 0 2px;
+  display: flex; align-items: center; justify-content: center;
+  border-bottom: 3px solid var(--gold);
+  font-size: 24px; font-weight: 800; color: var(--green);
+}
+.hang-slot.sep { border-bottom: 0; min-width: 14px; color: var(--red); }
+.hang-slot.missed { color: var(--red); }
+.hang-kb { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; margin: 6px auto 4px; max-width: 420px; }
+.hang-key {
+  width: 34px; height: 40px; padding: 0;
+  border: 2px solid var(--gold); border-radius: 9px; background: white;
+  font: inherit; font-weight: 800; color: var(--dark); cursor: pointer; touch-action: manipulation;
+}
+.hang-key:hover:not(:disabled) { background: #fbefd0; }
+.hang-key.good { background: var(--green); color: white; border-color: var(--green); }
+.hang-key.bad { background: #e9d3d3; color: #a88; border-color: #d9b8b8; }
+.hang-key:disabled { cursor: default; }
+.hang-row-break { flex-basis: 100%; height: 0; }
+@media (max-width: 420px) {
+  .hang-key { width: 29px; height: 38px; }
+  .hang-slot { min-width: 22px; font-size: 21px; }
+  .hang-word { gap: 3px; }
+}
+
 /* ---------- Lettre de bienvenue ---------- */
 .love-letter {
   background: #fffdf7;
@@ -434,6 +464,10 @@ function openDay(day) {
     title.textContent = "Notre méli-mélo amoureux ❤️";
     modalContent.classList.add("wide");
     showMelimelo();
+  } else if (day === 4) {
+    title.textContent = "Le pendu amoureux ❤️";
+    modalContent.classList.add("wide");
+    showHangMenu();
   } else if (day === 3) {
     title.textContent = "Me connais-tu vraiment ? ❤️";
     modalContent.classList.add("wide");
@@ -455,6 +489,7 @@ function openDay(day) {
 }
 
 function closeModal() {
+  if (typeof hang !== "undefined") hang.active = false;
   document.getElementById("modal").classList.remove("show");
 }
 
@@ -999,6 +1034,237 @@ function showQuizResult() {
   actions.appendChild(back);
   body.appendChild(actions);
 }
+
+/* =====================================================
+   CASE 4 : LE PENDU AMOUREUX
+   Pour changer un mot, modifie "w" (avec accents, espaces
+   et / autorisés : seuls les lettres et chiffres sont à deviner)
+   et "hint" (l'indice affiché).
+===================================================== */
+const HANG_KEY = "advent-pendu-v1";
+const HANG_LIVES = 7;
+
+const hangCategories = [
+  {
+    id: "couple", icon: "🥰", title: "Les mots de notre couple",
+    words: [
+      { w: "COMPLICITÉ", hint: "Ce regard qui en dit long, rien qu'entre nous" },
+      { w: "SOUVENIR", hint: "Ce qu'on construit ensemble, jour après jour" }
+    ]
+  },
+  {
+    id: "souvenirs", icon: "🏖️", title: "Nos souvenirs à deux",
+    words: [
+      { w: "PREMIÈRE VACANCE", hint: "Notre premier voyage ensemble" },
+      { w: "CINÉMA", hint: "Une sortie qu'on aime partager" }
+    ]
+  },
+  {
+    id: "habitudes", icon: "📱", title: "Nos petites habitudes",
+    words: [
+      { w: "MESSAGE", hint: "Ce qu'on s'envoie tous les jours" },
+      { w: "VISIO", hint: "Quand la distance nous sépare, on se retrouve comme ça" }
+    ]
+  },
+  {
+    id: "mysteres", icon: "🔮", title: "Les mots mystères",
+    words: [
+      { w: "GABRIEL", hint: "Mon prénom" },
+      { w: "LUCILE", hint: "Ton prénom" },
+      { w: "07/05/2026", hint: "Le jour de notre rencontre (jj/mm/aaaa)" },
+      { w: "DUNKERQUE", hint: "La ville de notre rencontre" },
+      { w: "THOUSAND YEARS", hint: "Notre chanson" }
+    ]
+  }
+];
+
+let hang = { cat: 0, i: 0, solved: 0, guessed: [], wrong: 0, done: false, active: false, guess: null };
+
+function hBase(c) {
+  return c.normalize("NFD").replace(/[̀-ͯ]/g, "").toUpperCase();
+}
+
+function showHangMenu() {
+  hang.active = false;
+  const body = document.getElementById("modal-body");
+  body.innerHTML = "";
+  const scores = load(HANG_KEY, {});
+
+  body.appendChild(qEl("p", "",
+    `Devine les mots qui racontent notre histoire ! Tu as ${HANG_LIVES} cœurs : chaque mauvaise lettre en fait perdre un 💔. Tu peux cliquer sur les lettres ou taper au clavier.`));
+
+  const list = qEl("div", "quiz-cats");
+  let total = 0, max = 0;
+  hangCategories.forEach((cat, index) => {
+    const n = cat.words.length;
+    max += n;
+    const best = scores[cat.id];
+    if (best !== undefined) total += best;
+    const btn = qEl("button", "quiz-cat" + (best !== undefined ? " done" : ""));
+    btn.appendChild(qEl("span", "", `${cat.icon} ${cat.title}`));
+    btn.appendChild(qEl("span", "score", best !== undefined ? `${best} / ${n}` : `${n} mots`));
+    btn.addEventListener("click", () => startHangCategory(index));
+    list.appendChild(btn);
+  });
+  body.appendChild(list);
+
+  if (Object.keys(scores).length) {
+    body.appendChild(qEl("p", "quiz-meta", `Mots devinés : ${total} / ${max}`));
+  }
+}
+
+function startHangCategory(index) {
+  hang.cat = index;
+  hang.i = 0;
+  hang.solved = 0;
+  renderHangWord();
+}
+
+function renderHangWord() {
+  const cat = hangCategories[hang.cat];
+  const item = cat.words[hang.i];
+  const n = cat.words.length;
+  const body = document.getElementById("modal-body");
+
+  hang.guessed = [];
+  hang.wrong = 0;
+  hang.done = false;
+  hang.active = true;
+
+  const chars = Array.from(item.w);
+  const baseChars = chars.map(hBase);
+  const isPlayable = b => /^[A-Z0-9]$/.test(b);
+  const letters = [...new Set(baseChars.filter(isPlayable))];
+  const hasDigits = letters.some(l => /[0-9]/.test(l));
+
+  body.innerHTML = "";
+  body.appendChild(qEl("p", "quiz-meta", `${cat.icon} ${cat.title} · ${hang.i + 1} / ${n}`));
+
+  const lives = qEl("div", "hang-lives");
+  body.appendChild(lives);
+  body.appendChild(qEl("p", "hang-hint", item.hint));
+
+  const wordBox = qEl("div", "hang-word-box");
+  body.appendChild(wordBox);
+
+  const kb = qEl("div", "hang-kb");
+  const keys = {};
+  const rows = ["AZERTYUIOP", "QSDFGHJKLM", "WXCVBN"];
+  if (hasDigits) rows.push("0123456789");
+  rows.forEach(row => {
+    Array.from(row).forEach(k => {
+      const b = qEl("button", "hang-key", k);
+      b.addEventListener("click", () => guess(k));
+      keys[k] = b;
+      kb.appendChild(b);
+    });
+    kb.appendChild(qEl("div", "hang-row-break"));
+  });
+  body.appendChild(kb);
+
+  const feedback = qEl("p", "quiz-feedback");
+  body.appendChild(feedback);
+  const next = qEl("button", "close", hang.i === n - 1 ? "Voir mon score ❤️" : "Mot suivant →");
+  next.style.display = "none";
+  next.addEventListener("click", () => {
+    hang.i++;
+    if (hang.i >= n) showHangResult(); else renderHangWord();
+  });
+  body.appendChild(next);
+
+  function drawLives() {
+    lives.textContent = "❤️".repeat(HANG_LIVES - hang.wrong) + "🤍".repeat(hang.wrong);
+  }
+
+  function drawWord(reveal) {
+    wordBox.innerHTML = "";
+    let group = null;
+    chars.forEach((c, idx) => {
+      const b = baseChars[idx];
+      if (c === " ") { group = null; return; }
+      if (!group) {
+        group = qEl("div", "hang-word");
+        wordBox.appendChild(group);
+      }
+      if (!isPlayable(b)) {
+        group.appendChild(qEl("span", "hang-slot sep", c));
+      } else if (hang.guessed.includes(b)) {
+        group.appendChild(qEl("span", "hang-slot", c));
+      } else if (reveal) {
+        group.appendChild(qEl("span", "hang-slot missed", c));
+      } else {
+        group.appendChild(qEl("span", "hang-slot", ""));
+      }
+    });
+  }
+
+  function end(win) {
+    hang.done = true;
+    if (win) hang.solved++;
+    drawWord(!win);
+    Object.values(keys).forEach(k => { k.disabled = true; });
+    feedback.className = "quiz-feedback " + (win ? "good" : "bad");
+    feedback.textContent = win
+      ? ["Bravo ! 💚", "Tu l'as trouvé ! ❤️", "Tu me connais bien 😍"][Math.floor(Math.random() * 3)]
+      : "Oh non, plus de cœurs... Voici le mot 💔";
+    next.style.display = "inline-block";
+    next.focus();
+  }
+
+  function guess(k) {
+    if (hang.done || !keys[k] || hang.guessed.includes(k)) return;
+    hang.guessed.push(k);
+    const good = letters.includes(k);
+    keys[k].disabled = true;
+    keys[k].classList.add(good ? "good" : "bad");
+    if (!good) hang.wrong++;
+    drawLives();
+    drawWord(false);
+    if (letters.every(l => hang.guessed.includes(l))) end(true);
+    else if (hang.wrong >= HANG_LIVES) end(false);
+  }
+
+  hang.guess = guess;
+  drawLives();
+  drawWord(false);
+}
+
+function showHangResult() {
+  hang.active = false;
+  const cat = hangCategories[hang.cat];
+  const n = cat.words.length;
+  const score = hang.solved;
+  const scores = load(HANG_KEY, {});
+  scores[cat.id] = scores[cat.id] === undefined ? score : Math.max(scores[cat.id], score);
+  store(HANG_KEY, scores);
+
+  const ratio = score / n;
+  const msg = ratio === 1 ? "Parfait, tous les mots trouvés ! 😍"
+    : ratio >= 0.5 ? "Pas mal du tout, mon cœur ! 💕"
+    : "On rejoue pour se rattraper ? 😘";
+
+  const body = document.getElementById("modal-body");
+  body.innerHTML = "";
+  body.appendChild(qEl("p", "quiz-meta", `${cat.icon} ${cat.title}`));
+  body.appendChild(qEl("div", "quiz-big-score", `${score} / ${n}`));
+  body.appendChild(qEl("p", "", msg));
+
+  const actions = qEl("div", "quiz-actions");
+  const again = qEl("button", "quiz-submit", "Rejouer");
+  again.addEventListener("click", () => startHangCategory(hang.cat));
+  const back = qEl("button", "quiz-option", "Autres catégories");
+  back.addEventListener("click", showHangMenu);
+  actions.appendChild(again);
+  actions.appendChild(back);
+  body.appendChild(actions);
+}
+
+document.addEventListener("keydown", (e) => {
+  if (!hang.active || !hang.guess || e.ctrlKey || e.metaKey || e.altKey) return;
+  if (!document.getElementById("modal").classList.contains("show")) return;
+  const k = hBase(e.key);
+  if (/^[A-Z0-9]$/.test(k)) hang.guess(k);
+});
 </script>
 
 </body>
