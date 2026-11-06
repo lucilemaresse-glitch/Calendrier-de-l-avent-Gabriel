@@ -1,1011 +1,648 @@
 <!DOCTYPE html>
-
 <html lang="fr">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Notre calendrier de l'Avent ❤️</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-.victory-message {
-
-  display: none;
-
-  background: #f0e3c9;
-
-  border-radius: 15px;
-
-  padding: 15px;
-
-  color: var(--green);
-
-  line-height: 1.7;
-
-}
-  
 <style>
-
 :root {
-
   --cream: #fff7eb;
-
   --red: #a52b40;
-
   --green: #245640;
-
   --gold: #d6b46a;
-
   --dark: #392b28;
-
 }
 
-* {
-
-  box-sizing: border-box;
-
-}
+* { box-sizing: border-box; }
 
 body {
-
   margin: 0;
-
   min-height: 100vh;
-
   padding: 25px 15px 45px;
-
   font-family: 'Nunito', sans-serif;
-
   color: var(--dark);
-
   text-align: center;
-
   background:
-
     radial-gradient(circle at 10% 20%, white 0 2px, transparent 3px),
-
     radial-gradient(circle at 80% 35%, white 0 2px, transparent 3px),
-
     var(--cream);
-
   background-size: 70px 70px, 100px 100px, auto;
-
 }
 
-header {
-
-  max-width: 700px;
-
-  margin: 20px auto 30px;
-
-}
+header { max-width: 700px; margin: 20px auto 30px; }
 
 .subtitle {
-
   color: var(--green);
-
   font-weight: 800;
-
   letter-spacing: 3px;
-
   font-size: 12px;
-
   text-transform: uppercase;
-
 }
 
 h1 {
-
   color: var(--red);
-
   font-family: 'Great Vibes', cursive;
-
   font-size: clamp(43px, 9vw, 68px);
-
   font-weight: normal;
-
   margin: 10px 0;
-
 }
 
-.intro {
-
-  font-size: 15px;
-
-  line-height: 1.7;
-
-  max-width: 480px;
-
-  margin: auto;
-
-}
-
-.decoration {
-
-  color: var(--gold);
-
-  font-size: 25px;
-
-  letter-spacing: 8px;
-
-  margin: 15px 0;
-
-}
-
-#countdown {
-
-  color: var(--green);
-
-  font-weight: 800;
-
-  margin: 18px 0 25px;
-
-}
+.intro { font-size: 15px; line-height: 1.7; max-width: 480px; margin: auto; }
+.decoration { color: var(--gold); font-size: 25px; letter-spacing: 8px; margin: 15px 0; }
+#countdown { color: var(--green); font-weight: 800; margin: 18px 0 25px; }
 
 .calendar {
-
   max-width: 650px;
-
   margin: auto;
-
   display: grid;
-
   grid-template-columns: repeat(4, minmax(0, 1fr));
-
   gap: 13px;
-
 }
 
 .day {
-
   min-height: 105px;
-
   border: 2px solid var(--gold);
-
   border-radius: 15px 15px 20px 20px;
-
   color: white;
-
   cursor: pointer;
-
   display: flex;
-
   flex-direction: column;
-
   align-items: center;
-
   justify-content: center;
-
   gap: 5px;
-
   box-shadow: 0 5px 0 rgba(90,55,35,.13);
-
   transition: transform .2s, box-shadow .2s;
-
   position: relative;
-
+  font-family: inherit;
 }
 
-.day:nth-child(odd) {
+.day:nth-child(odd) { background: var(--red); }
+.day:nth-child(even) { background: var(--green); }
+.day:not(.locked):hover { transform: translateY(-5px); box-shadow: 0 9px 0 rgba(90,55,35,.13); }
+.day.locked { opacity: .75; }
+.day-number { font-size: 32px; font-weight: 800; }
+.day-label { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
 
-  background: var(--red);
+.day.opened { background: #f2dfb7 !important; color: var(--green); }
+.day.opened::after { content: "★"; position: absolute; top: 5px; right: 9px; color: var(--red); }
 
-}
+.greeting { color: var(--red); font-family: 'Great Vibes', cursive; font-size: 35px; margin-top: 35px; }
+footer { margin-top: 35px; color: var(--green); font-size: 13px; }
 
-.day:nth-child(even) {
-
-  background: var(--green);
-
-}
-
-.day:not(.locked):hover {
-
-  transform: translateY(-5px);
-
-  box-shadow: 0 9px 0 rgba(90,55,35,.13);
-
-}
-
-.day-number {
-
-  font-size: 32px;
-
-  font-weight: 800;
-
-}
-
-.day-label {
-
-  font-size: 11px;
-
-  letter-spacing: 1px;
-
-  text-transform: uppercase;
-
-}
-
-.day.opened {
-
-  background: #f2dfb7;
-
-  color: var(--green);
-
-}
-
-.day.opened::after {
-
-  content: "★";
-
-  position: absolute;
-
-  top: 5px;
-
-  right: 9px;
-
-  color: var(--red);
-
-}
-
-.greeting {
-
-  color: var(--red);
-
-  font-family: 'Great Vibes', cursive;
-
-  font-size: 35px;
-
-  margin-top: 35px;
-
-}
-
-footer {
-
-  margin-top: 35px;
-
-  color: var(--green);
-
-  font-size: 13px;
-
-}
-
+/* ---------- Fenêtre modale ---------- */
 .modal {
-
   display: none;
-
   position: fixed;
-
   inset: 0;
-
   z-index: 10;
-
   background: rgba(25,35,28,.65);
-
-  padding: 20px;
-
+  padding: 15px;
   align-items: center;
-
   justify-content: center;
-
 }
-
-.modal.show {
-
-  display: flex;
-
-}
+.modal.show { display: flex; }
 
 .modal-content {
-
   background: var(--cream);
-
   border: 3px solid var(--gold);
-
   border-radius: 22px;
-
-  padding: 30px 22px;
-
+  padding: 26px 18px;
   width: min(100%, 420px);
-
+  max-height: 92vh;
+  overflow-y: auto;
   animation: appear .25s ease;
-
 }
+.modal-content.wide { width: min(100%, 540px); }
 
 @keyframes appear {
-
-  from {
-
-    transform: scale(.85);
-
-    opacity: 0;
-
-  }
-
-  to {
-
-    transform: scale(1);
-
-    opacity: 1;
-
-  }
-
+  from { transform: scale(.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
 .modal-content h2 {
-
   color: var(--red);
-
   font-family: 'Great Vibes', cursive;
-
   font-size: 38px;
-
   font-weight: normal;
-
   margin: 0 0 15px;
-
 }
-
-.modal-content p {
-
-  line-height: 1.7;
-
-  white-space: pre-line;
-
-}
+.modal-content p { line-height: 1.7; white-space: pre-line; }
 
 .close {
-
   border: 0;
-
   border-radius: 30px;
-
   padding: 10px 22px;
-
   background: var(--green);
-
   color: white;
-
   font: inherit;
-
   font-weight: 800;
-
   cursor: pointer;
-
   margin-top: 12px;
+}
 
+/* ---------- Méli-mélo ---------- */
+.game-intro { font-size: 14px; margin: 0 0 8px; }
+.game-progress { font-weight: 800; color: var(--green); margin: 6px 0; }
+
+.game-bar { height: 10px; background: #e8d9b8; border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
+.game-fill { height: 100%; width: 0; background: var(--red); transition: width .3s; }
+
+.word-grid {
+  display: grid;
+  grid-template-columns: repeat(15, minmax(0, 1fr));
+  gap: 2px;
+  margin: 0 auto;
+  user-select: none;
+}
+
+.letter {
+  aspect-ratio: 1;
+  padding: 0;
+  border: 1px solid #e3cf9f;
+  border-radius: 5px;
+  background: white;
+  color: var(--dark);
+  font-family: inherit;
+  font-weight: 800;
+  font-size: clamp(10px, 3.2vw, 16px);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.letter:hover { background: #fbefd0; }
+.letter.selected { background: var(--gold); color: white; }
+.letter.found { background: var(--green); color: white; border-color: var(--green); }
+
+.word-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin: 14px 0 6px; }
+.word-item {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: #f2dfb7;
+  color: var(--green);
+}
+.word-item.found { background: var(--green); color: white; text-decoration: line-through; }
+
+.game-message { font-size: 14px; min-height: 24px; margin: 8px 0 !important; }
+
+.victory-message {
+  display: none;
+  background: #f0e3c9;
+  border-radius: 15px;
+  padding: 15px;
+  color: var(--green);
+  line-height: 1.7;
+}
+
+.link-btn {
+  background: none; border: 0; color: var(--red); font: inherit; font-size: 12px;
+  text-decoration: underline; cursor: pointer; margin-top: 6px;
 }
 
 @media (max-width: 420px) {
-
-  .calendar {
-
-    gap: 8px;
-
-  }
-
-  .day {
-
-    min-height: 85px;
-
-    border-radius: 12px;
-
-  }
-
-  .day-number {
-
-    font-size: 26px;
-
-  }
-
-  .day-label {
-
-    font-size: 9px;
-
-  }
-
+  .calendar { gap: 8px; }
+  .day { min-height: 85px; border-radius: 12px; }
+  .day-number { font-size: 26px; }
+  .day-label { font-size: 9px; }
+  .modal-content { padding: 20px 10px; }
 }
-
 </style>
-
 </head>
-
 <body>
 
 <header>
-
   <div class="subtitle">Un mois rempli de magie</div>
-
   <div class="decoration">✦ ❄ ✦</div>
-
   <h1>Notre calendrier de l'Avent</h1>
-
   <p class="intro">
-
     24 petites surprises pour rendre ton mois de décembre
-
     encore plus magique. Une case par jour, un petit peu
-
     d'amour chaque matin. ❤️
-
   </p>
-
   <div class="decoration">🎄 ✨ 🎄</div>
-
   <div id="countdown"></div>
-
 </header>
 
 <main>
-
   <div class="calendar" id="calendar"></div>
-
 </main>
 
 <div class="greeting">Avec tout mon amour ❤️</div>
-
 <footer>
-
   Joyeux mois de décembre, mon cœur !<br>
-
   Fait avec amour, spécialement pour toi.
-
 </footer>
 
 <div class="modal" id="modal" role="dialog" aria-modal="true">
-
-  <div class="modal-content">
-
+  <div class="modal-content" id="modal-content">
     <h2 id="modal-title"></h2>
-
     <div id="modal-body"></div>
-
     <button class="close" onclick="closeModal()">Refermer ❤️</button>
-
   </div>
-
 </div>
 
 <script>
+/* =====================================================
+   RÉGLAGES
+   MODE_TEST = true  -> toutes les cases s'ouvrent (pour tester)
+   MODE_TEST = false -> seulement les cases du jour (en décembre 2026)
+   Pense à le mettre sur false avant de l'offrir !
+===================================================== */
+const MODE_TEST = true;
+const YEAR = 2026;
 
 const activities = [
-
   "Bienvenue dans ton calendrier de l'Avent ! ❤️ Chaque jour, une nouvelle surprise t'attend. Je t'aime !",
-
-  "Aujourd'hui, retrouve les mots cachés : AMOUR, GABRIEL, LUCILE, BISOU et NOËL.",
-
+  "", // case 2 : méli-mélo
   "Un petit souvenir de nous : raconte-moi ton moment préféré depuis notre rencontre.",
-
   "Petit quiz : quel jour nous sommes-nous rencontrés ?",
-
   "Une surprise t'attend : reconstitue notre puzzle !",
-
   "Défi photo : envoie-moi une photo de ton moment préféré de la journée.",
-
   "Aujourd'hui, prends quelques minutes pour lire mon petit mot d'amour. ❤️",
-
   "Un rébus spécial nous deux t'attend !",
-
   "Quelle chanson te fait penser à nous ?",
-
   "Place les souvenirs dans le bon ordre !",
-
   "Surprise du jour : tu as gagné un petit bon pour une activité ensemble.",
-
   "Raconte-moi trois souvenirs que tu aimerais revivre.",
-
   "Devine la photo mystère !",
-
   "Défi du jour : donne-moi cinq choses que tu aimes chez moi.",
-
   "Une petite énigme sur notre histoire t'attend.",
-
   "Quel est ton souvenir préféré de nous deux ?",
-
   "Petit jeu : tu préfères quoi ?",
-
   "Surprise : une petite vidéo rien que pour toi !",
-
   "Voyons si tu me connais aussi bien que tu le penses !",
-
   "Défi cuisine : préparons la même recette à distance.",
-
   "Remets les mots dans le bon ordre pour découvrir mon message secret.",
-
   "Bon pour une soirée rien que tous les deux !",
-
   "Un dernier petit mot pour te rappeler combien tu comptes pour moi.",
-
   "Joyeux Noël mon amour ! ❤️ Voici ta dernière surprise."
-
 ];
 
+/* ---------- Petit stockage sécurisé ---------- */
+function store(key, value) {
+  try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+}
+function load(key, fallback) {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch (e) { return fallback; }
+}
+
 const calendar = document.getElementById("calendar");
+let openedDays = load("advent-opened", []);
+
+function getToday() {
+  if (MODE_TEST) return 24;
+  const now = new Date();
+  return now.getFullYear() === YEAR && now.getMonth() === 11 ? Math.min(now.getDate(), 24) : 0;
+}
 
 function updateCountdown() {
-
   const now = new Date();
-
-  const christmas = new Date(2026, 11, 25);
-
+  const christmas = new Date(YEAR, 11, 25);
   const days = Math.ceil((christmas - now) / 86400000);
-
   document.getElementById("countdown").textContent =
-
-    days > 0 ? `Encore ${days} jours avant Noël 🎅` : "Joyeux Noël ! 🎄";
-
+    days > 1 ? `Encore ${days} jours avant Noël 🎅`
+    : days === 1 ? "Plus qu'un jour avant Noël 🎅"
+    : "Joyeux Noël ! 🎄";
 }
 
 function openDay(day) {
+  const modalContent = document.getElementById("modal-content");
+  const title = document.getElementById("modal-title");
+  const body = document.getElementById("modal-body");
 
-  const now = new Date();
+  modalContent.classList.remove("wide");
 
-  const today =
-
-    now.getFullYear() === 2026 && now.getMonth() === 11
-
-      ? now.getDate()
-
-      : 0;
-
-  if (day > today) {
-
-    alert("Encore un peu de patience... 🎁");
-
+  if (day > getToday()) {
+    title.textContent = `Case n° ${day} 🎁`;
+    body.innerHTML = "<p>Encore un peu de patience... 🎁<br>Cette case s'ouvrira le " + day + " décembre.</p>";
+    document.getElementById("modal").classList.add("show");
     return;
-
   }
-
-  document.getElementById("modal-title").textContent =
-
-    day === 2 ? "Notre méli-mélo amoureux ❤️" : `Case n° ${day} 🎄`;
 
   if (day === 2) {
-
+    title.textContent = "Notre méli-mélo amoureux ❤️";
+    modalContent.classList.add("wide");
     showMelimelo();
-
   } else {
-
-    document.getElementById("modal-body").textContent =
-
-      activities[day - 1];
-
+    title.textContent = `Case n° ${day} 🎄`;
+    body.innerHTML = "";
+    const p = document.createElement("p");
+    p.textContent = activities[day - 1];
+    body.appendChild(p);
   }
 
+  if (!openedDays.includes(day)) {
+    openedDays.push(day);
+    store("advent-opened", openedDays);
+  }
+  document.querySelector(`.day[data-day="${day}"]`).classList.add("opened");
   document.getElementById("modal").classList.add("show");
-
 }
 
 function closeModal() {
-
   document.getElementById("modal").classList.remove("show");
-
 }
 
 for (let day = 1; day <= 24; day++) {
-
   const button = document.createElement("button");
-
   button.className = "day";
-
+  button.dataset.day = day;
+  if (day > getToday()) button.classList.add("locked");
+  if (openedDays.includes(day) && day <= getToday()) button.classList.add("opened");
   button.innerHTML = `
-
     <span class="day-number">${day}</span>
-
     <span class="day-label">Décembre</span>
-
   `;
-
   button.addEventListener("click", () => openDay(day));
-
   calendar.appendChild(button);
-
 }
 
 document.getElementById("modal").addEventListener("click", (event) => {
-
-  if (event.target.id === "modal") {
-
-    closeModal();
-
-  }
-
+  if (event.target.id === "modal") closeModal();
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeModal();
 });
 
 updateCountdown();
 
-</script>
-
- MÉLI-MÉLO AMOUREUX ❤️
-
+/* =====================================================
+   MÉLI-MÉLO AMOUREUX ❤️
+===================================================== */
 const hiddenWords = [
-
-  "LUCILE",
-
-  "GABRIEL",
-
-  "PAU",
-
-  "BRAYDUNES",
-
-  "AOUT",
-
-  "VISIO",
-
-  "PLAGE",
-
-  "CINEMA",
-
-  "THOUSANDYEARS",
-
-  "RIRE"
-
+  { word: "LUCILE", label: "Lucile" },
+  { word: "GABRIEL", label: "Gabriel" },
+  { word: "PAU", label: "Pau" },
+  { word: "BRAYDUNES", label: "Bray-Dunes" },
+  { word: "AOUT", label: "Août" },
+  { word: "VISIO", label: "Visio" },
+  { word: "PLAGE", label: "Plage" },
+  { word: "CINEMA", label: "Cinéma" },
+  { word: "THOUSANDYEARS", label: "Thousand Years" },
+  { word: "RIRE", label: "Rire" }
 ];
 
 const gridSize = 15;
-
+const GAME_KEY = "advent-melimelo-v1";
 let gameBoard = [];
-
 let foundWords = [];
-
 let firstLetter = null;
 
 const directions = [
-
   [0, 1], [1, 0], [1, 1], [-1, 1],
-
   [0, -1], [-1, 0], [-1, -1], [1, -1]
-
 ];
 
-function createGameBoard() {
+function tryPlaceWord(board, word) {
+  for (let attempts = 0; attempts < 1000; attempts++) {
+    const [dr, dc] = directions[Math.floor(Math.random() * directions.length)];
+    const row = Math.floor(Math.random() * gridSize);
+    const col = Math.floor(Math.random() * gridSize);
+    const endRow = row + (word.length - 1) * dr;
+    const endCol = col + (word.length - 1) * dc;
 
-  gameBoard = Array.from(
+    if (endRow < 0 || endRow >= gridSize || endCol < 0 || endCol >= gridSize) continue;
 
-    { length: gridSize },
-
-    () => Array(gridSize).fill("")
-
-  );
-
-  foundWords = [];
-
-  firstLetter = null;
-
-  hiddenWords.forEach(word => {
-
-    let placed = false;
-
-    let attempts = 0;
-
-    while (!placed && attempts < 1000) {
-
-      attempts++;
-
-      const [dr, dc] =
-
-        directions[Math.floor(Math.random() * directions.length)];
-
-      const row = Math.floor(Math.random() * gridSize);
-
-      const col = Math.floor(Math.random() * gridSize);
-
-      const endRow = row + (word.length - 1) * dr;
-
-      const endCol = col + (word.length - 1) * dc;
-
-      if (
-
-        endRow < 0 || endRow >= gridSize ||
-
-        endCol < 0 || endCol >= gridSize
-
-      ) continue;
-
-      let fits = true;
-
-      for (let i = 0; i < word.length; i++) {
-
-        const r = row + i * dr;
-
-        const c = col + i * dc;
-
-        if (gameBoard[r][c] !== "" &&
-
-            gameBoard[r][c] !== word[i]) {
-
-          fits = false;
-
-          break;
-
-        }
-
-      }
-
-      if (fits) {
-
-        for (let i = 0; i < word.length; i++) {
-
-          gameBoard[row + i * dr][col + i * dc] = word[i];
-
-        }
-
-        placed = true;
-
-      }
-
+    let fits = true;
+    for (let i = 0; i < word.length; i++) {
+      const cell = board[row + i * dr][col + i * dc];
+      if (cell !== "" && cell !== word[i]) { fits = false; break; }
     }
+    if (!fits) continue;
 
-  });
-
-  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-  for (let r = 0; r < gridSize; r++) {
-
-    for (let c = 0; c < gridSize; c++) {
-
-      if (gameBoard[r][c] === "") {
-
-        gameBoard[r][c] =
-
-          alphabet[Math.floor(Math.random() * alphabet.length)];
-
-      }
-
+    for (let i = 0; i < word.length; i++) {
+      board[row + i * dr][col + i * dc] = word[i];
     }
-
+    return true;
   }
-
+  return false;
 }
 
-function showMelimelo() {
+function generateBoard() {
+  // On relance toute la génération tant qu'un mot n'a pas pu être placé.
+  for (let tries = 0; tries < 100; tries++) {
+    const board = Array.from({ length: gridSize }, () => Array(gridSize).fill(""));
+    // Les mots longs d'abord : bien plus facile à placer.
+    const sorted = [...hiddenWords].sort((a, b) => b.word.length - a.word.length);
+    if (sorted.every(w => tryPlaceWord(board, w.word))) {
+      const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      for (let r = 0; r < gridSize; r++) {
+        for (let c = 0; c < gridSize; c++) {
+          if (board[r][c] === "") {
+            board[r][c] = alphabet[Math.floor(Math.random() * alphabet.length)];
+          }
+        }
+      }
+      return board;
+    }
+  }
+  console.warn("Impossible de placer tous les mots.");
+  return null;
+}
 
-  createGameBoard();
+function boardIsValid(board) {
+  return Array.isArray(board) && board.length === gridSize &&
+    board.every(row => Array.isArray(row) && row.length === gridSize);
+}
 
+function initGame(forceNew) {
+  const saved = load(GAME_KEY, null);
+  if (!forceNew && saved && boardIsValid(saved.board)) {
+    gameBoard = saved.board;
+    foundWords = (saved.found || []).filter(w => hiddenWords.some(h => h.word === w));
+  } else {
+    gameBoard = generateBoard();
+    foundWords = [];
+    saveGame();
+  }
+  firstLetter = null;
+}
+
+function saveGame() {
+  store(GAME_KEY, { board: gameBoard, found: foundWords });
+}
+
+function showMelimelo(forceNew) {
+  initGame(forceNew);
   const body = document.getElementById("modal-body");
 
+  if (!gameBoard) {
+    body.innerHTML = "<p>Oups, la grille n'a pas pu être créée. Recharge la page ! ❤️</p>";
+    return;
+  }
+
   body.innerHTML = `
-
     <p class="game-intro">
-
-      Retrouve les 10 mots cachés qui racontent notre histoire.
-
+      Retrouve les ${hiddenWords.length} mots cachés qui racontent notre histoire.
       Ils peuvent être écrits horizontalement, verticalement
-
-      ou en diagonale. ❤️
-
+      ou en diagonale, à l'endroit ou à l'envers. ❤️
     </p>
-
-    <p class="game-progress" id="game-progress">
-
-      0 / ${hiddenWords.length} mots trouvés
-
-    </p>
-
-    <div class="game-bar">
-
-      <div class="game-fill" id="game-fill"></div>
-
-    </div>
-
+    <p class="game-progress" id="game-progress"></p>
+    <div class="game-bar"><div class="game-fill" id="game-fill"></div></div>
     <div class="word-grid" id="word-grid"></div>
-
     <div class="word-list" id="word-list"></div>
-
     <p class="game-message" id="game-message">
-
-      Clique sur la première puis la dernière lettre d'un mot.
-
+      Clique sur la première lettre puis sur la dernière lettre d'un mot.
     </p>
-
     <div class="victory-message" id="victory-message">
-
       ❤️ Bravo mon cœur ! ❤️<br>
-
       Tu as retrouvé tous les mots qui racontent notre histoire.
-
       Chaque mot représente un petit souvenir de nous.
-
       Je t'aime ! ❤️
-
     </div>
-
+    <button class="link-btn" id="new-grid">Nouvelle grille</button>
   `;
 
   const grid = document.getElementById("word-grid");
-
   gameBoard.forEach((row, r) => {
-
     row.forEach((letter, c) => {
-
       const cell = document.createElement("button");
-
       cell.className = "letter";
-
       cell.textContent = letter;
-
       cell.dataset.row = r;
-
       cell.dataset.col = c;
-
-      cell.addEventListener("click", () => {
-
-        selectGameLetter(r, c);
-
-      });
-
+      cell.addEventListener("click", () => selectGameLetter(r, c));
       grid.appendChild(cell);
-
     });
-
   });
 
   const list = document.getElementById("word-list");
-
-  hiddenWords.forEach(word => {
-
+  hiddenWords.forEach(({ word, label }) => {
     const item = document.createElement("span");
-
     item.className = "word-item";
-
     item.id = "word-" + word;
-
-    item.textContent = word;
-
+    item.textContent = label;
     list.appendChild(item);
-
   });
 
+  document.getElementById("new-grid").addEventListener("click", () => {
+    if (confirm("Recommencer avec une nouvelle grille ?")) showMelimelo(true);
+  });
+
+  // Restaure les mots déjà trouvés
+  foundWords.forEach(word => markWordFound(word, true));
+  updateProgress();
 }
 
 function getGameCell(row, col) {
+  return document.querySelector(`.letter[data-row="${row}"][data-col="${col}"]`);
+}
 
-  return document.querySelector(
+function findWordCells(word) {
+  // Retrouve l'emplacement d'un mot dans la grille (pour restaurer l'affichage).
+  for (let r = 0; r < gridSize; r++) {
+    for (let c = 0; c < gridSize; c++) {
+      for (const [dr, dc] of directions) {
+        const endR = r + (word.length - 1) * dr;
+        const endC = c + (word.length - 1) * dc;
+        if (endR < 0 || endR >= gridSize || endC < 0 || endC >= gridSize) continue;
+        let ok = true;
+        for (let i = 0; i < word.length; i++) {
+          if (gameBoard[r + i * dr][c + i * dc] !== word[i]) { ok = false; break; }
+        }
+        if (ok) return Array.from({ length: word.length }, (_, i) => [r + i * dr, c + i * dc]);
+      }
+    }
+  }
+  return [];
+}
 
-    `.letter[data-row="${row}"][data-col="${col}"]`
+function markWordFound(word, fromSave, cells) {
+  const positions = cells || findWordCells(word);
+  positions.forEach(([r, c]) => {
+    const cell = getGameCell(r, c);
+    if (cell) {
+      cell.classList.remove("selected");
+      cell.classList.add("found");
+    }
+  });
+  const item = document.getElementById("word-" + word);
+  if (item) item.classList.add("found");
+}
 
-  );
-
+function updateProgress() {
+  document.getElementById("game-progress").textContent =
+    `${foundWords.length} / ${hiddenWords.length} mots trouvés`;
+  document.getElementById("game-fill").style.width =
+    `${foundWords.length / hiddenWords.length * 100}%`;
+  if (foundWords.length === hiddenWords.length) {
+    document.getElementById("victory-message").style.display = "block";
+    document.getElementById("game-message").textContent = "Tous les mots ont été trouvés ! ❤️";
+  }
 }
 
 function selectGameLetter(row, col) {
-
   const message = document.getElementById("game-message");
 
   if (!firstLetter) {
-
     firstLetter = { row, col };
-
-    const cell = getGameCell(row, col);
-
-    cell.classList.add("selected");
-
+    getGameCell(row, col).classList.add("selected");
     message.textContent = "Maintenant, clique sur la dernière lettre !";
-
     return;
-
   }
 
   const start = firstLetter;
 
-  const dr = row - start.row;
-
-  const dc = col - start.col;
-
-  const isStraight =
-
-    dr === 0 || dc === 0 || Math.abs(dr) === Math.abs(dc);
-
-  if (!isStraight || (dr === 0 && dc === 0)) {
-
+  // Même case cliquée deux fois : on annule simplement.
+  if (start.row === row && start.col === col) {
     resetGameSelection();
-
-    message.textContent = "Essaie de sélectionner un mot en ligne droite !";
-
+    message.textContent = "Sélection annulée. Choisis une première lettre !";
     return;
+  }
 
+  const dr = row - start.row;
+  const dc = col - start.col;
+  const isStraight = dr === 0 || dc === 0 || Math.abs(dr) === Math.abs(dc);
+
+  if (!isStraight) {
+    resetGameSelection();
+    message.textContent = "Essaie de sélectionner un mot en ligne droite !";
+    return;
   }
 
   const stepRow = Math.sign(dr);
-
   const stepCol = Math.sign(dc);
-
   const length = Math.max(Math.abs(dr), Math.abs(dc)) + 1;
 
   let selectedWord = "";
-
+  const cells = [];
   for (let i = 0; i < length; i++) {
-
-    selectedWord += gameBoard[
-
-      start.row + i * stepRow
-
-    ][
-
-      start.col + i * stepCol
-
-    ];
-
+    const r = start.row + i * stepRow;
+    const c = start.col + i * stepCol;
+    selectedWord += gameBoard[r][c];
+    cells.push([r, c]);
   }
 
   const reverseWord = selectedWord.split("").reverse().join("");
+  const entry = hiddenWords.find(h => h.word === selectedWord || h.word === reverseWord);
 
-  const found = hiddenWords.find(
-
-    word => word === selectedWord || word === reverseWord
-
-  );
-
-  if (found && !foundWords.includes(found)) {
-
-    foundWords.push(found);
-
-    for (let i = 0; i < length; i++) {
-
-      const cell = getGameCell(
-
-        start.row + i * stepRow,
-
-        start.col + i * stepCol
-
-      );
-
-      cell.classList.remove("selected");
-
-      cell.classList.add("found");
-
-    }
-
-    document.getElementById("word-" + found)
-
-      .classList.add("found");
-
-    document.getElementById("game-progress").textContent =
-
-      `${foundWords.length} / ${hiddenWords.length} mots trouvés`;
-
-    document.getElementById("game-fill").style.width =
-
-      `${foundWords.length / hiddenWords.length * 100}%`;
-
-    message.textContent = `Bravo ! Tu as trouvé ${found} ❤️`;
-
+  if (entry && !foundWords.includes(entry.word)) {
+    foundWords.push(entry.word);
+    saveGame();
+    markWordFound(entry.word, false, cells);
+    message.textContent = `Bravo ! Tu as trouvé ${entry.label} ❤️`;
+    updateProgress();
     if (foundWords.length === hiddenWords.length) {
-
-      document.getElementById("victory-message").style.display = "block";
-
       message.textContent = "Tous les mots ont été trouvés ! ❤️";
-
     }
-
   } else {
-
-    message.textContent = found
-
+    message.textContent = entry
       ? "Tu as déjà trouvé ce mot !"
-
       : "Ce n'est pas un mot de la liste. Réessaie !";
-
   }
 
   resetGameSelection();
-
 }
 
 function resetGameSelection() {
-
-  document.querySelectorAll(".letter.selected").forEach(cell => {
-
-    cell.classList.remove("selected");
-
-  });
-
+  document.querySelectorAll(".letter.selected").forEach(cell => cell.classList.remove("selected"));
   firstLetter = null;
-
 }
+</script>
 
 </body>
-
 </html>
