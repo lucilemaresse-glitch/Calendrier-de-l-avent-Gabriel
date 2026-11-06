@@ -6,29 +6,33 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Notre calendrier de l'Avent ❤️</title>
 
-<style>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Nunito:wght@400;600;700;800&display=swap');
+<style>
 
 :root {
 
-  --red: #9e263b;
+  --cream: #fff7eb;
+
+  --red: #a52b40;
 
   --green: #245640;
 
-  --cream: #fff5e8;
-
   --gold: #d6b46a;
 
-  --pink: #e8b9c7;
+  --dark: #392b28;
 
 }
 
-* { box-sizing: border-box; }
+* {
+
+  box-sizing: border-box;
+
+}
 
 body {
 
@@ -36,227 +40,355 @@ body {
 
   min-height: 100vh;
 
-  background: var(--cream);
-
-  color: var(--green);
+  padding: 25px 15px 45px;
 
   font-family: 'Nunito', sans-serif;
 
+  color: var(--dark);
+
   text-align: center;
 
-  padding: 25px 15px 45px;
+  background:
+
+    radial-gradient(circle at 10% 20%, white 0 2px, transparent 3px),
+
+    radial-gradient(circle at 80% 35%, white 0 2px, transparent 3px),
+
+    var(--cream);
+
+  background-size: 70px 70px, 100px 100px, auto;
 
 }
 
 header {
 
-  max-width: 650px;
+  max-width: 700px;
 
   margin: 20px auto 30px;
 
 }
 
-.decoration {
+.subtitle {
 
-  font-size: 30px;
+  color: var(--green);
 
-  margin-bottom: 12px;
+  font-weight: 800;
+
+  letter-spacing: 3px;
+
+  font-size: 12px;
+
+  text-transform: uppercase;
 
 }
 
 h1 {
 
-  font-family: 'DM Serif Display', serif;
-
   color: var(--red);
 
-  font-size: clamp(32px, 7vw, 48px);
+  font-family: 'Great Vibes', cursive;
 
-  margin: 8px 0;
+  font-size: clamp(43px, 9vw, 68px);
+
+  font-weight: normal;
+
+  margin: 10px 0;
 
 }
 
-.subtitle {
+.intro {
 
-  font-size: 16px;
-
-  color: #76564b;
+  font-size: 15px;
 
   line-height: 1.7;
 
-}
+  max-width: 480px;
 
-hr {
-
-  border: 0;
-
-  border-top: 1px solid var(--gold);
-
-  max-width: 180px;
-
-  margin: 25px auto;
+  margin: auto;
 
 }
 
-h2 {
+.decoration {
 
-  font-family: 'DM Serif Display', serif;
-
-  color: var(--green);
+  color: var(--gold);
 
   font-size: 25px;
 
+  letter-spacing: 8px;
+
+  margin: 15px 0;
+
 }
 
-.grille {
+#countdown {
+
+  color: var(--green);
+
+  font-weight: 800;
+
+  margin: 18px 0 25px;
+
+}
+
+.calendar {
+
+  max-width: 650px;
+
+  margin: auto;
 
   display: grid;
 
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 
-  gap: 12px;
-
-  max-width: 480px;
-
-  margin: 25px auto;
+  gap: 13px;
 
 }
 
-.case {
+.day {
 
-  aspect-ratio: 1;
-
-  border-radius: 15px;
+  min-height: 105px;
 
   border: 2px solid var(--gold);
 
-  background: var(--red);
+  border-radius: 15px 15px 20px 20px;
 
   color: white;
 
-  font-family: 'DM Serif Display', serif;
-
-  font-size: 27px;
-
   cursor: pointer;
-
-  box-shadow: 0 4px 0 #742031;
-
-  transition: transform .2s;
 
   display: flex;
 
   flex-direction: column;
 
-  justify-content: center;
-
   align-items: center;
+
+  justify-content: center;
 
   gap: 5px;
 
+  box-shadow: 0 5px 0 rgba(90,55,35,.13);
+
+  transition: transform .2s, box-shadow .2s;
+
+  position: relative;
+
 }
 
-.case:nth-child(even) {
+.day:nth-child(odd) {
+
+  background: var(--red);
+
+}
+
+.day:nth-child(even) {
 
   background: var(--green);
 
-  box-shadow: 0 4px 0 #173d2d;
+}
+
+.day:not(.locked):hover {
+
+  transform: translateY(-5px);
+
+  box-shadow: 0 9px 0 rgba(90,55,35,.13);
 
 }
 
-.case:not(:disabled):hover {
+.day-number {
 
-  transform: translateY(-4px);
+  font-size: 32px;
 
-}
-
-.case:disabled {
-
-  opacity: .65;
-
-  cursor: not-allowed;
+  font-weight: 800;
 
 }
 
-.case span {
+.day-label {
 
-  font-family: 'Nunito', sans-serif;
+  font-size: 11px;
 
-  font-size: 15px;
+  letter-spacing: 1px;
+
+  text-transform: uppercase;
 
 }
 
-.info {
+.day.opened {
 
-  color: #76564b;
+  background: #f2dfb7;
 
-  font-size: 14px;
+  color: var(--green);
 
-  margin-top: 25px;
+}
+
+.day.opened::after {
+
+  content: "★";
+
+  position: absolute;
+
+  top: 5px;
+
+  right: 9px;
+
+  color: var(--red);
+
+}
+
+.greeting {
+
+  color: var(--red);
+
+  font-family: 'Great Vibes', cursive;
+
+  font-size: 35px;
+
+  margin-top: 35px;
 
 }
 
 footer {
 
-  margin-top: 40px;
+  margin-top: 35px;
 
-  color: var(--red);
+  color: var(--green);
 
-  font-family: 'DM Serif Display', serif;
-
-  font-size: 20px;
+  font-size: 13px;
 
 }
 
-#surprise {
+.modal {
 
   display: none;
 
-  background: white;
+  position: fixed;
 
-  border: 2px solid var(--gold);
+  inset: 0;
 
-  border-radius: 20px;
+  z-index: 10;
 
-  padding: 25px;
+  background: rgba(25,35,28,.65);
 
-  max-width: 400px;
+  padding: 20px;
 
-  margin: 25px auto;
+  align-items: center;
 
-  box-shadow: 0 5px 20px #9e263b20;
+  justify-content: center;
 
 }
 
-#surprise h3 {
+.modal.show {
+
+  display: flex;
+
+}
+
+.modal-content {
+
+  background: var(--cream);
+
+  border: 3px solid var(--gold);
+
+  border-radius: 22px;
+
+  padding: 30px 22px;
+
+  width: min(100%, 420px);
+
+  animation: appear .25s ease;
+
+}
+
+@keyframes appear {
+
+  from {
+
+    transform: scale(.85);
+
+    opacity: 0;
+
+  }
+
+  to {
+
+    transform: scale(1);
+
+    opacity: 1;
+
+  }
+
+}
+
+.modal-content h2 {
 
   color: var(--red);
 
-  font-family: 'DM Serif Display', serif;
+  font-family: 'Great Vibes', cursive;
+
+  font-size: 38px;
+
+  font-weight: normal;
+
+  margin: 0 0 15px;
 
 }
 
-#surprise button {
+.modal-content p {
+
+  line-height: 1.7;
+
+  white-space: pre-line;
+
+}
+
+.close {
+
+  border: 0;
+
+  border-radius: 30px;
+
+  padding: 10px 22px;
 
   background: var(--green);
 
   color: white;
 
-  border: 0;
+  font: inherit;
 
-  padding: 10px 22px;
-
-  border-radius: 20px;
+  font-weight: 800;
 
   cursor: pointer;
 
+  margin-top: 12px;
+
 }
 
-@media(max-width: 380px) {
+@media (max-width: 420px) {
 
-  .grille { gap: 8px; }
+  .calendar {
 
-  .case { font-size: 22px; }
+    gap: 8px;
+
+  }
+
+  .day {
+
+    min-height: 85px;
+
+    border-radius: 12px;
+
+  }
+
+  .day-number {
+
+    font-size: 26px;
+
+  }
+
+  .day-label {
+
+    font-size: 9px;
+
+  }
 
 }
 
@@ -268,129 +400,197 @@ footer {
 
 <header>
 
-  <div class="decoration">🎄 🎀 ✨ 🎄</div>
+  <div class="subtitle">Un mois rempli de magie</div>
+
+  <div class="decoration">✦ ❄ ✦</div>
 
   <h1>Notre calendrier de l'Avent</h1>
 
-  <p class="subtitle">
+  <p class="intro">
 
-    24 jours, 24 petites surprises.<br>
+    24 petites surprises pour rendre ton mois de décembre
 
-    Un calendrier rempli de souvenirs et d'amour,<br>
+    encore plus magique. Une case par jour, un petit peu
 
-    rien que pour toi ❤️
+    d'amour chaque matin. ❤️
 
   </p>
 
-  <hr>
+  <div class="decoration">🎄 ✨ 🎄</div>
 
-  <div>❤️ 🎁 ❤️</div>
+  <div id="countdown"></div>
 
 </header>
 
-<h2>Les petites surprises de décembre</h2>
+<main>
 
-<div class="grille" id="grille"></div>
+  <div class="calendar" id="calendar"></div>
 
-<p class="info" id="information">
+</main>
 
-  Une nouvelle surprise chaque jour... 🎁
-
-</p>
-
-<div id="surprise">
-
-  <h3 id="titre"></h3>
-
-  <p id="message"></p>
-
-  <button onclick="fermer()">Fermer ❤️</button>
-
-</div>
+<div class="greeting">Avec tout mon amour ❤️</div>
 
 <footer>
 
-  Fait avec tout mon amour ❤️
+  Joyeux mois de décembre, mon cœur !<br>
 
-  <div>❄️ 🎄 ❄️</div>
+  Fait avec amour, spécialement pour toi.
 
 </footer>
 
+<div class="modal" id="modal" role="dialog" aria-modal="true">
+
+  <div class="modal-content">
+
+    <h2 id="modal-title"></h2>
+
+    <p id="modal-text"></p>
+
+    <button class="close" onclick="closeModal()">Refermer ❤️</button>
+
+  </div>
+
+</div>
+
 <script>
 
-const grille = document.getElementById("grille");
+const activities = [
 
-const maintenant = new Date();
+  "Bienvenue dans ton calendrier de l'Avent ! ❤️ Chaque jour, une nouvelle surprise t'attend. Je t'aime !",
 
-const messages = [
+  "Aujourd'hui, retrouve les mots cachés : AMOUR, GABRIEL, LUCILE, BISOU et NOËL.",
 
-  "Une première petite surprise pour toi ❤️",
+  "Un petit souvenir de nous : raconte-moi ton moment préféré depuis notre rencontre.",
 
-  "Un joli souvenir à découvrir ensemble.",
+  "Petit quiz : quel jour nous sommes-nous rencontrés ?",
 
-  "Aujourd'hui, un petit mot rien que pour toi.",
+  "Une surprise t'attend : reconstitue notre puzzle !",
 
-  "Une surprise t'attend !",
+  "Défi photo : envoie-moi une photo de ton moment préféré de la journée.",
 
-  "Un souvenir de nous deux ❤️"
+  "Aujourd'hui, prends quelques minutes pour lire mon petit mot d'amour. ❤️",
+
+  "Un rébus spécial nous deux t'attend !",
+
+  "Quelle chanson te fait penser à nous ?",
+
+  "Place les souvenirs dans le bon ordre !",
+
+  "Surprise du jour : tu as gagné un petit bon pour une activité ensemble.",
+
+  "Raconte-moi trois souvenirs que tu aimerais revivre.",
+
+  "Devine la photo mystère !",
+
+  "Défi du jour : donne-moi cinq choses que tu aimes chez moi.",
+
+  "Une petite énigme sur notre histoire t'attend.",
+
+  "Quel est ton souvenir préféré de nous deux ?",
+
+  "Petit jeu : tu préfères quoi ?",
+
+  "Surprise : une petite vidéo rien que pour toi !",
+
+  "Voyons si tu me connais aussi bien que tu le penses !",
+
+  "Défi cuisine : préparons la même recette à distance.",
+
+  "Remets les mots dans le bon ordre pour découvrir mon message secret.",
+
+  "Bon pour une soirée rien que tous les deux !",
+
+  "Un dernier petit mot pour te rappeler combien tu comptes pour moi.",
+
+  "Joyeux Noël mon amour ! ❤️ Voici ta dernière surprise."
 
 ];
 
-for (let jour = 1; jour <= 24; jour++) {
+const calendar = document.getElementById("calendar");
 
-  const bouton = document.createElement("button");
+function updateCountdown() {
 
-  bouton.className = "case";
+  const now = new Date();
 
-  const disponible =
+  const christmas = new Date(2026, 11, 25);
 
-    maintenant.getFullYear() > 2026 ||
+  const days = Math.ceil((christmas - now) / 86400000);
 
-    (maintenant.getFullYear() === 2026 &&
+  document.getElementById("countdown").textContent =
 
-     maintenant.getMonth() === 11 &&
-
-     maintenant.getDate() >= jour);
-
-  bouton.disabled = !disponible;
-
-  bouton.innerHTML = disponible
-
-    ? jour + "<span>🎁</span>"
-
-    : jour + "<span>🔒</span>";
-
-  bouton.onclick = () => ouvrir(jour);
-
-  grille.appendChild(bouton);
+    days > 0 ? `Encore ${days} jours avant Noël 🎅` : "Joyeux Noël ! 🎄";
 
 }
 
-function ouvrir(jour) {
+function openDay(day) {
 
-  document.getElementById("titre").textContent =
+  const now = new Date();
 
-    "Jour " + jour + " ❤️";
+  const today =
 
-  document.getElementById("message").textContent =
+    now.getFullYear() === 2026 && now.getMonth() === 11
 
-    messages[(jour - 1) % messages.length];
+      ? now.getDate()
 
-  document.getElementById("surprise").style.display = "block";
+      : 0;
 
-  document.getElementById("surprise").scrollIntoView({
+  if (day > today) {
 
-    behavior: "smooth"
+    alert("Encore un peu de patience... Cette surprise n'est pas encore disponible ! 🎁");
 
-  });
+    return;
+
+  }
+
+  document.getElementById("modal-title").textContent =
+
+    `Case n° ${day} 🎄`;
+
+  document.getElementById("modal-text").textContent =
+
+    activities[day - 1];
+
+  document.getElementById("modal").classList.add("show");
 
 }
 
-function fermer() {
+function closeModal() {
 
-  document.getElementById("surprise").style.display = "none";
+  document.getElementById("modal").classList.remove("show");
 
 }
+
+for (let day = 1; day <= 24; day++) {
+
+  const button = document.createElement("button");
+
+  button.className = "day";
+
+  button.innerHTML = `
+
+    <span class="day-number">${day}</span>
+
+    <span class="day-label">Décembre</span>
+
+  `;
+
+  button.addEventListener("click", () => openDay(day));
+
+  calendar.appendChild(button);
+
+}
+
+document.getElementById("modal").addEventListener("click", (event) => {
+
+  if (event.target.id === "modal") {
+
+    closeModal();
+
+  }
+
+});
+
+updateCountdown();
 
 </script>
 
