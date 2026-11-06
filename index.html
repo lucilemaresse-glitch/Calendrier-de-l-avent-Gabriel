@@ -12,6 +12,180 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 
+/* DESIGN DU MÉLI-MÉLO */
+
+.modal-content {
+
+  width: min(100%, 560px);
+
+  max-height: 90vh;
+
+  overflow-y: auto;
+
+}
+
+.game-intro {
+
+  font-size: 14px;
+
+  line-height: 1.6;
+
+}
+
+.game-progress {
+
+  color: var(--green);
+
+  font-weight: 800;
+
+  margin: 15px 0 8px;
+
+}
+
+.game-bar {
+
+  height: 9px;
+
+  background: #eadfc9;
+
+  border-radius: 20px;
+
+  overflow: hidden;
+
+  margin-bottom: 18px;
+
+}
+
+.game-fill {
+
+  height: 100%;
+
+  width: 0;
+
+  background: var(--gold);
+
+  transition: width .3s;
+
+}
+
+.word-grid {
+
+  display: grid;
+
+  grid-template-columns: repeat(15, minmax(0, 1fr));
+
+  gap: 3px;
+
+  width: 100%;
+
+  margin: 18px auto;
+
+}
+
+.letter {
+
+  aspect-ratio: 1;
+
+  border: 0;
+
+  border-radius: 4px;
+
+  background: #f0e3c9;
+
+  color: var(--green);
+
+  font-family: Arial, sans-serif;
+
+  font-size: clamp(9px, 2.8vw, 16px);
+
+  font-weight: 800;
+
+  padding: 0;
+
+  cursor: pointer;
+
+}
+
+.letter.selected {
+
+  background: var(--gold);
+
+}
+
+.letter.found {
+
+  background: #a9c9a0;
+
+}
+
+.word-list {
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  justify-content: center;
+
+  gap: 7px;
+
+  margin: 15px 0;
+
+}
+
+.word-item {
+
+  background: #f0e3c9;
+
+  color: var(--green);
+
+  border-radius: 20px;
+
+  padding: 7px 10px;
+
+  font-size: 12px;
+
+  font-weight: 800;
+
+}
+
+.word-item.found {
+
+  text-decoration: line-through;
+
+  opacity: .55;
+
+  background: #c5d8bd;
+
+}
+
+.game-message {
+
+  color: var(--red);
+
+  font-weight: 800;
+
+  min-height: 25px;
+
+  font-size: 14px;
+
+}
+
+.victory-message {
+
+  display: none;
+
+  background: #f0e3c9;
+
+  border-radius: 15px;
+
+  padding: 15px;
+
+  color: var(--green);
+
+  line-height: 1.7;
+
+}
+  
 <style>
 
 :root {
@@ -542,7 +716,7 @@ function openDay(day) {
 
   }
 
-  document.getElementById("modal-title").textContent =
+  document.getElementById("modal-title").textContent === 2 ? "Notre méli-mélo ❤️" :
 
     `Case n° ${day} 🎄`;
 
