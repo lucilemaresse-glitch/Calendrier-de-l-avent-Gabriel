@@ -200,6 +200,39 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
   text-decoration: underline; cursor: pointer; margin-top: 6px;
 }
 
+/* ---------- Quiz "Me connais-tu ?" ---------- */
+.quiz-cats { display: grid; gap: 10px; margin: 14px 0; }
+.quiz-cat {
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  padding: 12px 14px; border: 2px solid var(--gold); border-radius: 14px;
+  background: white; font: inherit; font-weight: 700; color: var(--dark);
+  cursor: pointer; text-align: left;
+}
+.quiz-cat:hover { background: #fbefd0; }
+.quiz-cat.done { border-color: var(--green); }
+.quiz-cat .score { font-size: 13px; color: var(--green); font-weight: 800; white-space: nowrap; }
+.quiz-meta { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--green); font-weight: 800; margin: 0 !important; }
+.modal-content p.quiz-question { font-size: 19px; font-weight: 800; color: var(--red); margin: 12px 0; }
+.quiz-options { display: grid; gap: 8px; margin: 10px 0; }
+.quiz-option, .quiz-submit {
+  border: 2px solid var(--gold); border-radius: 12px; padding: 10px 14px;
+  background: white; font: inherit; font-weight: 700; color: var(--dark); cursor: pointer;
+}
+.quiz-option:hover:not(:disabled) { background: #fbefd0; }
+.quiz-option.correct { background: var(--green); color: white; border-color: var(--green); }
+.quiz-option.wrong { background: var(--red); color: white; border-color: var(--red); }
+.quiz-submit { background: var(--green); color: white; border-color: var(--green); }
+.quiz-input {
+  width: 100%; padding: 10px 12px; border: 2px solid var(--gold); border-radius: 12px;
+  font: inherit; font-size: 16px; background: white; margin: 8px 0;
+}
+.modal-content p.quiz-feedback { font-weight: 800; min-height: 26px; margin: 8px 0; }
+.quiz-feedback.good { color: var(--green); }
+.quiz-feedback.bad { color: var(--red); }
+.quiz-actions { display: flex; gap: 12px; justify-content: center; align-items: center; flex-wrap: wrap; margin-top: 4px; }
+.quiz-skip { background: none; border: 0; color: var(--red); font: inherit; font-size: 13px; text-decoration: underline; cursor: pointer; }
+.quiz-big-score { font-size: 42px; font-weight: 800; color: var(--green); margin: 6px 0; }
+
 /* ---------- Lettre de bienvenue ---------- */
 .love-letter {
   background: #fffdf7;
@@ -401,6 +434,10 @@ function openDay(day) {
     title.textContent = "Notre méli-mélo amoureux ❤️";
     modalContent.classList.add("wide");
     showMelimelo();
+  } else if (day === 3) {
+    title.textContent = "Me connais-tu vraiment ? ❤️";
+    modalContent.classList.add("wide");
+    showQuizMenu();
   } else {
     title.textContent = `Case n° ${day} 🎄`;
     body.innerHTML = "";
@@ -715,6 +752,252 @@ function selectGameLetter(row, col) {
 function resetGameSelection() {
   document.querySelectorAll(".letter.selected").forEach(cell => cell.classList.remove("selected"));
   firstLetter = null;
+}
+
+/* =====================================================
+   CASE 3 : ME CONNAIS-TU VRAIMENT ?
+   type "choice" : boutons, "answer" = le bon bouton
+   type "text"   : réponse libre, "answers" = mots acceptés
+                   (sans accents, majuscules ignorées),
+                   "display" = ce qui s'affiche comme correction
+===================================================== */
+const QUIZ_KEY = "advent-quiz-v1";
+const YES_NO = ["Oui 😅", "Non"];
+
+const quizCategories = [
+  {
+    id: "gouts", icon: "💛", title: "Mes goûts",
+    questions: [
+      { q: "Quel est mon plat préféré ?", type: "text", answers: ["sushi"], display: "Les sushis 🍣" },
+      { q: "Quelle est ma boisson préférée ?", type: "text", answers: ["cherry", "cerise"], display: "Le Coca cherry 🍒" },
+      { q: "Suis-je plutôt sucré ou salé ?", type: "choice", options: ["Sucré", "Salé"], answer: "Sucré", display: "Sucré 🍬" },
+      { q: "Quelle est ma couleur préférée ?", type: "text", answers: ["vert"], display: "Le vert 💚" },
+      { q: "Quel est mon groupe de musique préféré ?", type: "text", answers: ["ateez"], display: "ATEEZ" },
+      { q: "Quel genre de musique j'écoute le plus ?", type: "text", answers: ["kpop"], display: "La K-pop 🎤" },
+      { q: "Quel est mon film préféré ?", type: "text", answers: ["showman"], display: "The Greatest Showman 🎪" },
+      { q: "Quel pays aimerais-je visiter ?", type: "text", answers: ["coree", "korea"], display: "La Corée du Sud 🇰🇷" }
+    ]
+  },
+  {
+    id: "habitudes", icon: "⏰", title: "Mes petites habitudes",
+    questions: [
+      { q: "Quelle est la première chose que je fais en me réveillant ?", type: "text", answers: ["telephone", "portable", "phone"], display: "Regarder mon téléphone 📱" },
+      { q: "Est-ce que je suis plutôt du matin ou du soir ?", type: "choice", options: ["Du matin", "Du soir"], answer: "Du matin", display: "Du matin ☀️" },
+      { q: "Est-ce que je préfère prendre une douche le matin ou le soir ?", type: "choice", options: ["Le matin", "Le soir"], answer: "Le soir", display: "Le soir 🚿" },
+      { q: "Est-ce que je suis plutôt organisée ou désorganisée ?", type: "choice", options: ["Organisée", "Désorganisée"], answer: "Organisée", display: "Organisée 📋" },
+      { q: "Quelle est ma petite habitude avant de dormir ?", type: "text", answers: ["tiktok"], display: "Scroller sur TikTok 📱" },
+      { q: "Est-ce que je préfère rester chez moi ou sortir ?", type: "choice", options: ["Rester chez moi", "Sortir"], answer: "Rester chez moi", display: "Rester chez moi 🏠" }
+    ]
+  },
+  {
+    id: "caractere", icon: "😂", title: "Mon caractère",
+    questions: [
+      { q: "Est-ce que je suis facilement impatiente ?", type: "choice", options: YES_NO, answer: YES_NO[0], display: "Oui 😅" },
+      { q: "Est-ce que je réfléchis trop aux choses ?", type: "choice", options: YES_NO, answer: YES_NO[0], display: "Oui 😅" },
+      { q: "Est-ce que je suis du genre à changer d'avis souvent ?", type: "choice", options: YES_NO, answer: YES_NO[0], display: "Oui 😅" },
+      { q: "Est-ce que je boude facilement ?", type: "choice", options: YES_NO, answer: YES_NO[0], display: "Oui 😅" },
+      { q: "Est-ce que je suis mauvaise perdante ?", type: "choice", options: YES_NO, answer: YES_NO[0], display: "Oui 😅" }
+    ]
+  },
+  {
+    id: "couple", icon: "❤️", title: "Nous deux",
+    questions: [
+      { q: "Quelle est ma façon préférée de recevoir de l'affection ?", type: "text", answers: ["contact", "message"], display: "Le contact et les messages 💌" },
+      { q: "Est-ce que je préfère les câlins ou les bisous ?", type: "choice", options: ["Les câlins", "Les bisous"], answer: "Les bisous", display: "Les bisous 😘" },
+      { q: "Quel est mon souvenir préféré de nous deux ?", type: "text", answers: ["vacances"], display: "Nos premières vacances 🏖️" },
+      { q: "Quelle est ma plus grande peur dans une relation ?", type: "text", answers: ["perdre", "perte"], display: "Te perdre 🥺" },
+      { q: "Est-ce que je préfère les cadeaux ou les petites attentions ?", type: "choice", options: ["Les cadeaux", "Les petites attentions"], answer: "Les petites attentions", display: "Les petites attentions 🎁" },
+      { q: "Est-ce que je préfère les sorties improvisées ou organisées ?", type: "choice", options: ["Improvisées", "Organisées", "Les deux"], answer: "Les deux", display: "Les deux ✨" },
+      { q: "Quelle est ma chose préférée chez toi ?", type: "text", answers: ["sourire"], display: "Ton sourire 😊" },
+      { q: "Quelle est ma réaction quand tu me manques ?", type: "text", answers: ["triste"], display: "Je suis triste 🥺" },
+      { q: "Quelle activité aimerais-je faire davantage avec toi ?", type: "text", answers: ["presentiel", "presence", "envrai"], display: "Passer du temps en présentiel 🤍" },
+      { q: "Quelle serait ma destination idéale pour un voyage en amoureux ?", type: "text", answers: ["japon", "grece"], display: "Le Japon ou la Grèce ✈️" }
+    ]
+  },
+  {
+    id: "pieges", icon: "🤔", title: "Les questions pièges",
+    questions: [
+      { q: "Si je gagnais 10 000 €, quelle serait la première chose que j'achèterais ?", type: "text", answers: ["train", "billet"], display: "Un billet de train pour te voir 🚆" },
+      { q: "Si je pouvais manger un seul plat pendant une semaine, lequel choisirais-je ?", type: "text", answers: ["sushi"], display: "Des sushis 🍣" },
+      { q: "Si je devais partir demain sans rien prévoir, qu'est-ce que j'emporterais absolument ?", type: "text", answers: ["telephone", "portable", "phone"], display: "Mon téléphone 📱" },
+      { q: "Si je pouvais avoir un super-pouvoir, lequel choisirais-je ?", type: "text", answers: ["pensee", "telepathie"], display: "Lire dans les pensées 🔮" },
+      { q: "Si je devais choisir entre dormir, manger et faire du shopping, que choisirais-je ?", type: "choice", options: ["Dormir", "Manger", "Faire du shopping"], answer: "Manger", display: "Manger 🍽️" },
+      { q: "Si je pouvais changer une chose chez moi, laquelle serait-ce ?", type: "text", answers: ["corps", "physique"], display: "Mon corps" }
+    ]
+  },
+  {
+    id: "loisirs", icon: "🛍️", title: "Shopping, loisirs et petits plaisirs",
+    questions: [
+      { q: "Qu'est-ce que je préfère acheter : vêtements, chaussures, maquillage ou accessoires ?", type: "text", answers: ["vetement", "chaussure"], display: "Les vêtements et les chaussures 👟" },
+      { q: "Est-ce que je préfère faire du shopping seule ou accompagnée ?", type: "choice", options: ["Seule", "Accompagnée"], answer: "Accompagnée", display: "Accompagnée 🛍️" },
+      { q: "Quel est mon loisir préféré ?", type: "text", answers: ["concert", "film", "serie"], display: "Les concerts, et regarder des films et séries 🎬" },
+      { q: "Est-ce que je préfère regarder un film ou une série ?", type: "choice", options: ["Un film", "Une série", "Les deux"], answer: "Les deux", display: "Les deux 🍿" },
+      { q: "Est-ce que je préfère les concerts ou les festivals ?", type: "choice", options: ["Les concerts", "Les festivals"], answer: "Les concerts", display: "Les concerts 🎶" },
+      { q: "Quelle activité pourrais-je faire pendant des heures sans me lasser ?", type: "text", answers: ["telephone", "portable", "phone"], display: "Être sur mon téléphone 📱" },
+      { q: "Quel est mon petit plaisir quand j'ai passé une mauvaise journée ?", type: "text", answers: ["chocolat", "bonbon"], display: "Du chocolat ou des bonbons 🍫" },
+      { q: "Si je devais dépenser 100 € immédiatement, dans quoi les dépenserais-je ?", type: "text", answers: ["train", "billet"], display: "Un billet de train 🚆" }
+    ]
+  }
+];
+
+let quizState = { cat: 0, i: 0, score: 0 };
+
+function normText(s) {
+  return String(s).toLowerCase().normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "");
+}
+
+function isQuizCorrect(q, value) {
+  if (q.type === "choice") return value === q.answer;
+  const v = normText(value);
+  return q.answers.some(a => v.includes(normText(a)));
+}
+
+function qEl(tag, cls, text) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text !== undefined) e.textContent = text;
+  return e;
+}
+
+function showQuizMenu() {
+  const body = document.getElementById("modal-body");
+  body.innerHTML = "";
+  const scores = load(QUIZ_KEY, {});
+
+  body.appendChild(qEl("p", "", "Voyons si tu connais vraiment tous mes petits secrets ! Choisis une catégorie. ❤️"));
+
+  const list = qEl("div", "quiz-cats");
+  let total = 0, max = 0;
+  quizCategories.forEach((cat, index) => {
+    const n = cat.questions.length;
+    max += n;
+    const best = scores[cat.id];
+    if (best !== undefined) total += best;
+    const btn = qEl("button", "quiz-cat" + (best !== undefined ? " done" : ""));
+    btn.appendChild(qEl("span", "", `${cat.icon} ${cat.title}`));
+    btn.appendChild(qEl("span", "score", best !== undefined ? `${best} / ${n}` : `${n} questions`));
+    btn.addEventListener("click", () => startQuizCategory(index));
+    list.appendChild(btn);
+  });
+  body.appendChild(list);
+
+  if (Object.keys(scores).length) {
+    body.appendChild(qEl("p", "quiz-meta", `Score total : ${total} / ${max}`));
+  }
+}
+
+function startQuizCategory(index) {
+  quizState = { cat: index, i: 0, score: 0 };
+  renderQuizQuestion();
+}
+
+function renderQuizQuestion() {
+  const cat = quizCategories[quizState.cat];
+  const q = cat.questions[quizState.i];
+  const n = cat.questions.length;
+  const body = document.getElementById("modal-body");
+  body.innerHTML = "";
+
+  body.appendChild(qEl("p", "quiz-meta", `${cat.icon} ${cat.title} · ${quizState.i + 1} / ${n}`));
+  body.appendChild(qEl("p", "quiz-question", q.q));
+
+  const feedback = qEl("p", "quiz-feedback");
+  const next = qEl("button", "close", quizState.i === n - 1 ? "Voir mon score ❤️" : "Suivant →");
+  next.style.display = "none";
+  next.addEventListener("click", () => {
+    quizState.i++;
+    if (quizState.i >= n) showQuizResult(); else renderQuizQuestion();
+  });
+
+  let answered = false;
+  function finish(ok, onLock) {
+    if (answered) return;
+    answered = true;
+    if (ok) quizState.score++;
+    onLock();
+    feedback.className = "quiz-feedback " + (ok ? "good" : "bad");
+    feedback.textContent = ok
+      ? ["Bravo ! 💚", "Exact ! ❤️", "Tu me connais bien 😍"][Math.floor(Math.random() * 3)]
+      : `Pas tout à fait... La réponse : ${q.display}`;
+    next.style.display = "inline-block";
+    next.focus();
+  }
+
+  if (q.type === "choice") {
+    const box = qEl("div", "quiz-options");
+    const buttons = q.options.map(opt => {
+      const b = qEl("button", "quiz-option", opt);
+      b.addEventListener("click", () => {
+        const ok = isQuizCorrect(q, opt);
+        finish(ok, () => {
+          buttons.forEach(x => {
+            x.disabled = true;
+            if (x.textContent === q.answer) x.classList.add("correct");
+          });
+          if (!ok) b.classList.add("wrong");
+        });
+      });
+      box.appendChild(b);
+      return b;
+    });
+    body.appendChild(box);
+  } else {
+    const input = qEl("input", "quiz-input");
+    input.type = "text";
+    input.placeholder = "Ta réponse...";
+    input.autocomplete = "off";
+    const submit = qEl("button", "quiz-submit", "Valider");
+    const skip = qEl("button", "quiz-skip", "Je sèche 🙈");
+
+    const lock = () => { input.disabled = true; submit.disabled = true; skip.disabled = true; };
+    const validate = () => {
+      if (normText(input.value).length < 2) return;
+      finish(isQuizCorrect(q, input.value), lock);
+    };
+    submit.addEventListener("click", validate);
+    skip.addEventListener("click", () => finish(false, lock));
+    input.addEventListener("keydown", e => { if (e.key === "Enter") validate(); });
+
+    body.appendChild(input);
+    const actions = qEl("div", "quiz-actions");
+    actions.appendChild(submit);
+    actions.appendChild(skip);
+    body.appendChild(actions);
+    setTimeout(() => input.focus(), 50);
+  }
+
+  body.appendChild(feedback);
+  body.appendChild(next);
+}
+
+function showQuizResult() {
+  const cat = quizCategories[quizState.cat];
+  const n = cat.questions.length;
+  const score = quizState.score;
+  const scores = load(QUIZ_KEY, {});
+  scores[cat.id] = scores[cat.id] === undefined ? score : Math.max(scores[cat.id], score);
+  store(QUIZ_KEY, scores);
+
+  const ratio = score / n;
+  const msg = ratio >= 0.8 ? "Tu me connais par cœur ! 😍"
+    : ratio >= 0.5 ? "Pas mal du tout, mon cœur ! 💕"
+    : "Il va falloir qu'on rattrape ça ensemble 😘";
+
+  const body = document.getElementById("modal-body");
+  body.innerHTML = "";
+  body.appendChild(qEl("p", "quiz-meta", `${cat.icon} ${cat.title}`));
+  body.appendChild(qEl("div", "quiz-big-score", `${score} / ${n}`));
+  body.appendChild(qEl("p", "", msg));
+
+  const actions = qEl("div", "quiz-actions");
+  const again = qEl("button", "quiz-submit", "Rejouer");
+  again.addEventListener("click", () => startQuizCategory(quizState.cat));
+  const back = qEl("button", "quiz-option", "Autres catégories");
+  back.addEventListener("click", showQuizMenu);
+  actions.appendChild(again);
+  actions.appendChild(back);
+  body.appendChild(actions);
 }
 </script>
 
