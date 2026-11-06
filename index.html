@@ -1,23 +1,399 @@
 <!DOCTYPE html>
+
 <html lang="fr">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Notre calendrier de l'avent</title>
-  <style>
-    body { background: #2b1030; color: white; font-family: Georgia, serif; text-align: center; }
-    .grille { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 400px; margin: auto; }
-    button { padding: 20px; font-size: 24px; border-radius: 12px; border: 2px solid pink; background: #4a1d4f; color: white; }
-  </style>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Notre calendrier de l'Avent ❤️</title>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Nunito:wght@400;600;700;800&display=swap');
+
+:root {
+
+  --red: #9e263b;
+
+  --green: #245640;
+
+  --cream: #fff5e8;
+
+  --gold: #d6b46a;
+
+  --pink: #e8b9c7;
+
+}
+
+* { box-sizing: border-box; }
+
+body {
+
+  margin: 0;
+
+  min-height: 100vh;
+
+  background: var(--cream);
+
+  color: var(--green);
+
+  font-family: 'Nunito', sans-serif;
+
+  text-align: center;
+
+  padding: 25px 15px 45px;
+
+}
+
+header {
+
+  max-width: 650px;
+
+  margin: 20px auto 30px;
+
+}
+
+.decoration {
+
+  font-size: 30px;
+
+  margin-bottom: 12px;
+
+}
+
+h1 {
+
+  font-family: 'DM Serif Display', serif;
+
+  color: var(--red);
+
+  font-size: clamp(32px, 7vw, 48px);
+
+  margin: 8px 0;
+
+}
+
+.subtitle {
+
+  font-size: 16px;
+
+  color: #76564b;
+
+  line-height: 1.7;
+
+}
+
+hr {
+
+  border: 0;
+
+  border-top: 1px solid var(--gold);
+
+  max-width: 180px;
+
+  margin: 25px auto;
+
+}
+
+h2 {
+
+  font-family: 'DM Serif Display', serif;
+
+  color: var(--green);
+
+  font-size: 25px;
+
+}
+
+.grille {
+
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 12px;
+
+  max-width: 480px;
+
+  margin: 25px auto;
+
+}
+
+.case {
+
+  aspect-ratio: 1;
+
+  border-radius: 15px;
+
+  border: 2px solid var(--gold);
+
+  background: var(--red);
+
+  color: white;
+
+  font-family: 'DM Serif Display', serif;
+
+  font-size: 27px;
+
+  cursor: pointer;
+
+  box-shadow: 0 4px 0 #742031;
+
+  transition: transform .2s;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 5px;
+
+}
+
+.case:nth-child(even) {
+
+  background: var(--green);
+
+  box-shadow: 0 4px 0 #173d2d;
+
+}
+
+.case:not(:disabled):hover {
+
+  transform: translateY(-4px);
+
+}
+
+.case:disabled {
+
+  opacity: .65;
+
+  cursor: not-allowed;
+
+}
+
+.case span {
+
+  font-family: 'Nunito', sans-serif;
+
+  font-size: 15px;
+
+}
+
+.info {
+
+  color: #76564b;
+
+  font-size: 14px;
+
+  margin-top: 25px;
+
+}
+
+footer {
+
+  margin-top: 40px;
+
+  color: var(--red);
+
+  font-family: 'DM Serif Display', serif;
+
+  font-size: 20px;
+
+}
+
+#surprise {
+
+  display: none;
+
+  background: white;
+
+  border: 2px solid var(--gold);
+
+  border-radius: 20px;
+
+  padding: 25px;
+
+  max-width: 400px;
+
+  margin: 25px auto;
+
+  box-shadow: 0 5px 20px #9e263b20;
+
+}
+
+#surprise h3 {
+
+  color: var(--red);
+
+  font-family: 'DM Serif Display', serif;
+
+}
+
+#surprise button {
+
+  background: var(--green);
+
+  color: white;
+
+  border: 0;
+
+  padding: 10px 22px;
+
+  border-radius: 20px;
+
+  cursor: pointer;
+
+}
+
+@media(max-width: 380px) {
+
+  .grille { gap: 8px; }
+
+  .case { font-size: 22px; }
+
+}
+
+</style>
+
 </head>
+
 <body>
-  <h1>Notre calendrier de l'avent</h1>
-  <div class="grille" id="grille"></div>
-  <script>
-    var grille = document.getElementById("grille");
-    for (var jour = 1; jour <= 24; jour++) {
-      grille.innerHTML += "<button>" + jour + "</button>";
-    }
-  </script>
+
+<header>
+
+  <div class="decoration">🎄 🎀 ✨ 🎄</div>
+
+  <h1>Notre calendrier de l'Avent</h1>
+
+  <p class="subtitle">
+
+    24 jours, 24 petites surprises.<br>
+
+    Un calendrier rempli de souvenirs et d'amour,<br>
+
+    rien que pour toi ❤️
+
+  </p>
+
+  <hr>
+
+  <div>❤️ 🎁 ❤️</div>
+
+</header>
+
+<h2>Les petites surprises de décembre</h2>
+
+<div class="grille" id="grille"></div>
+
+<p class="info" id="information">
+
+  Une nouvelle surprise chaque jour... 🎁
+
+</p>
+
+<div id="surprise">
+
+  <h3 id="titre"></h3>
+
+  <p id="message"></p>
+
+  <button onclick="fermer()">Fermer ❤️</button>
+
+</div>
+
+<footer>
+
+  Fait avec tout mon amour ❤️
+
+  <div>❄️ 🎄 ❄️</div>
+
+</footer>
+
+<script>
+
+const grille = document.getElementById("grille");
+
+const maintenant = new Date();
+
+const messages = [
+
+  "Une première petite surprise pour toi ❤️",
+
+  "Un joli souvenir à découvrir ensemble.",
+
+  "Aujourd'hui, un petit mot rien que pour toi.",
+
+  "Une surprise t'attend !",
+
+  "Un souvenir de nous deux ❤️"
+
+];
+
+for (let jour = 1; jour <= 24; jour++) {
+
+  const bouton = document.createElement("button");
+
+  bouton.className = "case";
+
+  const disponible =
+
+    maintenant.getFullYear() > 2026 ||
+
+    (maintenant.getFullYear() === 2026 &&
+
+     maintenant.getMonth() === 11 &&
+
+     maintenant.getDate() >= jour);
+
+  bouton.disabled = !disponible;
+
+  bouton.innerHTML = disponible
+
+    ? jour + "<span>🎁</span>"
+
+    : jour + "<span>🔒</span>";
+
+  bouton.onclick = () => ouvrir(jour);
+
+  grille.appendChild(bouton);
+
+}
+
+function ouvrir(jour) {
+
+  document.getElementById("titre").textContent =
+
+    "Jour " + jour + " ❤️";
+
+  document.getElementById("message").textContent =
+
+    messages[(jour - 1) % messages.length];
+
+  document.getElementById("surprise").style.display = "block";
+
+  document.getElementById("surprise").scrollIntoView({
+
+    behavior: "smooth"
+
+  });
+
+}
+
+function fermer() {
+
+  document.getElementById("surprise").style.display = "none";
+
+}
+
+</script>
+
 </body>
+
 </html>
