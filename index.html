@@ -330,6 +330,43 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
   .day-label { font-size: 9px; }
   .modal-content { padding: 20px 10px; }
 }
+
+/* ---------- Bingo de couple ---------- */
+.bingo-tabs { display: flex; gap: 6px; justify-content: center; margin: 8px 0 12px; flex-wrap: wrap; }
+.bingo-tab, .bingo-pill {
+  border: 2px solid var(--gold); border-radius: 20px; background: white; color: var(--dark);
+  font: inherit; font-weight: 700; font-size: 13px; padding: 6px 14px; cursor: pointer; touch-action: manipulation;
+}
+.bingo-tab.on, .bingo-pill.on { background: var(--green); border-color: var(--green); color: white; }
+.bingo-pill { padding: 5px 12px; font-size: 12px; }
+.bingo-pill.primary { background: var(--red); border-color: var(--red); color: white; }
+.bingo-bar-row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.bingo-group { display: flex; gap: 4px; flex-wrap: wrap; justify-content: center; }
+.bingo-status { min-height: 26px; font-weight: 800; color: var(--green); margin: 8px 0; font-size: 14px; }
+.bingo-status.win { color: var(--red); }
+.bingo-grid { display: grid; gap: 4px; }
+.bingo-cell {
+  position: relative; min-width: 0; min-height: 76px; padding: 5px 3px;
+  border: 1.5px solid #e3cf9f; border-radius: 8px; background: white; color: var(--dark);
+  font: inherit; font-weight: 700; font-size: clamp(9.5px, 2.7vw, 12px); line-height: 1.2;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  hyphens: auto; overflow-wrap: anywhere; cursor: pointer; touch-action: manipulation;
+}
+.bingo-grid.n3 .bingo-cell { min-height: 100px; font-size: clamp(11px, 3.2vw, 14px); }
+.bingo-grid.n5 .bingo-cell { min-height: 66px; font-size: clamp(8.5px, 2.3vw, 11px); }
+.bingo-cell.on { background: var(--green); border-color: var(--green); color: white; }
+.bingo-cell.line { box-shadow: 0 0 0 3px var(--gold); border-color: var(--gold); z-index: 1; }
+.bingo-cell.free { background: var(--red); border-color: var(--red); color: white; font-family: 'Great Vibes', cursive; font-size: 22px; font-weight: 400; cursor: default; }
+.bingo-cat-title { display: flex; justify-content: space-between; gap: 10px; text-align: left; font-weight: 800; color: var(--red); margin: 16px 0 6px; font-size: 14px; }
+.bingo-cat-title span:last-child { color: var(--green); white-space: nowrap; }
+.bingo-item {
+  width: 100%; display: flex; gap: 10px; align-items: flex-start; text-align: left; margin-bottom: 6px;
+  padding: 9px 12px; border: 2px solid #e3cf9f; border-radius: 12px; background: white; color: var(--dark);
+  font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; min-width: 0;
+}
+.bingo-item .box { flex: none; width: 18px; height: 18px; margin-top: 1px; border: 2px solid var(--gold); border-radius: 5px; display: grid; place-items: center; color: white; font-size: 12px; }
+.bingo-item.on .box { background: var(--green); border-color: var(--green); }
+.bingo-item.on .box::before { content: "✓"; }
 </style>
 </head>
 <body>
@@ -374,6 +411,9 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
 ===================================================== */
 const MODE_TEST = true;
 const YEAR = 2026;
+
+/* Case qui ouvre le bingo de couple (choisis un numéro entre 6 et 24). */
+const BINGO_DAY = 6;
 
 const activities = [
   "Bienvenue dans ton calendrier de l'Avent ! ❤️ Chaque jour, une nouvelle surprise t'attend. Je t'aime !",
@@ -499,6 +539,10 @@ function openDay(day) {
     title.textContent = "Notre méli-mélo amoureux ❤️";
     modalContent.classList.add("wide");
     showMelimelo();
+  } else if (day === BINGO_DAY) {
+    title.textContent = "Le bingo de notre couple ❤️";
+    modalContent.classList.add("wide");
+    showBingo();
   } else if (day === 5) {
     title.textContent = "Notre puzzle ❤️";
     modalContent.classList.add("wide");
@@ -1615,6 +1659,201 @@ function showPuzzle(lv) {
     img.src = PUZZLE_PHOTO;
   }, 30);
 }
+
+/* =====================================================
+   BINGO DE COUPLE ❤️ (ouvert par la case BINGO_DAY)
+   118 situations ; une grille est tirée au sort (3x3, 4x4 ou 5x5).
+   Une ligne, une colonne ou une diagonale complète = bingo.
+   L'onglet "Les 118 situations" permet de tout cocher d'un coup.
+===================================================== */
+(function () {
+  const BINGO_KEY = "advent-bingo-v1";
+  const BINGO_CATS = [
+  { id: "quotidien", name: "Au quotidien", items: [
+    "On s'envoie des messages dès le réveil.", "On se souhaite toujours bonne nuit.", "On se raconte notre journée.",
+    "On se prévient quand on arrive quelque part.", "On s'envoie des photos de ce qu'on fait.", "On s'appelle même quand on n'a rien à se dire.",
+    "On regarde des films ensemble.", "On regarde des séries ensemble.", "On partage nos musiques préférées.",
+    "On se couche tard à force de discuter.", "On passe du temps ensemble sans forcément parler.", "On aime rester dans les bras l'un de l'autre.",
+    "On se fait des bisous sans raison.", "On se prend dans les bras dès qu'on se retrouve.", "On se tient la main en public.",
+    "On se fait des câlins avant de dormir.", "On a nos petits rituels à nous.", "On aime passer des journées entières ensemble.",
+    "On a du mal à se quitter." ] },
+  { id: "rires", name: "Fous rires et complicité", items: [
+    "On a déjà eu un fou rire impossible à arrêter.", "On a des blagues que personne d'autre ne comprend.", "On a des surnoms ridicules.",
+    "On se taquine constamment.", "On a déjà rigolé dans un moment où il ne fallait pas.", "On a déjà eu un fou rire pour quelque chose de complètement nul.",
+    "On a une expression qu'on répète tout le temps.", "On a déjà essayé de faire rire l'autre alors qu'il était sérieux.", "On a déjà eu un fou rire au téléphone." ] },
+  { id: "romantique", name: "Moments romantiques", items: [
+    "On s'est déjà fait une surprise.", "On s'est déjà écrit un joli message.", "On s'est déjà fait une déclaration.",
+    "On s'est déjà regardés dans les yeux sans rien dire.", "On s'est déjà fait un câlin pendant plusieurs minutes.", "On s'est déjà endormis dans les bras l'un de l'autre.",
+    "On s'est déjà embrassés spontanément.", "On s'est déjà dit qu'on s'aimait plusieurs fois d'affilée.", "On s'est déjà manqués alors qu'on venait de se quitter.",
+    "On s'est déjà regardé un coucher de soleil ensemble.", "On s'est déjà imaginé notre avenir ensemble.", "On a déjà passé une journée entière à deux.",
+    "On s'est déjà fait une soirée rien qu'à nous.", "On a déjà eu un moment particulièrement émouvant ensemble." ] },
+  { id: "vie", name: "La vie à deux", items: [
+    "On a déjà cuisiné ensemble.", "On a déjà mangé au lit.", "On a déjà commandé à manger.",
+    "On a déjà fait les courses ensemble.", "On a déjà fait du shopping ensemble.", "On a déjà fait une sieste ensemble.",
+    "On a déjà regardé un film jusqu'à très tard.", "On a déjà joué à un jeu ensemble.", "On a déjà pris une douche ensemble.",
+    "On a déjà partagé nos vêtements.", "On a déjà passé une soirée à ne rien faire.", "On a déjà fait une activité improvisée.",
+    "On a déjà passé plus de temps que prévu ensemble.", "On a déjà mangé dans un restaurant qu'on voulait tester.", "On a déjà passé une journée à la maison sans sortir." ] },
+  { id: "disputes", name: "Petits désaccords", items: [
+    "On s'est déjà disputés pour une bêtise.", "On a déjà boudé pour rien.", "On a déjà eu du mal à choisir un film.",
+    "On a déjà eu du mal à choisir où manger.", "On a déjà fait la tête pour une petite remarque.", "On s'est déjà réconciliés avec un câlin.",
+    "On s'est déjà taquinés jusqu'à ce que l'un s'énerve.", "On a déjà eu un désaccord sur le programme de la journée.", "On a déjà eu une petite crise de jalousie.",
+    "On a déjà mal interprété un message.", "On s'est déjà excusés après une dispute.", "On a déjà essayé de deviner ce que l'autre avait." ] },
+  { id: "telephone", name: "Au téléphone", items: [
+    "On s'est déjà endormis en appel.", "On a déjà passé plusieurs heures au téléphone.", "On s'est déjà appelés plusieurs fois dans la même journée.",
+    "On s'est déjà envoyé des dizaines de messages.", "On s'est déjà fait des appels vidéo.", "On s'est déjà envoyé des photos de nous.",
+    "On s'est déjà envoyé des messages juste pour dire « je t'aime ».", "On s'est déjà appelés uniquement pour se voir.", "On s'est déjà envoyé des vidéos drôles.",
+    "On a déjà attendu impatiemment un appel.", "On a déjà continué une conversation jusqu'au milieu de la nuit.", "On a déjà gardé un appel en fond pendant qu'on faisait autre chose." ] },
+  { id: "souvenirs", name: "Souvenirs", items: [
+    "On a déjà fêté notre anniversaire de couple.", "On a déjà pris une photo qu'on adore.", "On a déjà visité un nouvel endroit ensemble.",
+    "On a déjà fait une sortie spéciale.", "On a déjà vécu une journée inoubliable.", "On a déjà eu un premier moment mémorable.",
+    "On a déjà célébré un événement ensemble.", "On a déjà fait une sortie au cinéma.", "On a déjà assisté à un événement ensemble.",
+    "On a déjà passé une fête ensemble.", "On a déjà créé un souvenir qu'on raconte souvent.", "On a déjà fait quelque chose pour la première fois ensemble." ] },
+  { id: "connaitre", name: "Se connaître par cœur", items: [
+    "On arrive à se comprendre sans parler.", "On connaît les expressions de l'autre.", "On sait quand l'autre ne va pas bien.",
+    "On sait comment rassurer l'autre.", "On connaît les goûts de l'autre.", "On connaît les petites manies de l'autre.",
+    "On sait comment faire rire l'autre.", "On connaît les habitudes de sommeil de l'autre.", "On devine parfois ce que l'autre pense.",
+    "On termine parfois les phrases de l'autre.", "On a des références que nous seuls comprenons.", "On connaît les petites choses qui énervent l'autre.",
+    "On sait comment faire plaisir à l'autre.", "On connaît les rêves de l'autre." ] },
+  { id: "avenir", name: "Projets d'avenir", items: [
+    "On a déjà parlé de vivre ensemble.", "On a déjà parlé de voyager ensemble.", "On a déjà imaginé nos prochaines vacances.",
+    "On a déjà parlé de nos projets futurs.", "On a déjà imaginé notre maison idéale.", "On a déjà parlé d'adopter un animal.",
+    "On a déjà parlé de nos futurs anniversaires.", "On a déjà imaginé notre vie dans quelques années.", "On a déjà une liste de choses à faire ensemble.",
+    "On a déjà parlé de destinations de rêve.", "On a déjà imaginé des projets un peu fous à deux." ] }
+];
+  const BINGO_ALL = [];
+  BINGO_CATS.forEach(c => c.items.forEach(t => BINGO_ALL.push({ id: BINGO_ALL.length, cat: c.id, text: t })));
+
+  let bs = Object.assign({ view: "grille", size: 4, grid: [], gc: {}, lc: {} }, load(BINGO_KEY, {}));
+  function bSave() { store(BINGO_KEY, bs); }
+  function bFree(n) { return n % 2 === 1 ? (n * n - 1) / 2 : -1; }
+
+  function bNewGrid() {
+    const n = bs.size, free = bFree(n);
+    const pool = BINGO_ALL.map(x => x.id);
+    for (let i = pool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+    let k = 0;
+    bs.grid = Array.from({ length: n * n }, (_, i) => (i === free ? -1 : pool[k++]));
+    bs.gc = {};
+  }
+  function bValid() {
+    return Array.isArray(bs.grid) && bs.grid.length === bs.size * bs.size &&
+      bs.grid.every(v => v === -1 || BINGO_ALL[v]);
+  }
+  function bLines(n) {
+    const L = [];
+    for (let r = 0; r < n; r++) L.push(Array.from({ length: n }, (_, c) => r * n + c));
+    for (let c = 0; c < n; c++) L.push(Array.from({ length: n }, (_, r) => r * n + c));
+    L.push(Array.from({ length: n }, (_, i) => i * n + i));
+    L.push(Array.from({ length: n }, (_, i) => i * n + (n - 1 - i)));
+    return L;
+  }
+  function bOn(i) { const id = bs.grid[i]; return id === -1 || !!bs.gc[id]; }
+
+  function bButton(cls, text, fn) {
+    const b = qEl("button", cls, text);
+    b.type = "button";
+    b.addEventListener("click", fn);
+    return b;
+  }
+
+  function bGrid(body) {
+    const n = bs.size;
+    const done = bLines(n).filter(l => l.every(bOn));
+    const win = new Set();
+    done.forEach(l => l.forEach(i => win.add(i)));
+    const total = bs.grid.filter(id => id !== -1).length;
+    const checked = bs.grid.filter(id => id !== -1 && bs.gc[id]).length;
+
+    const row = qEl("div", "bingo-bar-row");
+    const sizes = qEl("div", "bingo-group");
+    [3, 4, 5].forEach(k => {
+      sizes.appendChild(bButton("bingo-pill" + (bs.size === k ? " on" : ""), k + "×" + k, () => {
+        bs.size = k; bNewGrid(); bSave(); bRender();
+      }));
+    });
+    const acts = qEl("div", "bingo-group");
+    acts.appendChild(bButton("bingo-pill", "Tout décocher", () => { bs.gc = {}; bSave(); bRender(); }));
+    acts.appendChild(bButton("bingo-pill primary", "Nouvelle grille", () => { bNewGrid(); bSave(); bRender(); }));
+    row.appendChild(sizes);
+    row.appendChild(acts);
+    body.appendChild(row);
+
+    let msg = "Pas encore de ligne";
+    if (checked === total) msg = "Grille complète, on se connaît par cœur ! 🎉";
+    else if (done.length) msg = "Bingo ! " + done.length + (done.length > 1 ? " lignes complètes" : " ligne complète") + " 🎉";
+    const status = qEl("p", "bingo-status" + (done.length ? " win" : ""), msg + " · " + checked + " / " + total + " cases");
+    status.setAttribute("aria-live", "polite");
+    body.appendChild(status);
+
+    const grid = qEl("div", "bingo-grid n" + n);
+    grid.style.gridTemplateColumns = "repeat(" + n + ", minmax(0, 1fr))";
+    bs.grid.forEach((id, i) => {
+      if (id === -1) {
+        grid.appendChild(qEl("div", "bingo-cell free" + (win.has(i) ? " line" : ""), "Nous deux"));
+        return;
+      }
+      const cls = "bingo-cell" + (bs.gc[id] ? " on" : "") + (win.has(i) ? " line" : "");
+      const b = bButton(cls, BINGO_ALL[id].text, () => { bs.gc[id] = !bs.gc[id]; bSave(); bRender(); });
+      b.setAttribute("aria-pressed", String(!!bs.gc[id]));
+      grid.appendChild(b);
+    });
+    body.appendChild(grid);
+  }
+
+  function bList(body) {
+    const total = BINGO_ALL.filter(x => bs.lc[x.id]).length;
+    const pct = Math.round(total / BINGO_ALL.length * 100);
+    body.appendChild(qEl("p", "game-progress", total + " / " + BINGO_ALL.length + " situations vécues (" + pct + " %)"));
+    const bar = qEl("div", "game-bar");
+    const fill = qEl("div", "game-fill");
+    fill.style.width = pct + "%";
+    bar.appendChild(fill);
+    body.appendChild(bar);
+    const acts = qEl("div", "bingo-group");
+    acts.appendChild(bButton("bingo-pill", "Tout décocher", () => { bs.lc = {}; bSave(); bRender(); }));
+    body.appendChild(acts);
+
+    BINGO_CATS.forEach(c => {
+      const items = BINGO_ALL.filter(x => x.cat === c.id);
+      const n = items.filter(x => bs.lc[x.id]).length;
+      const head = qEl("div", "bingo-cat-title");
+      head.appendChild(qEl("span", "", c.name));
+      head.appendChild(qEl("span", "", n + " / " + items.length));
+      body.appendChild(head);
+      items.forEach(x => {
+        const b = bButton("bingo-item" + (bs.lc[x.id] ? " on" : ""), "", () => { bs.lc[x.id] = !bs.lc[x.id]; bSave(); bRender(); });
+        b.appendChild(qEl("span", "box"));
+        b.appendChild(qEl("span", "", x.text));
+        b.setAttribute("aria-pressed", String(!!bs.lc[x.id]));
+        body.appendChild(b);
+      });
+    });
+  }
+
+  function bRender() {
+    const mc = document.getElementById("modal-content");
+    const top = mc.scrollTop;
+    const body = document.getElementById("modal-body");
+    body.innerHTML = "";
+    body.appendChild(qEl("p", "game-intro", "Coche les situations qui nous ressemblent. Une ligne complète, c'est bingo ! ❤️"));
+    const tabs = qEl("div", "bingo-tabs");
+    [["grille", "Grille"], ["liste", "Les 118 situations"]].forEach(([v, label]) => {
+      tabs.appendChild(bButton("bingo-tab" + (bs.view === v ? " on" : ""), label, () => { bs.view = v; bSave(); bRender(); }));
+    });
+    body.appendChild(tabs);
+    if (bs.view === "liste") bList(body); else bGrid(body);
+    mc.scrollTop = top;
+  }
+
+  window.showBingo = function () {
+    if (![3, 4, 5].includes(bs.size)) bs.size = 4;
+    if (!bValid()) bNewGrid();
+    bRender();
+  };
+})();
 </script>
 
 </body>
