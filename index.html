@@ -698,6 +698,64 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
 .rv-fx svg { width: 100%; height: 100%; fill: currentColor; }
 @media (max-width: 760px) { .rv-grid, .rv-rows { grid-template-columns: 1fr; } .rv-rtitle { font-size: 34px; } }
 @media (prefers-reduced-motion: reduce) { .rv * { animation: none !important; } }
+
+/* ---------- Case 11 : Au menu de notre soirée ---------- */
+.sm { --pk:#FBE4E7; --pk2:#F4C6CC; --paper:#FFFCF9; --sand:#F3E6D8; --rd:#B5313F; --rd2:#8E2230; --ink:#45272D; --soft:#80626A; --ln:#EBD3CF; --gold2:#C9A25E; text-align: center; color: var(--ink); }
+.sm [hidden] { display: none !important; }
+.sm-kick { font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--rd); font-weight: 800; margin: 4px 0 2px; }
+.sm-title { font-family: 'Great Vibes', cursive; font-weight: normal; font-size: 38px; line-height: 1.12; color: var(--rd); margin: 2px 0 6px; text-wrap: balance; }
+.sm-text { font-size: 16px; line-height: 1.65; margin: 0 auto 18px; max-width: 460px; text-wrap: pretty; }
+.sm-sub { font-size: 14px; color: var(--soft); margin: 0 0 14px; }
+.sm-btn { font: inherit; font-weight: 800; font-size: 14px; border-radius: 999px; padding: 10px 20px; min-height: 44px; border: 2px solid transparent; cursor: pointer; touch-action: manipulation; transition: transform .15s, background .2s, opacity .2s; }
+.sm-btn:active:not(:disabled) { transform: scale(.97); }
+.sm-btn.main { background: var(--rd); color: #fff; box-shadow: 0 6px 14px -6px rgba(181,49,63,.7); }
+.sm-btn.main:hover:not(:disabled) { background: var(--rd2); }
+.sm-btn.ghost { background: transparent; color: var(--soft); border-color: var(--ln); }
+.sm-btn.ghost:hover:not(:disabled) { border-color: var(--pk2); color: var(--ink); }
+.sm-btn:disabled { opacity: .45; cursor: default; }
+.sm button:focus-visible { outline: 3px solid var(--pk2); outline-offset: 2px; }
+.sm-cloche { width: 96px; height: 80px; margin: 6px auto 10px; display: block; }
+.sm-nav { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin: 0 0 16px; padding: 0; list-style: none; }
+.sm-pill { font: inherit; font-size: 12px; font-weight: 800; letter-spacing: .5px; border-radius: 999px; border: 2px solid var(--ln); background: var(--paper); color: var(--soft); padding: 6px 12px; min-height: 34px; cursor: pointer; touch-action: manipulation; }
+.sm-pill.done { border-color: var(--rd); color: var(--rd); background: var(--pk); }
+.sm-pill.now { background: var(--rd); border-color: var(--rd); color: #fff; }
+.sm-pill:disabled { opacity: .5; cursor: default; }
+.sm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 10px; margin-bottom: 8px; }
+.sm-card { position: relative; background: var(--paper); border: 2px solid var(--ln); border-radius: 18px; padding: 12px 10px 14px; cursor: pointer; text-align: center; font: inherit; color: inherit; display: grid; justify-items: center; align-content: start; gap: 4px; touch-action: manipulation; transition: transform .15s, border-color .2s, background .2s, box-shadow .2s; }
+.sm-card:hover { border-color: var(--pk2); transform: translateY(-2px); }
+.sm-pic { width: 68px; height: 68px; border-radius: 50%; display: grid; place-items: center; font-size: 36px; line-height: 1; margin-bottom: 2px; background: radial-gradient(circle at 35% 30%, #fff, var(--pk)); box-shadow: inset 0 0 0 2px #fff, 0 4px 10px -6px rgba(142,34,48,.5); }
+.sm-card:nth-child(3n+2) .sm-pic { background: radial-gradient(circle at 35% 30%, #fff, var(--sand)); }
+.sm-card:nth-child(3n) .sm-pic { background: radial-gradient(circle at 35% 30%, #fff, var(--pk2)); }
+.sm-name { font-weight: 800; font-size: 14px; line-height: 1.3; }
+.sm-desc { font-size: 12px; line-height: 1.4; color: var(--soft); }
+.sm-card.sel { border-color: var(--rd); background: var(--pk); box-shadow: 0 0 0 3px var(--pk2); transform: none; }
+.sm-card.sel::after { content: "♥"; position: absolute; top: 6px; right: 9px; color: var(--rd); font-size: 16px; }
+.sm-msg { min-height: 26px; margin: 10px 0 0; font-weight: 800; color: var(--rd); font-size: 14px; }
+.sm-acts { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 12px; }
+.sm-menu { position: relative; margin: 14px auto 16px; max-width: 440px; background: #FFFDF8; border: 2px solid var(--gold2); border-radius: 6px; padding: 26px 22px 22px; box-shadow: 0 14px 28px -16px rgba(69,39,45,.5), inset 0 0 0 6px #FFFDF8, inset 0 0 0 7px var(--gold2); animation: smReveal .9s cubic-bezier(.3,1.3,.5,1) both; }
+@keyframes smReveal { from { opacity: 0; transform: scale(.9) translateY(24px); } to { opacity: 1; transform: none; } }
+@keyframes smPop { from { opacity: 0; transform: scale(.7) translateY(8px); } to { opacity: 1; transform: none; } }
+.sm-head { font-size: 13px; letter-spacing: 3px; font-weight: 800; color: var(--rd); margin: 0 0 12px; }
+.sm-rule { height: 1px; margin: 12px auto; width: 70%; background: linear-gradient(90deg, transparent, var(--gold2), transparent); }
+.sm-line { margin: 0 0 14px; animation: smPop .6s var(--d, 0s) both; }
+.sm-line small { display: block; font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold2); font-weight: 800; }
+.sm-line b { display: block; font-family: 'Great Vibes', cursive; font-weight: normal; font-size: 28px; line-height: 1.15; color: var(--ink); }
+.sm-line span { display: block; font-size: 12px; font-style: italic; color: var(--soft); }
+.sm-quote { font-style: italic; font-size: 15px; line-height: 1.6; margin: 0; text-wrap: pretty; }
+.sm-ok { margin: 0 0 4px; background: var(--rd); color: #fff; border-radius: 14px; padding: 10px 14px; font-weight: 800; animation: smPop .5s both; }
+.sm-fx { position: fixed; pointer-events: none; z-index: 80; }
+.sm-fx svg { width: 100%; height: 100%; fill: currentColor; }
+@media (max-width: 420px) { .sm-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; } .sm-menu { padding: 22px 14px 18px; } }
+@media (prefers-reduced-motion: reduce) { .sm * { animation: none !important; transition: none !important; } }
+@media print {
+  body > *:not(.modal) { display: none !important; }
+  body { background: #fff !important; padding: 0 !important; }
+  .modal { position: static !important; display: block !important; background: none !important; padding: 0 !important; }
+  .modal-content { width: 100% !important; max-height: none !important; overflow: visible !important; border: 0 !important; background: #fff !important; padding: 0 !important; animation: none !important; }
+  .modal-content > h2, .modal-content > .close, .sm-noprint { display: none !important; }
+  .sm-menu { box-shadow: inset 0 0 0 6px #FFFDF8, inset 0 0 0 7px var(--gold2); break-inside: avoid; animation: none !important; margin-top: 8mm; }
+  .sm, .sm * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
 </style>
 </head>
 <body>
@@ -757,7 +815,7 @@ const activities = [
   "", // case 8 : photo mystère
   "", // case 9 : chasse au trésor
   "", // case 10 : roues du rendez-vous
-  "Surprise du jour : tu as gagné un petit bon pour une activité ensemble.",
+  "", // case 11 : menu de la soirée
   "Raconte-moi trois souvenirs que tu aimerais revivre.",
   "Devine la photo mystère !",
   "Défi du jour : donne-moi cinq choses que tu aimes chez moi.",
@@ -879,6 +937,10 @@ function openDay(day) {
     title.textContent = "Le labyrinthe de notre amour ❤️";
     modalContent.classList.add("wide");
     showMaze();
+  } else if (day === 11) {
+    title.textContent = "Au menu de notre soirée ❤️";
+    modalContent.classList.add("wide");
+    showMenuSoiree();
   } else if (day === 10) {
     title.textContent = "Notre prochain rendez-vous ❤️";
     modalContent.classList.add("xwide");
@@ -3686,6 +3748,243 @@ const PM_EMBEDDED = {
     body.appendChild(root);
     const kept = load(KEEP, null);
     if (kept && kept.rows && kept.rows.length === WHEELS.length) viewKept(kept); else viewWelcome();
+  };
+})();
+
+
+/* =====================================================
+   CASE 11 : AU MENU DE NOTRE SOIRÉE ❤️
+   Chaque proposition = [illustration, nom, courte description].
+   Tu peux modifier, ajouter ou retirer des propositions ici.
+===================================================== */
+(function () {
+  "use strict";
+
+  const KEY = "soiree-menu";
+  const CATS = [
+    {
+      id: "entree", pill: "Entrée", titre: "L'entrée", label: "Entrée", consigne: "Par quoi commence-t-on ? Choisis une seule entrée.",
+      msgs: ["Excellent choix, chef !", "Ça commence bien, j'ai déjà faim !", "Miam, on va se régaler !"],
+      items: [
+        ["🐟", "Toasts au saumon et fromage frais", "Fins, frais et parfaits pour commencer en douceur."],
+        ["🍅", "Bruschettas tomate-mozzarella", "Un petit goût d'Italie, croquant et fondant."],
+        ["🥐", "Mini-feuilletés au fromage", "Dorés, croustillants, impossible de s'arrêter."],
+        ["🥑", "Avocat aux crevettes", "Une entrée fraîche et élégante."],
+        ["🥂", "Verrines apéritives", "De petites bouchées colorées à partager."],
+        ["🧀", "Planche de charcuterie et de fromages", "Un grand classique à grignoter à deux."],
+        ["🌮", "Nachos avec sauce au fromage", "Gourmands, croustillants et bien fondants."],
+        ["🥚", "Œufs mimosa", "Une recette simple et délicieuse."],
+        ["🥪", "Croque-monsieur miniatures", "Chauds, fondants et croustillants."],
+        ["🎁", "Une entrée surprise du chef", "Le chef choisit pour nous, place à la surprise !"]
+      ]
+    },
+    {
+      id: "plat", pill: "Plat", titre: "Le plat principal", label: "Plat principal", consigne: "Le cœur du repas ! Choisis un seul plat.",
+      msgs: ["Wow, quel plat ! Tu me mets l'eau à la bouche.", "Voilà qui promet une belle soirée !", "Tu as très bon goût, chef !"],
+      items: [
+        ["🍝", "Pâtes carbonara", "Crémeuses et généreuses, un vrai réconfort."],
+        ["🥘", "Lasagnes", "Gratinées à souhait, avec plein de fromage."],
+        ["🍕", "Pizza maison", "Pâte maison et garnitures à notre goût."],
+        ["🍔", "Burger avec frites", "Un classique gourmand, à manger sans chichis."],
+        ["🧀", "Raclette", "Fromage fondu et convivialité garantie."],
+        ["🥔", "Tartiflette", "Pommes de terre, reblochon : tout est dit."],
+        ["🍗", "Poulet accompagné de pommes de terre", "Un plat simple, doré et savoureux."],
+        ["🍚", "Risotto crémeux", "Onctueux et réconfortant."],
+        ["🌯", "Crêpes salées", "À garnir selon nos envies."],
+        ["🍣", "Sushi", "Un dîner raffiné à partager."],
+        ["🍲", "Fondue", "On trempe, on partage, on savoure."],
+        ["🎁", "Un plat surprise du chef", "Le chef nous prépare une surprise gourmande."]
+      ]
+    },
+    {
+      id: "dessert", pill: "Dessert", titre: "Le dessert", label: "Dessert", consigne: "Le moment le plus sucré. Choisis un seul dessert.",
+      msgs: ["Le meilleur pour la fin, bien joué !", "Je garde de la place, promis !", "Un dessert digne d'un grand chef !"],
+      items: [
+        ["🍫", "Fondant au chocolat", "Un cœur coulant, pour les amoureux du chocolat."],
+        ["☕", "Tiramisu", "Léger, crémeux et délicieusement italien."],
+        ["🥞", "Crêpes au chocolat", "Chaudes, fondantes et toujours réconfortantes."],
+        ["🧇", "Gaufres avec chantilly", "Croustillantes, avec un nuage de chantilly."],
+        ["🍪", "Cookies encore tièdes", "Croustillants dehors, moelleux dedans."],
+        ["🍰", "Cheesecake", "Doux et crémeux, sur son lit de biscuit."],
+        ["🍓", "Tarte aux fraises", "Fraîche, sucrée et pleine de couleurs."],
+        ["🍨", "Glace avec plusieurs toppings", "À composer selon nos envies."],
+        ["🍮", "Mousse au chocolat", "Aérienne et intense."],
+        ["🧁", "Brownie", "Dense, fondant, pour les gourmands."],
+        ["🍬", "Plateau de gourmandises à partager", "Un peu de tout, pour ne rien regretter."],
+        ["🎁", "Un dessert surprise du chef", "Une douceur choisie par le chef."]
+      ]
+    },
+    {
+      id: "film", pill: "Film", titre: "Le film", label: "Film", consigne: "Pour finir la soirée : quelle ambiance veut-on ? Choisis un seul style de film.",
+      msgs: ["Parfait, la soirée est presque prête !", "Bonne pioche, on va passer un super moment !", "Plaid, câlins et écran : c'est tout vu !"],
+      items: [
+        ["💕", "Comédie romantique", "Des sourires, des papillons et une belle histoire."],
+        ["😂", "Comédie", "Des fous rires garantis."],
+        ["💥", "Film d'action", "Du rythme, de l'adrénaline et des poursuites."],
+        ["🧭", "Film d'aventure", "De grands voyages et des découvertes."],
+        ["🧙", "Film fantastique", "Des mondes magiques et des créatures extraordinaires."],
+        ["🎨", "Film d'animation", "Coloré, tendre et plein d'émotion."],
+        ["🔍", "Thriller", "Du suspense pour se serrer l'un contre l'autre."],
+        ["👻", "Film d'horreur", "Des frissons… et des câlins pour se rassurer."],
+        ["🎭", "Film dramatique", "Une histoire intense qui touche le cœur."],
+        ["🎄", "Film de Noël", "Une ambiance chaleureuse et féerique."],
+        ["🔁", "Film que nous avons déjà vu et que nous voulons revoir", "Un classique de nous, qu'on connaît par cœur."],
+        ["🎲", "Film surprise choisi au hasard", "On laisse le hasard choisir pour nous."]
+      ]
+    }
+  ];
+  const QUOTE = "Il ne reste plus qu'à préparer tout ça, se mettre à l'aise et profiter de notre soirée à deux. J'ai déjà hâte ! ❤️";
+  const HEART_D = "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z";
+  const HEART = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${HEART_D}"/></svg>`;
+  const STAR = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z"/></svg>`;
+  const reduce = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+
+  let run = 0, root, st;
+  const h = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
+  const toTop = () => { const m = document.getElementById("modal-content"); if (m) m.scrollTop = 0; };
+  const save = () => store(KEY, { sel: st.sel, valid: st.valid });
+
+  function burst(x, y, n) {
+    if (reduce) return;
+    const cols = ["#B5313F", "#E58C99", "#F4C6CC", "#D6B46A", "#D9A58F"];
+    for (let i = 0; i < n; i++) {
+      const kind = i % 3, p = h("span", "sm-fx", kind === 0 ? HEART : kind === 1 ? STAR : "");
+      if (kind === 2) { p.style.width = "9px"; p.style.height = "14px"; p.style.background = cols[i % cols.length]; p.style.borderRadius = "2px"; }
+      else { const s = 16 + Math.random() * 14; p.style.width = p.style.height = s + "px"; }
+      p.style.left = x + "px"; p.style.top = y + "px"; p.style.color = cols[i % cols.length];
+      document.body.appendChild(p);
+      const a = Math.random() * 6.283, d = 80 + Math.random() * 170;
+      p.animate([
+        { transform: "translate(-50%,-50%) scale(.3) rotate(0deg)", opacity: 1 },
+        { transform: `translate(calc(-50% + ${Math.cos(a) * d}px), calc(-50% + ${Math.sin(a) * d - 60}px)) scale(1) rotate(${(Math.random() - 0.5) * 540}deg)`, opacity: 1, offset: 0.65 },
+        { transform: `translate(calc(-50% + ${Math.cos(a) * d * 1.1}px), calc(-50% + ${Math.sin(a) * d + 40}px)) scale(.8) rotate(${(Math.random() - 0.5) * 700}deg)`, opacity: 0 }
+      ], { duration: 1400 + Math.random() * 800, easing: "cubic-bezier(.2,.7,.3,1)" }).onfinish = () => p.remove();
+    }
+  }
+
+  const firstOpen = () => st.sel.findIndex(v => v === null);
+  const allDone = () => st.sel.every(v => v !== null);
+
+  /* ---------- Accueil ---------- */
+  function viewWelcome() {
+    root.innerHTML = "";
+    toTop();
+    root.insertAdjacentHTML("beforeend", `<p class="sm-kick">Case 11</p>
+      <svg class="sm-cloche" viewBox="0 0 96 80" aria-hidden="true"><path d="M10 62C10 34 28 16 48 16s38 18 38 46z" fill="#FBE4E7" stroke="#B5313F" stroke-width="3"/><circle cx="48" cy="11" r="5" fill="#B5313F"/><path d="M4 66h88" stroke="#B5313F" stroke-width="4" stroke-linecap="round"/><path d="M26 54c2-9 8-15 16-17" stroke="#fff" stroke-width="3" stroke-linecap="round" fill="none"/></svg>`);
+    const t = h("p", "sm-text"); t.textContent = "Ce soir, c'est toi le chef ! Compose le menu de notre prochaine soirée à deux.";
+    const go = h("button", "sm-btn main", "Découvrir la carte"); go.type = "button";
+    go.addEventListener("click", () => { st.valid = false; save(); if (allDone()) viewFinal(false); else viewCat(Math.max(0, firstOpen())); });
+    root.append(t, go);
+  }
+
+  /* ---------- Une catégorie ---------- */
+  function nav(cur) {
+    const ul = h("ul", "sm-nav"); ul.setAttribute("aria-label", "Progression du menu");
+    CATS.forEach((c, i) => {
+      const done = st.sel[i] !== null, li = h("li");
+      const b = h("button", "sm-pill" + (i === cur ? " now" : done ? " done" : ""), (done && i !== cur ? "♥ " : "") + c.pill); b.type = "button";
+      if (i === cur) b.setAttribute("aria-current", "step");
+      b.disabled = !(done || i === cur);
+      b.addEventListener("click", () => viewCat(i));
+      li.appendChild(b); ul.appendChild(li);
+    });
+    return ul;
+  }
+
+  function viewCat(i) {
+    const id = run, c = CATS[i];
+    let pick = st.sel[i];
+    root.innerHTML = "";
+    toTop();
+    const title = h("h3", "sm-title"); title.textContent = c.titre;
+    const sub = h("p", "sm-sub"); sub.textContent = c.consigne;
+    const grid = h("div", "sm-grid"); grid.setAttribute("role", "group"); grid.setAttribute("aria-label", c.titre);
+    const msg = h("p", "sm-msg"); msg.setAttribute("role", "status"); msg.setAttribute("aria-live", "polite");
+    const ok = h("button", "sm-btn main", "Valider mon choix"); ok.type = "button"; ok.disabled = pick === null;
+    const acts = h("div", "sm-acts");
+    if (i > 0) { const back = h("button", "sm-btn ghost", "← Précédent"); back.type = "button"; back.addEventListener("click", () => viewCat(i - 1)); acts.appendChild(back); }
+    acts.appendChild(ok);
+    const cards = c.items.map((it, k) => {
+      const b = h("button", "sm-card" + (pick === k ? " sel" : ""), `<span class="sm-pic" aria-hidden="true">${it[0]}</span><span class="sm-name"></span><span class="sm-desc"></span>`);
+      b.type = "button"; b.setAttribute("aria-pressed", pick === k ? "true" : "false");
+      b.querySelector(".sm-name").textContent = it[1]; b.querySelector(".sm-desc").textContent = it[2];
+      b.addEventListener("click", () => {
+        pick = k;
+        cards.forEach((x, j) => { x.classList.toggle("sel", j === k); x.setAttribute("aria-pressed", j === k ? "true" : "false"); });
+        ok.disabled = false;
+        msg.textContent = c.msgs[Math.floor(Math.random() * c.msgs.length)];
+        const r = b.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + 30, 6);
+      });
+      grid.appendChild(b); return b;
+    });
+    ok.addEventListener("click", () => {
+      if (pick === null) return;
+      st.sel[i] = pick; st.valid = false; save();
+      if (allDone()) viewFinal(true); else viewCat(firstOpen());
+    });
+    root.append(nav(i), title, sub, grid, msg, acts);
+  }
+
+  /* ---------- Carte finale ---------- */
+  function viewFinal(celebrate) {
+    const id = run;
+    root.innerHTML = "";
+    toTop();
+    const title = h("h3", "sm-title sm-noprint-hide"); title.textContent = "Notre soirée idéale est prête ! ❤️";
+    const menu = h("article", "sm-menu"); menu.setAttribute("aria-label", "Notre menu en amoureux");
+    menu.appendChild(h("p", "sm-head", "♡ NOTRE MENU EN AMOUREUX ♡"));
+    menu.appendChild(h("div", "sm-rule"));
+    CATS.forEach((c, i) => {
+      const it = c.items[st.sel[i]];
+      const line = h("div", "sm-line"); line.style.setProperty("--d", (0.5 + i * 0.35) + "s");
+      line.innerHTML = "<small></small><b></b><span></span>";
+      line.querySelector("small").textContent = c.label;
+      line.querySelector("b").textContent = it[1];
+      line.querySelector("span").textContent = it[2];
+      menu.appendChild(line);
+    });
+    menu.appendChild(h("div", "sm-rule"));
+    const q = h("p", "sm-quote"); q.textContent = QUOTE; menu.appendChild(q);
+
+    const ban = h("p", "sm-ok sm-noprint", "Soirée validée ❤️ C'est notre soirée !"); ban.hidden = !st.valid;
+    const msg = h("p", "sm-msg sm-noprint"); msg.setAttribute("role", "status"); msg.setAttribute("aria-live", "polite");
+    const acts = h("div", "sm-acts sm-noprint");
+    const valid = h("button", "sm-btn main", "Valider notre soirée"), edit = h("button", "sm-btn ghost", "Modifier le menu"), again = h("button", "sm-btn ghost", "Recommencer"), print = h("button", "sm-btn ghost", "Imprimer notre menu");
+    valid.type = edit.type = again.type = print.type = "button";
+    valid.disabled = st.valid;
+    valid.addEventListener("click", () => {
+      st.valid = true; save(); valid.disabled = true; ban.hidden = false;
+      const r = menu.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + 60, 28);
+    });
+    edit.addEventListener("click", () => viewCat(0));
+    again.addEventListener("click", () => { st.sel = [null, null, null, null]; st.valid = false; save(); viewCat(0); });
+    print.addEventListener("click", () => {
+      msg.textContent = "Impression en cours… si rien ne s'ouvre, utilise Ctrl/Cmd + P dans ton navigateur.";
+      try { window.print(); } catch (e) {}
+    });
+    acts.append(valid, edit, again, print);
+    root.append(title, ban, menu, msg, acts);
+    if (celebrate) setTimeout(() => {
+      if (id !== run) return;
+      const r = menu.getBoundingClientRect();
+      burst(r.left + r.width * 0.2, r.top + 80, 24); burst(r.left + r.width * 0.8, r.top + 80, 24);
+    }, 300);
+  }
+
+  /* ---------- Point d'entrée (appelé par la case 11) ---------- */
+  window.showMenuSoiree = function () {
+    run++;
+    const body = document.getElementById("modal-body");
+    body.innerHTML = "";
+    root = h("div", "sm");
+    body.appendChild(root);
+    const saved = load(KEY, null);
+    st = { sel: [null, null, null, null], valid: false };
+    if (saved && Array.isArray(saved.sel) && saved.sel.length === CATS.length) {
+      st.sel = saved.sel.map((v, i) => (Number.isInteger(v) && v >= 0 && v < CATS[i].items.length ? v : null));
+      st.valid = !!saved.valid && allDone();
+    }
+    if (st.valid) viewFinal(false); else viewWelcome();
   };
 })();
 
