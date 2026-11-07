@@ -402,6 +402,108 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
   from { transform: translateY(0) rotate(0); opacity: 1; }
   to { transform: translateY(-110vh) rotate(25deg); opacity: 0; }
 }
+
+/* ---------- Photo mystère ---------- */
+.pm {
+  --pm-pink: #f4cdd3; --pm-pink-d: #e9a9b5; --pm-rose: #c85a6d; --pm-red: #a93a50;
+  --pm-beige: #f6ebdd; --pm-ink: #4a2f33;
+  position: relative; overflow: hidden; border-radius: 18px; padding: 20px 14px 18px;
+  background: linear-gradient(165deg, #fff4f2 0%, #f9dfe2 52%, #f6e8da 100%);
+  border: 1.5px solid #f0c3cb; color: var(--pm-ink);
+}
+.pm-inner { position: relative; z-index: 1; }
+.pm-deco { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.pm-deco span { position: absolute; color: var(--pm-pink-d); opacity: .5; animation: pmFloat 7s ease-in-out infinite; }
+@keyframes pmFloat {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(-9px) rotate(8deg); }
+}
+.pm-kicker { font-weight: 800; letter-spacing: 3px; font-size: 11px; text-transform: uppercase; color: var(--pm-rose); margin: 0 0 4px !important; }
+.modal-content .pm p.pm-lead { font-size: 15px; margin: 10px auto 14px; max-width: 420px; }
+.pm-steps { list-style: none; padding: 0; margin: 0 auto 18px; max-width: 400px; text-align: left; }
+.pm-steps li { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.5; padding: 6px 0; }
+.pm-steps li span:first-child { flex: none; width: 26px; height: 26px; border-radius: 50%; background: white; border: 1.5px solid var(--pm-pink-d); display: grid; place-items: center; font-size: 13px; }
+.pm-preview { display: grid; grid-template-columns: repeat(3, 1fr); width: 132px; margin: 12px auto 6px; border-radius: 8px; overflow: hidden; border: 4px solid white; box-shadow: 0 6px 16px rgba(169,58,80,.18); transform: rotate(-2deg); }
+.pm-preview span { aspect-ratio: 1 / 1.05; display: grid; place-items: center; font-size: 12px; color: rgba(255,255,255,.9); background: linear-gradient(135deg, #f6d3d8, #eab0bc); box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.6); }
+.pm-preview span.on { background: #fff4ea; color: var(--pm-rose); }
+
+.pm-btn {
+  border: 0; border-radius: 30px; padding: 12px 26px; color: white; font: inherit; font-weight: 800; font-size: 15px;
+  background: linear-gradient(135deg, #d46b7e, #b53f55); cursor: pointer;
+  box-shadow: 0 6px 14px rgba(181,63,85,.28); transition: transform .15s, box-shadow .15s;
+}
+.pm-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 9px 18px rgba(181,63,85,.3); }
+.pm-btn:disabled { opacity: .5; cursor: default; }
+.pm-btn.soft { background: white; color: var(--pm-red); border: 2px solid var(--pm-pink-d); box-shadow: none; }
+.pm-link { background: none; border: 0; color: var(--pm-red); font: inherit; font-size: 13px; text-decoration: underline; cursor: pointer; margin: 4px 8px; }
+
+.pm-top { display: flex; flex-direction: column; align-items: center; gap: 4px; margin-bottom: 12px; }
+.pm-dots { display: flex; gap: 6px; }
+.pm-dot { font-size: 17px; color: #e6c4c9; line-height: 1; transition: transform .3s, color .3s; }
+.pm-dot.done { color: var(--pm-rose); }
+.pm-dot.now { color: var(--pm-pink-d); transform: scale(1.35); }
+.pm-round { font-family: 'Great Vibes', cursive; font-size: 30px; color: var(--pm-red); line-height: 1.1; }
+.pm-count { font-size: 12px; font-weight: 800; letter-spacing: 1px; color: var(--pm-rose); text-transform: uppercase; }
+
+.pm-frame { --ar: 1.333; background: white; padding: 8px; border-radius: 12px; box-shadow: 0 8px 22px rgba(169,58,80,.2); margin: 0 auto; width: min(100%, calc(52vh * var(--ar) + 16px), 476px); }
+.pm-stage { position: relative; overflow: hidden; border-radius: 6px; background: var(--pm-beige); aspect-ratio: var(--ar); width: 100%; }
+.pm-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; user-select: none; -webkit-user-drag: none; }
+.pm-grid { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(4, 1fr); }
+.pm-tile {
+  position: relative; border: 0; padding: 0; margin: 0; cursor: pointer; display: grid; place-items: center;
+  background: linear-gradient(135deg, #f7d6db, #eaaeba); color: rgba(255,255,255,.92);
+  font-size: clamp(16px, 5vw, 28px); box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.65);
+  transition: opacity .7s ease, transform .7s ease, filter .2s; transition-delay: var(--d, 0s);
+  touch-action: manipulation;
+}
+.pm-tile.alt { background: linear-gradient(135deg, #f9e0dd, #f0bcc4); }
+.pm-tile:hover:not(.open) { filter: brightness(1.06); }
+.pm-tile:focus-visible { outline: 3px solid var(--pm-red); outline-offset: -3px; }
+.pm-tile.open { opacity: 0; transform: scale(1.3) rotate(5deg); pointer-events: none; }
+.pm-tile.instant { transition: none; }
+.pm-broken { position: absolute; inset: 0; z-index: 3; display: none; align-items: center; justify-content: center; text-align: center; padding: 14px; background: var(--pm-beige); color: var(--pm-red); font-size: 13px; font-weight: 700; line-height: 1.5; }
+.pm-stage.broken .pm-broken { display: flex; }
+.modal-content .pm p.pm-caption { margin: 10px 0 0; font-family: 'Great Vibes', cursive; font-size: 28px; color: var(--pm-red); line-height: 1.2; }
+
+.modal-content .pm p.pm-status { font-size: 13px; margin: 12px 0 0; color: var(--pm-rose); font-weight: 700; }
+.pm-form { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin: 10px 0 2px; }
+.pm-input {
+  flex: 1 1 190px; min-width: 0; padding: 12px 18px; border: 2px solid var(--pm-pink-d); border-radius: 30px;
+  font: inherit; font-size: 16px; background: #fffaf8; color: var(--pm-ink); outline: none; text-align: center;
+}
+.pm-input:focus { border-color: var(--pm-rose); box-shadow: 0 0 0 4px rgba(200,90,109,.15); }
+.pm-input:disabled { background: #f6ebdd; }
+.pm-input.shake { animation: pmShake .45s; }
+@keyframes pmShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-7px); } 40% { transform: translateX(7px); }
+  60% { transform: translateX(-5px); } 80% { transform: translateX(5px); }
+}
+.modal-content .pm p.pm-feedback { min-height: 26px; margin: 8px 0 2px; font-weight: 800; font-size: 14.5px; line-height: 1.5; }
+.pm-feedback.good { color: var(--pm-red); }
+.pm-feedback.bad { color: var(--pm-rose); }
+.pm-feedback .pm-win-hearts { display: block; font-size: 18px; letter-spacing: 4px; margin-top: 2px; }
+.modal-content .pm p.pm-hint { background: white; border: 1.5px dashed var(--pm-pink-d); border-radius: 12px; padding: 8px 12px; margin: 8px auto; max-width: 380px; font-size: 13.5px; font-style: italic; }
+.pm-actions { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px; margin-top: 6px; }
+
+.pm-final-title { font-family: 'Great Vibes', cursive; font-size: clamp(34px, 8vw, 46px); color: var(--pm-red); line-height: 1.1; margin: 4px 0 6px; }
+.modal-content .pm p.pm-final-msg { max-width: 430px; margin: 6px auto 14px; font-size: 15px; }
+.pm-recap { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 14px 0; }
+@media (min-width: 520px) { .pm-recap { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.pm-card { background: white; padding: 6px 6px 8px; border-radius: 8px; box-shadow: 0 5px 14px rgba(169,58,80,.18); }
+.pm-card:nth-child(odd) { transform: rotate(-1.5deg); }
+.pm-card:nth-child(even) { transform: rotate(1.5deg); }
+.pm-card img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 4px; background: var(--pm-beige); }
+.pm-card b { display: block; margin-top: 6px; font-size: 12.5px; line-height: 1.3; color: var(--pm-red); }
+.pm-card small { display: block; margin-top: 2px; color: var(--pm-rose); letter-spacing: 2px; font-size: 11px; }
+.pm-total { font-weight: 800; color: var(--pm-rose); margin: 4px 0 12px; }
+
+.pm-float { position: fixed; bottom: -40px; z-index: 20; pointer-events: none; animation: mazeFloat 2.8s ease-out forwards; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pm-deco span, .pm-input.shake { animation: none; }
+  .pm-tile { transition-duration: .01s; transition-delay: 0s !important; }
+}
 </style>
 </head>
 <body>
@@ -458,7 +560,7 @@ const activities = [
   "Une surprise t'attend : reconstitue notre puzzle !",
   "Défi photo : envoie-moi une photo de ton moment préféré de la journée.",
   "", // case 7 : labyrinthe du cœur
-  "Un rébus spécial nous deux t'attend !",
+  "", // case 8 : photo mystère
   "Quelle chanson te fait penser à nous ?",
   "Place les souvenirs dans le bon ordre !",
   "Surprise du jour : tu as gagné un petit bon pour une activité ensemble.",
@@ -582,6 +684,10 @@ function openDay(day) {
     title.textContent = "Le labyrinthe de notre amour ❤️";
     modalContent.classList.add("wide");
     showMaze();
+  } else if (day === 8) {
+    title.textContent = "Photo mystère ❤️";
+    modalContent.classList.add("wide");
+    showPhotoMystere();
   } else if (day === 5) {
     title.textContent = "Notre puzzle ❤️";
     modalContent.classList.add("wide");
@@ -2192,6 +2298,407 @@ const MAZE_WIN_MESSAGE =
 
   window.showMaze = function () {
     if (!valid()) newMaze(SIZES[st.size] ? st.size : 11); else build();
+    render();
+  };
+})();
+
+/* =====================================================
+   PHOTO MYSTÈRE ❤️ (ouvert par la case 8)
+   ✏️ ZONE À PERSONNALISER : tes 6 photos, les réponses et les indices.
+
+   - image     : chemin de la photo (mets les fichiers à côté de ce fichier .html)
+   - answers   : réponses acceptées. Accents, majuscules, ponctuation et petites
+                 fautes de frappe sont tolérés. Ajoute autant de variantes que tu veux.
+   - hint      : indice facultatif ("" = pas de bouton d'indice pour cette photo)
+   - souvenir  : petite phrase affichée sous la photo et dans le récapitulatif final
+                 ("" = on affiche la première réponse)
+
+   ⚠️ Les réponses ci-dessous sont des suggestions d'après ce qu'on voit sur
+   les photos : remplace-les par les vraies !
+===================================================== */
+const PHOTO_MYSTERE = [
+  { image: "image1.jpg", answers: ["Plopsaland", "Plopsaland De Panne", "De Panne"],
+    hint: "", souvenir: "" },
+  { image: "image2.jpg", answers: ["La plage", "Plage", "Mer"],
+    hint: "", souvenir: "" },
+  { image: "image3.jpg", answers: ["Canapé", "Soirée film", "Soirée canapé", "Cinéma"],
+    hint: "", souvenir: "" },
+  { image: "image4.jpg", answers: ["Bisou", "Un bisou", "Bisous"],
+    hint: "", souvenir: "" },
+  { image: "image5.jpg", answers: ["Karaoké", "Karaoke"],
+    hint: "", souvenir: "" },
+  { image: "image6.jpg", answers: ["Balade", "Promenade", "Plage en hiver", "Plage"],
+    hint: "", souvenir: "" }
+];
+
+/* Messages (tu peux les modifier / en ajouter). */
+const PM_SUCCESS = [
+  "Bravo mon amour, tu me connais par cœur ! 💕",
+  "Exactement ! Tu as l'œil pour nos plus beaux souvenirs ✨",
+  "Oui ! Rien que de revoir ce moment, j'ai le cœur qui fond ❤️",
+  "Bien joué, toi ! Je t'aime un peu plus à chaque photo 💗",
+  "Gagné ! Avec toi, chaque souvenir est un trésor 🌹",
+  "Parfait ! Et ce n'est que le début de nos souvenirs ✨"
+];
+const PM_WRONG = [
+  "Hmm, pas tout à fait… mais je crois en toi ! 💕",
+  "Pas encore ! Dévoile une case de plus et réessaie 🌸",
+  "Ce n'est pas ça, mais ton sourire me suffit déjà 😘",
+  "Courage mon cœur, tu vas trouver ! ✨",
+  "Presque ? Regarde bien les détails… 💫"
+];
+const PM_FINAL_MESSAGE =
+  "Six photos, six souvenirs… et tellement d'autres encore à créer ensemble.\n" +
+  "Merci d'être mon plus beau souvenir. Je t'aime ❤️";   // <- remplace par ton petit mot
+
+(function () {
+  const KEY = "advent-photo-mystere-v1";
+  const N = PHOTO_MYSTERE.length;
+  const TILES = 12;                         // 3 colonnes x 4 lignes
+  let ps = Object.assign({ view: "welcome", round: 0, rounds: [] }, load(KEY, {}));
+  let lastWrong = -1;
+
+  function save() { store(KEY, ps); }
+  function freshRounds() { return PHOTO_MYSTERE.map(() => ({ open: [], done: false, gaveUp: false, hearts: 0, hint: false })); }
+  function reset() { ps = { view: "welcome", round: 0, rounds: freshRounds() }; save(); }
+  function valid() {
+    return Array.isArray(ps.rounds) && ps.rounds.length === N && ["welcome", "play", "final"].includes(ps.view) &&
+      ps.round >= 0 && ps.round < N && ps.rounds.every(r => r && Array.isArray(r.open));
+  }
+  function started() { return ps.rounds.some(r => r.open.length || r.done); }
+  function heartsFor(opened) { return opened <= 4 ? 3 : opened <= 8 ? 2 : 1; }
+  function heartStr(n) { return "❤️".repeat(n) + "🤍".repeat(3 - n); }
+  function displayName(cfg) { return cfg.souvenir || cfg.answers[0]; }
+
+  /* ---------- Vérification des réponses (souple) ---------- */
+  function norm(s) {
+    return String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "")
+      .replace(/[^a-z0-9]+/g, " ")
+      .replace(/\b(le|la|les|l|un|une|des|du|de|d|au|aux|a|en|et)\b/g, " ")
+      .replace(/\s+/g, " ").trim();
+  }
+  function lev(a, b) {
+    const m = a.length, n = b.length;
+    let prev = Array.from({ length: n + 1 }, (_, j) => j);
+    for (let i = 1; i <= m; i++) {
+      const cur = [i];
+      for (let j = 1; j <= n; j++) {
+        cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+      }
+      prev = cur;
+    }
+    return prev[n];
+  }
+  function isCorrect(input, answers) {
+    const a = norm(input);
+    if (!a) return false;
+    return answers.some(ans => {
+      const v = norm(ans);
+      if (!v) return false;
+      if (a === v) return true;
+      if (v.length >= 3 && (" " + a + " ").includes(" " + v + " ")) return true;
+      const tol = v.length >= 8 ? 2 : v.length >= 5 ? 1 : 0;
+      return tol > 0 && lev(a, v) <= tol;
+    });
+  }
+
+  /* ---------- Petits utilitaires d'affichage ---------- */
+  function shell() {
+    const body = document.getElementById("modal-body");
+    body.innerHTML = "";
+    const pm = qEl("div", "pm");
+    const deco = qEl("div", "pm-deco");
+    [["♥", 6, 5, 20, 0], ["✦", 88, 8, 16, 1.5], ["♥", 92, 38, 14, 3], ["✧", 4, 45, 18, 2], ["♥", 8, 82, 16, 4], ["✦", 90, 88, 20, 1], ["✧", 48, 96, 14, 2.5]]
+      .forEach(([s, x, y, size, delay]) => {
+        const sp = qEl("span", "", s);
+        sp.style.left = x + "%"; sp.style.top = y + "%";
+        sp.style.fontSize = size + "px"; sp.style.animationDelay = delay + "s";
+        deco.appendChild(sp);
+      });
+    pm.appendChild(deco);
+    const inner = qEl("div", "pm-inner");
+    pm.appendChild(inner);
+    body.appendChild(pm);
+    document.getElementById("modal-content").scrollTop = 0;
+    return inner;
+  }
+  function btn(cls, text, fn) {
+    const b = qEl("button", cls, text);
+    b.type = "button";
+    b.addEventListener("click", fn);
+    return b;
+  }
+  function floatHearts(symbols, count) {
+    for (let i = 0; i < count; i++) {
+      const h = qEl("span", "pm-float", symbols[i % symbols.length]);
+      h.style.left = Math.round(Math.random() * 92 + 2) + "vw";
+      h.style.fontSize = Math.round(18 + Math.random() * 20) + "px";
+      h.style.animationDelay = (Math.random() * 0.7).toFixed(2) + "s";
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), 4000);
+    }
+  }
+  function loadImage(src) { const im = new Image(); im.src = src; }
+
+  /* ---------- Page d'accueil ---------- */
+  function viewWelcome() {
+    const root = shell();
+    root.appendChild(qEl("p", "pm-kicker", "Un petit jeu rien que pour toi"));
+    const prev = qEl("div", "pm-preview");
+    for (let i = 0; i < TILES; i++) {
+      const s = qEl("span", [1, 5, 6].includes(i) ? "on" : "", [1, 5, 6].includes(i) ? "" : (i % 2 ? "✦" : "♥"));
+      prev.appendChild(s);
+    }
+    root.appendChild(prev);
+    root.appendChild(qEl("p", "pm-lead", "Six photos de nous deux se cachent derrière une grille de 12 cases. Saurez-tu retrouver le souvenir avant qu'elles soient toutes dévoilées ?"));
+
+    const steps = qEl("ul", "pm-steps");
+    [["1", "Clique sur les cases pour dévoiler la photo petit à petit."],
+     ["2", "Tente ta réponse quand tu veux : moins tu ouvres de cases, plus tu gagnes de cœurs."],
+     ["3", "Trouve les 6 photos pour découvrir ta surprise finale. ❤️"]].forEach(([n, t]) => {
+      const li = document.createElement("li");
+      li.appendChild(qEl("span", "", n));
+      li.appendChild(qEl("span", "", t));
+      steps.appendChild(li);
+    });
+    root.appendChild(steps);
+
+    const resume = started();
+    root.appendChild(btn("pm-btn", resume ? "Reprendre ❤️" : "Commencer", () => {
+      ps.view = ps.rounds.every(r => r.done) ? "final" : "play";
+      if (ps.view === "play") ps.round = Math.max(0, ps.rounds.findIndex(r => !r.done));
+      save();
+      render();
+    }));
+    if (resume) {
+      const row = qEl("div", "pm-actions");
+      row.appendChild(btn("pm-link", "Recommencer depuis le début", () => { reset(); render(); }));
+      root.appendChild(row);
+    }
+    loadImage(PHOTO_MYSTERE[0].image);
+  }
+
+  /* ---------- Une manche ---------- */
+  function viewRound() {
+    const i = ps.round, cfg = PHOTO_MYSTERE[i], r = ps.rounds[i];
+    const root = shell();
+
+    const top = qEl("div", "pm-top");
+    const dots = qEl("div", "pm-dots");
+    for (let k = 0; k < N; k++) dots.appendChild(qEl("span", "pm-dot" + (ps.rounds[k].done ? " done" : "") + (k === i ? " now" : ""), "♥"));
+    top.appendChild(dots);
+    top.appendChild(qEl("div", "pm-round", "Photo " + (i + 1) + " sur " + N));
+    root.appendChild(top);
+
+    // photo + grille de 12 cases
+    const frame = qEl("div", "pm-frame");
+    const stage = qEl("div", "pm-stage");
+    const img = document.createElement("img");
+    img.className = "pm-img";
+    img.alt = "";
+    img.draggable = false;
+    img.addEventListener("load", () => frame.style.setProperty("--ar", (img.naturalWidth / img.naturalHeight).toFixed(4)));
+    img.addEventListener("error", () => stage.classList.add("broken"));
+    img.src = cfg.image;
+    stage.appendChild(img);
+
+    const grid = qEl("div", "pm-grid");
+    const tiles = [];
+    for (let t = 0; t < TILES; t++) {
+      const col = t % 3, row = Math.floor(t / 3);
+      const tile = qEl("button", "pm-tile" + ((col + row) % 2 ? " alt" : ""), (col + row) % 2 ? "✦" : "♥");
+      tile.type = "button";
+      tile.setAttribute("aria-label", "Dévoiler la case " + (t + 1));
+      if (r.done || r.open.includes(t)) tile.classList.add("open", "instant");
+      tile.addEventListener("click", () => openTile(t));
+      tiles.push(tile);
+      grid.appendChild(tile);
+    }
+    stage.appendChild(grid);
+    stage.appendChild(qEl("div", "pm-broken", "Photo introuvable : « " + cfg.image + " ». Place-la dans le même dossier que le fichier .html."));
+    frame.appendChild(stage);
+    root.appendChild(frame);
+
+    const caption = qEl("p", "pm-caption", "");
+    caption.style.display = "none";
+    root.appendChild(caption);
+
+    const status = qEl("p", "pm-status", "");
+    root.appendChild(status);
+
+    // champ de réponse
+    const form = qEl("form", "pm-form");
+    form.autocomplete = "off";
+    const input = document.createElement("input");
+    input.type = "text";
+    input.className = "pm-input";
+    input.placeholder = "Ta réponse…";
+    input.setAttribute("aria-label", "Ta réponse");
+    input.autocomplete = "off";
+    input.autocapitalize = "none";
+    input.spellcheck = false;
+    input.enterKeyHint = "send";
+    const submit = qEl("button", "pm-btn", "Valider ma réponse");
+    submit.type = "submit";
+    form.appendChild(input);
+    form.appendChild(submit);
+    root.appendChild(form);
+
+    const feedback = qEl("p", "pm-feedback", "");
+    feedback.setAttribute("aria-live", "polite");
+    root.appendChild(feedback);
+
+    const hintBox = qEl("p", "pm-hint", cfg.hint || "");
+    hintBox.style.display = "none";
+    const actions = qEl("div", "pm-actions");
+    if (cfg.hint) {
+      const hb = btn("pm-link", "💡 Un petit indice ?", () => { r.hint = true; save(); hintBox.style.display = "block"; hb.style.display = "none"; });
+      actions.appendChild(hb);
+      if (r.hint) { hintBox.style.display = "block"; hb.style.display = "none"; }
+    }
+    const giveUp = btn("pm-link", "Je donne ma langue au chat 🐱", () => finish(false));
+    actions.appendChild(giveUp);
+    root.appendChild(hintBox);
+    root.appendChild(actions);
+
+    const nextRow = qEl("div", "pm-actions");
+    root.appendChild(nextRow);
+
+    function updateStatus() {
+      if (r.done) { status.textContent = ""; return; }
+      status.textContent = r.open.length === 0
+        ? "Clique sur une case pour commencer à dévoiler la photo ✨"
+        : "Cases dévoilées : " + r.open.length + " / " + TILES;
+    }
+
+    function openTile(t) {
+      if (r.done || r.open.includes(t)) return;
+      r.open.push(t);
+      save();
+      tiles[t].classList.add("open");
+      updateStatus();
+    }
+
+    function lock() {
+      input.disabled = true;
+      submit.disabled = true;
+      giveUp.style.display = "none";
+      actions.querySelectorAll("button").forEach(b => { b.style.display = "none"; });
+      hintBox.style.display = "none";
+      tiles.forEach((tile, t) => {
+        if (!tile.classList.contains("open")) {
+          tile.style.setProperty("--d", (Math.random() * 0.45).toFixed(2) + "s");
+          tile.classList.add("open");
+        }
+      });
+      img.alt = displayName(cfg);
+      caption.textContent = displayName(cfg);
+      caption.style.display = "block";
+      status.textContent = "";
+      const last = i === N - 1;
+      nextRow.appendChild(btn("pm-btn", last ? "Découvrir nos souvenirs ✨" : "Photo suivante ❤️", () => {
+        if (last) { ps.view = "final"; } else { ps.round = i + 1; }
+        save();
+        render();
+        if (last) floatHearts(["❤️", "✨", "💕"], 22);
+      }));
+    }
+
+    function finish(won) {
+      if (r.done) return;
+      r.done = true;
+      r.gaveUp = !won;
+      r.hearts = won ? heartsFor(r.open.length) : 0;
+      save();
+      lock();
+      feedback.className = "pm-feedback good";
+      if (won) {
+        feedback.textContent = PM_SUCCESS[i % PM_SUCCESS.length];
+        const hs = qEl("span", "pm-win-hearts", heartStr(r.hearts));
+        feedback.appendChild(hs);
+        floatHearts(["❤️", "💕", "✨"], 12);
+      } else {
+        feedback.textContent = "Pas de souci mon cœur, c'était : " + displayName(cfg) + " 💕";
+      }
+      dots.children[i].classList.add("done");
+    }
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (r.done) return;
+      const val = input.value.trim();
+      if (!val) {
+        feedback.className = "pm-feedback bad";
+        feedback.textContent = "Écris ta réponse avant de valider 😉";
+        input.focus();
+        return;
+      }
+      if (isCorrect(val, cfg.answers)) {
+        finish(true);
+      } else {
+        let k;
+        do { k = Math.floor(Math.random() * PM_WRONG.length); } while (PM_WRONG.length > 1 && k === lastWrong);
+        lastWrong = k;
+        feedback.className = "pm-feedback bad";
+        feedback.textContent = PM_WRONG[k];
+        input.classList.remove("shake");
+        void input.offsetWidth;
+        input.classList.add("shake");
+        input.select();
+      }
+    });
+
+    updateStatus();
+    if (r.done) {
+      lock();
+      feedback.className = "pm-feedback good";
+      feedback.textContent = r.gaveUp ? "C'était : " + displayName(cfg) + " 💕" : PM_SUCCESS[i % PM_SUCCESS.length];
+      if (!r.gaveUp) feedback.appendChild(qEl("span", "pm-win-hearts", heartStr(r.hearts)));
+    }
+    if (i + 1 < N) loadImage(PHOTO_MYSTERE[i + 1].image);
+  }
+
+  /* ---------- Page finale ---------- */
+  function viewFinal() {
+    const root = shell();
+    root.appendChild(qEl("p", "pm-kicker", "Photos mystères terminées"));
+    root.appendChild(qEl("div", "pm-final-title", "Nos " + N + " souvenirs ❤️"));
+    const msg = qEl("p", "pm-final-msg", PM_FINAL_MESSAGE);
+    msg.style.whiteSpace = "pre-line";
+    root.appendChild(msg);
+
+    const recap = qEl("div", "pm-recap");
+    let total = 0;
+    PHOTO_MYSTERE.forEach((cfg, i) => {
+      const r = ps.rounds[i];
+      total += r.hearts || 0;
+      const card = qEl("div", "pm-card");
+      const im = document.createElement("img");
+      im.src = cfg.image;
+      im.alt = displayName(cfg);
+      im.loading = "lazy";
+      card.appendChild(im);
+      card.appendChild(qEl("b", "", displayName(cfg)));
+      card.appendChild(qEl("small", "", heartStr(r.hearts || 0)));
+      recap.appendChild(card);
+    });
+    root.appendChild(recap);
+    root.appendChild(qEl("p", "pm-total", "Cœurs gagnés : " + total + " / " + (N * 3) + " 💕"));
+
+    const row = qEl("div", "pm-actions");
+    row.appendChild(btn("pm-btn soft", "Rejouer 🔁", () => { reset(); render(); }));
+    root.appendChild(row);
+  }
+
+  function render() {
+    if (ps.view === "play") viewRound();
+    else if (ps.view === "final") viewFinal();
+    else viewWelcome();
+  }
+
+  window.showPhotoMystere = function () {
+    if (!valid()) reset();
+    if (ps.view === "play" && ps.rounds[ps.round].done && ps.rounds.every(r => r.done)) ps.view = "final";
     render();
   };
 })();
