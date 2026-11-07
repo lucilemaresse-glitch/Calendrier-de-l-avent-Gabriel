@@ -756,6 +756,72 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
   .sm-menu { box-shadow: inset 0 0 0 6px #FFFDF8, inset 0 0 0 7px var(--gold2); break-inside: avoid; animation: none !important; margin-top: 8mm; }
   .sm, .sm * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
+
+/* ---------- Case 12 : la lettre à ouvrir ---------- */
+.lt { --pk:#FBE4E7; --pk2:#F4C6CC; --paper:#FFFCF9; --rd:#B5313F; --rd2:#8E2230; --ink:#45272D; --soft:#80626A; --ln:#EBD3CF; text-align: center; color: var(--ink); }
+.lt [hidden] { display: none !important; }
+.lt-kick { font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--rd); font-weight: 800; margin: 4px 0 2px; }
+.lt-text { font-size: 15px; line-height: 1.6; color: var(--soft); margin: 0 auto 6px; max-width: 420px; }
+.lt-stage { perspective: 900px; width: min(100%, 320px); aspect-ratio: 3 / 2; margin: 76px auto 22px; position: relative; }
+.lt-env { position: absolute; inset: 0; }
+.lt-back { position: absolute; inset: 0; background: #EBD9C6; border-radius: 8px; box-shadow: 0 14px 26px -14px rgba(69,39,45,.55); }
+.lt-sheet { position: absolute; left: 7%; right: 7%; top: 8%; bottom: 8%; background: var(--paper); border-radius: 4px; z-index: 2; box-shadow: 0 1px 4px rgba(69,39,45,.15); display: grid; place-items: center; color: var(--pk2); font-size: 38px; transition: transform .9s .6s cubic-bezier(.3,1.1,.5,1); }
+.lt-front { position: absolute; inset: 0; z-index: 3; pointer-events: none; clip-path: polygon(0 0, 50% 56%, 100% 0, 100% 100%, 0 100%); background: linear-gradient(160deg, #F8DDE0, #F2C9CE); border-radius: 8px; }
+.lt-flap { position: absolute; left: 0; right: 0; top: 0; height: 56%; z-index: 4; clip-path: polygon(0 0, 100% 0, 50% 100%); background: linear-gradient(#F3D0D4, #EDB9C0); transform-origin: top; transition: transform .8s ease, z-index 0s .4s; }
+.lt-seal { position: absolute; left: 50%; top: 56%; width: 54px; height: 54px; margin: -27px 0 0 -27px; z-index: 5; border: 0; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #D2495A, var(--rd2)); color: #fff; cursor: pointer; display: grid; place-items: center; box-shadow: 0 6px 12px -4px rgba(69,39,45,.6); animation: ltPulse 2s ease-in-out infinite; touch-action: manipulation; }
+.lt-seal svg { width: 24px; height: 24px; fill: currentColor; }
+.lt-seal:focus-visible { outline: 3px solid var(--pk2); outline-offset: 3px; }
+@keyframes ltPulse { 0%, 100% { box-shadow: 0 6px 12px -4px rgba(69,39,45,.6), 0 0 0 0 rgba(181,49,63,.45); } 50% { box-shadow: 0 6px 12px -4px rgba(69,39,45,.6), 0 0 0 12px rgba(181,49,63,0); } }
+.lt-stage.open .lt-flap { transform: rotateX(180deg); z-index: 1; }
+.lt-stage.open .lt-sheet { transform: translateY(-38%); }
+.lt-stage.open .lt-seal { opacity: 0; pointer-events: none; transition: opacity .3s; animation: none; }
+.lt-hint { font-size: 13px; color: var(--soft); margin: 0; }
+.lt-paper { position: relative; text-align: left; background: var(--paper); border: 1px solid var(--ln); border-radius: 6px; padding: 28px 22px 24px; margin: 8px auto 14px; max-width: 480px; box-shadow: 0 16px 30px -18px rgba(69,39,45,.55); animation: ltPaper .9s cubic-bezier(.3,1.2,.5,1) both; }
+@keyframes ltPaper { from { opacity: 0; transform: translateY(40px) scale(.94); } to { opacity: 1; transform: none; } }
+.lt-paper::before { content: "♡"; display: block; text-align: center; color: var(--pk2); font-size: 26px; margin-bottom: 4px; }
+.lt-greet { font-family: 'Great Vibes', cursive; font-size: 38px; line-height: 1.15; color: var(--rd); margin: 0 0 10px; }
+.lt-paper p.lt-body { font-size: 16px; line-height: 1.75; margin: 0 0 14px; white-space: pre-line; text-wrap: pretty; }
+.lt-paper p.lt-body.ph { color: #9a8a8e; font-style: italic; }
+.lt-sign { font-family: 'Great Vibes', cursive; font-size: 32px; line-height: 1.3; color: var(--rd); margin: 18px 0 0; text-align: right; white-space: pre-line; }
+.lt-btn { font: inherit; font-weight: 800; font-size: 14px; border-radius: 999px; padding: 10px 20px; min-height: 44px; border: 2px solid var(--ln); background: transparent; color: var(--soft); cursor: pointer; touch-action: manipulation; }
+.lt-btn:hover { border-color: var(--pk2); color: var(--ink); }
+.lt-btn:focus-visible { outline: 3px solid var(--pk2); outline-offset: 2px; }
+.lt-fx { position: fixed; pointer-events: none; z-index: 80; }
+.lt-fx svg { width: 100%; height: 100%; fill: currentColor; }
+@media (prefers-reduced-motion: reduce) { .lt *, .lt-stage * { animation: none !important; transition: none !important; } }
+
+/* ---------- Case 13 : ticket à gratter ---------- */
+.sc { --pk:#FBE4E7; --pk2:#F4C6CC; --rd:#B5313F; --rd2:#8E2230; --ink:#45272D; --soft:#80626A; --ln:#EBD3CF; --gd:#C9A25E; text-align: center; color: var(--ink); }
+.sc [hidden] { display: none !important; }
+.sc-ticket { position: relative; background: linear-gradient(135deg, #FFF8F2, #FBE4E7 60%, #F8D5DA); border: 3px solid var(--gd); border-radius: 20px; padding: 22px 16px 16px; box-shadow: 0 14px 28px -16px rgba(69,39,45,.55), inset 0 0 0 5px #FFF8F2, inset 0 0 0 6px rgba(201,162,94,.5); }
+.sc-ticket::before, .sc-ticket::after { content: ""; position: absolute; top: 50%; width: 28px; height: 28px; margin-top: -14px; border-radius: 50%; background: var(--cream); border: 3px solid var(--gd); }
+.sc-ticket::before { left: -16px; clip-path: inset(0 0 0 50%); }
+.sc-ticket::after { right: -16px; clip-path: inset(0 50% 0 0); }
+.sc-no { font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gd); font-weight: 800; margin: 0 0 6px; }
+.sc-title { font-size: 22px; letter-spacing: 2px; font-weight: 800; color: var(--rd); margin: 0 0 6px; line-height: 1.25; }
+.sc-text { font-size: 15px; line-height: 1.55; margin: 0 auto 12px; max-width: 420px; text-wrap: pretty; }
+.sc-area { position: relative; border-radius: 14px; overflow: hidden; margin: 0 0 10px; background: #fff; box-shadow: inset 0 0 0 2px #E7D2A4; }
+.sc-prize { padding: 20px 14px; min-height: 200px; display: grid; gap: 8px; justify-items: center; align-content: center; text-align: center; }
+.sc-msg { font-weight: 800; font-size: 17px; line-height: 1.45; color: var(--rd2); margin: 0; text-wrap: balance; }
+.sc-name { font-family: 'Great Vibes', cursive; font-size: 36px; line-height: 1.1; color: var(--rd); margin: 0; }
+.sc-desc { font-size: 14px; line-height: 1.5; color: var(--soft); margin: 0; }
+.sc-prize img { max-width: 100%; max-height: 200px; border-radius: 12px; }
+.sc-prize.win { background: radial-gradient(circle at 50% 40%, #FFF3F4, #fff 70%); }
+.sc-prize.win .sc-msg { animation: scPulse 1.4s ease-in-out 3; }
+@keyframes scPulse { 50% { transform: scale(1.06); color: var(--rd); } }
+.sc-cover { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; cursor: pointer; border-radius: inherit; transition: opacity .8s ease; }
+.sc-instr { font-size: 14px; font-weight: 700; color: var(--soft); margin: 4px 0 6px; }
+.sc-done { font-weight: 800; color: var(--rd); font-size: 16px; margin: 6px 0; animation: scPop .6s both; }
+@keyframes scPop { from { opacity: 0; transform: scale(.7) translateY(8px); } to { opacity: 1; transform: none; } }
+.sc-bar { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 8px; }
+.sc-btn { font: inherit; font-weight: 700; font-size: 13px; border-radius: 999px; padding: 8px 14px; min-height: 40px; border: 2px solid var(--ln); background: rgba(255,255,255,.7); color: var(--soft); cursor: pointer; touch-action: manipulation; }
+.sc-btn:hover { border-color: var(--pk2); color: var(--ink); }
+.sc-btn.main { background: var(--rd); border-color: var(--rd); color: #fff; }
+.sc button:focus-visible { outline: 3px solid var(--pk2); outline-offset: 2px; }
+.sc-link { background: none; border: 0; font: inherit; font-size: 12px; color: var(--soft); text-decoration: underline; cursor: pointer; padding: 6px; }
+.sc-fx { position: fixed; pointer-events: none; z-index: 80; }
+.sc-fx svg { width: 100%; height: 100%; fill: currentColor; }
+@media (prefers-reduced-motion: reduce) { .sc * { animation: none !important; transition: none !important; } }
 </style>
 </head>
 <body>
@@ -816,8 +882,8 @@ const activities = [
   "", // case 9 : chasse au trésor
   "", // case 10 : roues du rendez-vous
   "", // case 11 : menu de la soirée
-  "Raconte-moi trois souvenirs que tu aimerais revivre.",
-  "Devine la photo mystère !",
+  "", // case 12 : lettre à ouvrir
+  "", // case 13 : ticket à gratter
   "Défi du jour : donne-moi cinq choses que tu aimes chez moi.",
   "Une petite énigme sur notre histoire t'attend.",
   "Quel est ton souvenir préféré de nous deux ?",
@@ -937,6 +1003,14 @@ function openDay(day) {
     title.textContent = "Le labyrinthe de notre amour ❤️";
     modalContent.classList.add("wide");
     showMaze();
+  } else if (day === 13) {
+    title.textContent = "Gratte et découvre ta surprise ! ❤️";
+    modalContent.classList.add("wide");
+    showTicket();
+  } else if (day === 12) {
+    title.textContent = "Une lettre pour toi ❤️";
+    modalContent.classList.add("wide");
+    showLettre();
   } else if (day === 11) {
     title.textContent = "Au menu de notre soirée ❤️";
     modalContent.classList.add("wide");
@@ -3985,6 +4059,333 @@ const PM_EMBEDDED = {
       st.valid = !!saved.valid && allDone();
     }
     if (st.valid) viewFinal(false); else viewWelcome();
+  };
+})();
+
+
+/* =====================================================
+   CASE 12 : LA LETTRE À OUVRIR ❤️
+   -> Remplace le texte ci-dessous par ta lettre d'amour.
+   Chaque élément de "paragraphes" est un paragraphe (autant que tu veux).
+   Tant que "placeholder" est true, le texte s'affiche en gris italique :
+   passe-le sur false quand ta lettre est prête.
+===================================================== */
+(function () {
+  "use strict";
+
+  const LETTRE = {
+    placeholder: true,
+    salutation: "Mon amour,",
+    paragraphes: [
+      "✏️ [Ici viendra ta lettre d'amour : les mots que tu ne lui dis pas forcément tous les jours, ce que tu ressens, ce qu'il change dans ta vie...]",
+      "[Un deuxième paragraphe si tu veux]",
+      "[Un troisième paragraphe si tu veux]"
+    ],
+    fin: "Je t'aime,",
+    signature: "[Ta signature]"
+  };
+
+  const HEART_D = "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z";
+  const HEART = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${HEART_D}"/></svg>`;
+  const reduce = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+  let run = 0, root;
+  const h = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
+
+  function hearts(x, y, n) {
+    if (reduce) return;
+    const cols = ["#B5313F", "#E58C99", "#F4C6CC", "#D9A58F"];
+    for (let i = 0; i < n; i++) {
+      const p = h("span", "lt-fx", HEART), s = 14 + Math.random() * 16;
+      p.style.width = p.style.height = s + "px"; p.style.left = x + "px"; p.style.top = y + "px"; p.style.color = cols[i % cols.length];
+      document.body.appendChild(p);
+      const dx = (Math.random() - 0.5) * 220, dy = -(90 + Math.random() * 190);
+      p.animate([
+        { transform: "translate(-50%,-50%) scale(.4)", opacity: 0 },
+        { transform: `translate(calc(-50% + ${dx * 0.5}px), calc(-50% + ${dy * 0.5}px)) scale(1)`, opacity: 1, offset: 0.4 },
+        { transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(.8)`, opacity: 0 }
+      ], { duration: 1800 + Math.random() * 900, easing: "ease-out" }).onfinish = () => p.remove();
+    }
+  }
+
+  function viewEnvelope() {
+    const id = run;
+    root.innerHTML = "";
+    root.appendChild(h("p", "lt-kick", "Case 12"));
+    const intro = h("p", "lt-text", "Une lettre t'attend, écrite rien que pour toi. Touche le cœur pour l'ouvrir.");
+    const stage = h("div", "lt-stage");
+    stage.innerHTML = `<div class="lt-env"><div class="lt-back"></div><div class="lt-sheet" aria-hidden="true">♡</div><div class="lt-front"></div><div class="lt-flap"></div></div>`;
+    const seal = h("button", "lt-seal", HEART); seal.type = "button"; seal.setAttribute("aria-label", "Ouvrir la lettre");
+    stage.appendChild(seal);
+    root.append(intro, stage);
+    seal.addEventListener("click", () => {
+      stage.classList.add("open");
+      seal.disabled = true;
+      setTimeout(() => {
+        if (id !== run) return;
+        const r = stage.getBoundingClientRect();
+        hearts(r.left + r.width / 2, r.top + r.height / 2, 14);
+      }, reduce ? 0 : 900);
+      setTimeout(() => { if (id === run) viewLetter(); }, reduce ? 150 : 1900);
+    });
+  }
+
+  function viewLetter() {
+    const id = run;
+    root.innerHTML = "";
+    const paper = h("article", "lt-paper"); paper.setAttribute("aria-label", "Ta lettre");
+    const g = h("p", "lt-greet"); g.textContent = LETTRE.salutation; paper.appendChild(g);
+    LETTRE.paragraphes.forEach(t => { const p = h("p", "lt-body" + (LETTRE.placeholder ? " ph" : "")); p.textContent = t; paper.appendChild(p); });
+    const s = h("p", "lt-sign"); s.textContent = LETTRE.fin + "\n" + LETTRE.signature; paper.appendChild(s);
+    const back = h("button", "lt-btn", "Replier la lettre"); back.type = "button";
+    back.addEventListener("click", viewEnvelope);
+    const wrap = h("div"); wrap.appendChild(back);
+    root.append(paper, wrap);
+    const m = document.getElementById("modal-content"); if (m) m.scrollTop = 0;
+    setTimeout(() => {
+      if (id !== run) return;
+      const r = paper.getBoundingClientRect();
+      hearts(r.left + r.width * 0.3, r.top + 60, 8); hearts(r.left + r.width * 0.7, r.top + 60, 8);
+    }, 400);
+  }
+
+  /* ---------- Point d'entrée (appelé par la case 12) ---------- */
+  window.showLettre = function () {
+    run++;
+    const body = document.getElementById("modal-body");
+    body.innerHTML = "";
+    root = h("div", "lt");
+    body.appendChild(root);
+    viewEnvelope();
+  };
+})();
+
+
+/* =====================================================
+   CASE 13 : GRATTE ET DÉCOUVRE TA SURPRISE ! ❤️
+   -> Personnalise la surprise ici : message, nom, description, photo.
+   Pour une photo : mets un lien ou une image au format "data:image/..." dans "image".
+===================================================== */
+(function () {
+  "use strict";
+
+  const SURPRISE = {
+    message: "FÉLICITATIONS ! ❤️ TU AS GAGNÉ UNE SURPRISE DE LA PART DE TA CHÉRIE !",
+    nom: "Le nom de ta surprise",
+    description: "Ici, une petite description de ta surprise.",
+    image: "",   // photo ou illustration (facultatif)
+    alt: ""      // description de l'image (facultatif)
+  };
+  const SEUIL = 0.6;       // part de la surface à gratter avant la révélation automatique
+  const KEY = "ticket-gratte", SKEY = "ticket-son";
+
+  const HEART_D = "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z";
+  const STAR_D = "M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z";
+  const HEART = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${HEART_D}"/></svg>`;
+  const STAR = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${STAR_D}"/></svg>`;
+  const reduce = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+  let run = 0, actx = null;
+  const h = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
+
+  /* ---------- Son (synthétisé, sans fichier) ---------- */
+  function initAudio() {
+    if (actx) return;
+    try { const AC = window.AudioContext || window.webkitAudioContext; if (AC) actx = new AC(); } catch (e) { actx = null; }
+  }
+  function playWin() {
+    if (!actx || load(SKEY, true) === false) return;
+    try {
+      if (actx.resume) actx.resume();
+      const t0 = actx.currentTime;
+      [523.25, 659.25, 783.99, 1046.5, 783.99, 1046.5].forEach((f, i) => {
+        const o = actx.createOscillator(), g = actx.createGain(), t = t0 + i * 0.12;
+        o.type = "triangle"; o.frequency.value = f;
+        g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.18, t + 0.02); g.gain.exponentialRampToValueAtTime(0.001, t + 0.32);
+        o.connect(g); g.connect(actx.destination); o.start(t); o.stop(t + 0.34);
+      });
+    } catch (e) {}
+  }
+
+  /* ---------- Confettis, cœurs et étoiles ---------- */
+  function burst(x, y, n) {
+    if (reduce) return;
+    const cols = ["#B5313F", "#E58C99", "#F4C6CC", "#D6B46A", "#D9A58F"];
+    for (let i = 0; i < n; i++) {
+      const kind = i % 3, p = h("span", "sc-fx", kind === 0 ? HEART : kind === 1 ? STAR : "");
+      if (kind === 2) { p.style.width = "9px"; p.style.height = "14px"; p.style.background = cols[i % cols.length]; p.style.borderRadius = "2px"; }
+      else { const s = 16 + Math.random() * 14; p.style.width = p.style.height = s + "px"; }
+      p.style.left = x + "px"; p.style.top = y + "px"; p.style.color = cols[i % cols.length];
+      document.body.appendChild(p);
+      const a = Math.random() * 6.283, d = 80 + Math.random() * 170;
+      p.animate([
+        { transform: "translate(-50%,-50%) scale(.3) rotate(0deg)", opacity: 1 },
+        { transform: `translate(calc(-50% + ${Math.cos(a) * d}px), calc(-50% + ${Math.sin(a) * d - 60}px)) scale(1) rotate(${(Math.random() - 0.5) * 540}deg)`, opacity: 1, offset: 0.65 },
+        { transform: `translate(calc(-50% + ${Math.cos(a) * d * 1.1}px), calc(-50% + ${Math.sin(a) * d + 40}px)) scale(.8) rotate(${(Math.random() - 0.5) * 700}deg)`, opacity: 0 }
+      ], { duration: 1400 + Math.random() * 800, easing: "cubic-bezier(.2,.7,.3,1)" }).onfinish = () => p.remove();
+    }
+  }
+
+  /* ---------- Le ticket ---------- */
+  function build(root) {
+    const id = run;
+    let done = load(KEY, false) === true, drawing = false, last = null, touched = false;
+    let W = 0, H = 0, cols = 0, rows = 0, grid = null, count = 0;
+    const R = 20, CELL = 8;
+
+    const t = h("div", "sc-ticket");
+    t.innerHTML = `<p class="sc-no">Ticket n° 13 · Tirage du 13 décembre</p>
+      <h3 class="sc-title">TON TICKET SURPRISE ❤️</h3>
+      <p class="sc-text">Aujourd'hui, la chance est de ton côté… Une jolie surprise t'attend sous cette zone.</p>
+      <div class="sc-area"><div class="sc-prize"></div><canvas class="sc-cover" role="img" aria-label="Zone à gratter"></canvas></div>
+      <p class="sc-instr">Frotte avec ton doigt ou ta souris pour découvrir ton cadeau !</p>
+      <p class="sc-done" role="status" hidden>Surprise révélée ! J'espère que ça te fera plaisir. ❤️</p>
+      <div class="sc-bar"></div>`;
+    root.appendChild(t);
+    const area = t.querySelector(".sc-area"), prize = t.querySelector(".sc-prize"), cv = t.querySelector(".sc-cover");
+    const instr = t.querySelector(".sc-instr"), doneMsg = t.querySelector(".sc-done"), bar = t.querySelector(".sc-bar");
+    const ctx = cv.getContext("2d");
+
+    /* contenu caché sous la couche à gratter */
+    const m = h("p", "sc-msg"); m.textContent = SURPRISE.message; prize.appendChild(m);
+    if (SURPRISE.image) {
+      const im = h("img"); im.alt = SURPRISE.alt || ""; im.src = SURPRISE.image;
+      im.addEventListener("load", () => { if (!touched && !done) paintCover(); });
+      prize.appendChild(im);
+    }
+    const n = h("p", "sc-name"); n.textContent = SURPRISE.nom; prize.appendChild(n);
+    const d = h("p", "sc-desc"); d.textContent = SURPRISE.description; prize.appendChild(d);
+
+    /* boutons */
+    const snd = h("button", "sc-btn"); snd.type = "button";
+    const paintSnd = () => { const on = load(SKEY, true) !== false; snd.textContent = on ? "🔊 Son activé" : "🔇 Son coupé"; snd.setAttribute("aria-pressed", on ? "true" : "false"); };
+    snd.addEventListener("click", () => { initAudio(); store(SKEY, load(SKEY, true) === false); paintSnd(); });
+    paintSnd();
+    const skip = h("button", "sc-link", "Je n'arrive pas à gratter ? Révéler directement"); skip.type = "button";
+    skip.addEventListener("click", () => { initAudio(); finish(); });
+    const again = h("button", "sc-btn", "Gratter à nouveau"); again.type = "button"; again.hidden = true;
+    again.addEventListener("click", () => {
+      done = false; touched = false; store(KEY, false);
+      cv.hidden = false; cv.style.opacity = "1"; cv.style.pointerEvents = "";
+      prize.classList.remove("win"); prize.setAttribute("aria-hidden", "true");
+      doneMsg.hidden = true; instr.hidden = false; skip.hidden = false; again.hidden = true;
+      paintCover();
+    });
+    bar.append(snd, skip, again);
+
+    /* surface métallique */
+    function paintCover() {
+      const r = area.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height));
+      cv.width = W * dpr; cv.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.globalCompositeOperation = "source-over";
+      const g = ctx.createLinearGradient(0, 0, W, H);
+      [[0, "#B9BDC4"], [0.22, "#EEF0F2"], [0.45, "#A7ABB3"], [0.7, "#E6E8EB"], [1, "#AEB2B9"]].forEach(s => g.addColorStop(s[0], s[1]));
+      ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+      for (let i = 0; i < Math.round(W * H / 90); i++) {
+        ctx.fillStyle = Math.random() < 0.5 ? "rgba(255,255,255,.22)" : "rgba(70,75,85,.12)";
+        ctx.fillRect(Math.random() * W, Math.random() * H, 1.4, 1.4);
+      }
+      const heart = new Path2D(HEART_D), star = new Path2D(STAR_D), step = 44;
+      let row = 0;
+      for (let y = 22; y < H; y += step, row++) {
+        for (let x = (row % 2 ? 22 : 0) + 22, k = 0; x < W; x += step, k++) {
+          ctx.save(); ctx.translate(x - 7, y - 7); ctx.scale(0.58, 0.58);
+          ctx.fillStyle = "rgba(255,255,255,.55)"; ctx.fill((k + row) % 2 ? star : heart);
+          ctx.restore();
+          ctx.save(); ctx.translate(x - 6.2, y - 6.2); ctx.scale(0.58, 0.58);
+          ctx.fillStyle = "rgba(90,95,105,.18)"; ctx.fill((k + row) % 2 ? star : heart);
+          ctx.restore();
+        }
+      }
+      const sh = ctx.createLinearGradient(0, 0, W, 0);
+      sh.addColorStop(0, "rgba(255,255,255,0)"); sh.addColorStop(0.5, "rgba(255,255,255,.28)"); sh.addColorStop(1, "rgba(255,255,255,0)");
+      ctx.save(); ctx.translate(W / 2, H / 2); ctx.rotate(-0.35); ctx.fillStyle = sh; ctx.fillRect(-W, -H * 0.18, W * 2, H * 0.36); ctx.restore();
+      const fs = Math.max(20, Math.min(34, W / 9));
+      ctx.font = `800 ${fs}px Nunito, sans-serif`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      try { ctx.letterSpacing = "4px"; } catch (e) {}
+      const tw = ctx.measureText("GRATTE ICI").width + 36, th = fs * 1.7;
+      ctx.fillStyle = "rgba(255,255,255,.4)"; ctx.beginPath(); ctx.roundRect ? ctx.roundRect(W / 2 - tw / 2, H / 2 - th / 2, tw, th, th / 2) : ctx.rect(W / 2 - tw / 2, H / 2 - th / 2, tw, th); ctx.fill();
+      ctx.fillStyle = "rgba(255,255,255,.9)"; ctx.fillText("GRATTE ICI", W / 2 + 1.5, H / 2 + 2);
+      ctx.fillStyle = "#6B7079"; ctx.fillText("GRATTE ICI", W / 2, H / 2 + 0.5);
+      try { ctx.letterSpacing = "0px"; } catch (e) {}
+      cols = Math.ceil(W / CELL); rows = Math.ceil(H / CELL); grid = new Uint8Array(cols * rows); count = 0;
+    }
+
+    /* grattage */
+    function mark(x, y) {
+      const rr = R * 0.85, c0 = Math.max(0, Math.floor((x - rr) / CELL)), c1 = Math.min(cols - 1, Math.floor((x + rr) / CELL));
+      const r0 = Math.max(0, Math.floor((y - rr) / CELL)), r1 = Math.min(rows - 1, Math.floor((y + rr) / CELL));
+      for (let r = r0; r <= r1; r++) for (let c = c0; c <= c1; c++) {
+        const i = r * cols + c, cx = (c + 0.5) * CELL, cy = (r + 0.5) * CELL;
+        if (!grid[i] && (cx - x) * (cx - x) + (cy - y) * (cy - y) <= rr * rr) { grid[i] = 1; count++; }
+      }
+    }
+    function dot(x, y) {
+      ctx.globalCompositeOperation = "destination-out";
+      ctx.beginPath(); ctx.arc(x, y, R, 0, 6.2832); ctx.fill();
+      mark(x, y);
+    }
+    function stroke(a, b) {
+      const dist = Math.hypot(b.x - a.x, b.y - a.y), steps = Math.max(1, Math.ceil(dist / (R / 2)));
+      for (let i = 1; i <= steps; i++) dot(a.x + (b.x - a.x) * i / steps, a.y + (b.y - a.y) * i / steps);
+    }
+    const pos = e => { const r = cv.getBoundingClientRect(); return { x: (e.clientX - r.left) * (W / r.width), y: (e.clientY - r.top) * (H / r.height) }; };
+    const check = () => { if (!done && grid && count / (cols * rows) >= SEUIL) finish(); };
+    cv.addEventListener("pointerdown", e => {
+      if (done) return;
+      e.preventDefault(); initAudio(); touched = true; drawing = true;
+      try { cv.setPointerCapture(e.pointerId); } catch (x) {}
+      last = pos(e); dot(last.x, last.y); check();
+    });
+    cv.addEventListener("pointermove", e => {
+      if (!drawing || done) return;
+      e.preventDefault();
+      const p = pos(e); stroke(last, p); last = p; check();
+    });
+    const stop = () => { drawing = false; last = null; };
+    cv.addEventListener("pointerup", stop);
+    cv.addEventListener("pointercancel", stop);
+    cv.addEventListener("lostpointercapture", stop);
+
+    /* révélation */
+    function reveal(animate) {
+      done = true; drawing = false;
+      store(KEY, true);
+      prize.removeAttribute("aria-hidden");
+      prize.classList.add("win");
+      cv.style.pointerEvents = "none";
+      if (animate) { cv.style.opacity = "0"; setTimeout(() => { if (id === run) cv.hidden = true; }, reduce ? 0 : 850); }
+      else cv.hidden = true;
+      instr.hidden = true; skip.hidden = true; doneMsg.hidden = false; again.hidden = false;
+    }
+    function finish() {
+      if (done) return;
+      reveal(true);
+      playWin();
+      setTimeout(() => {
+        if (id !== run) return;
+        const r = prize.getBoundingClientRect();
+        burst(r.left + r.width * 0.2, r.top + r.height * 0.5, 24);
+        burst(r.left + r.width * 0.8, r.top + r.height * 0.5, 24);
+        burst(r.left + r.width * 0.5, r.top + r.height * 0.3, 20);
+      }, 250);
+    }
+
+    if (done) reveal(false); else { prize.setAttribute("aria-hidden", "true"); requestAnimationFrame(paintCover); }
+    window.addEventListener("resize", function onResize() {
+      if (id !== run || !cv.isConnected) { window.removeEventListener("resize", onResize); return; }
+      if (!touched && !done) paintCover();
+    });
+  }
+
+  /* ---------- Point d'entrée (appelé par la case 13) ---------- */
+  window.showTicket = function () {
+    run++;
+    const body = document.getElementById("modal-body");
+    body.innerHTML = "";
+    const root = h("div", "sc");
+    body.appendChild(root);
+    build(root);
   };
 })();
 
