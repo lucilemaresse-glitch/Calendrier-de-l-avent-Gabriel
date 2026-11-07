@@ -646,6 +646,58 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
 .tr-spark { position: fixed; width: 22px; height: 22px; pointer-events: none; z-index: 80; }
 .tr-fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 70; }
 @media (prefers-reduced-motion: reduce) { .tr * { animation: none !important; transition: none !important; } }
+
+/* ---------- Case 10 : Notre prochain rendez-vous (3 roues) ---------- */
+.modal-content.xwide { width: min(100%, 980px); }
+.rv { --pk:#FBE4E7; --pk2:#F4C6CC; --paper:#FFFCF9; --sand:#F3E6D8; --rd:#B5313F; --rd2:#8E2230; --ink:#45272D; --soft:#80626A; --ln:#EBD3CF; text-align: center; color: var(--ink); }
+.rv [hidden] { display: none !important; }
+.rv-kick { font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--rd); font-weight: 800; margin: 4px 0 2px; }
+.rv-text { font-size: 16px; line-height: 1.65; margin: 0 auto 18px; max-width: 480px; text-wrap: pretty; }
+.rv-btn { font: inherit; font-weight: 800; font-size: 14px; border-radius: 999px; padding: 10px 20px; min-height: 44px; border: 2px solid transparent; cursor: pointer; touch-action: manipulation; transition: transform .15s, background .2s, opacity .2s; }
+.rv-btn:active:not(:disabled) { transform: scale(.97); }
+.rv-btn.main { background: var(--rd); color: #fff; box-shadow: 0 6px 14px -6px rgba(181,49,63,.7); }
+.rv-btn.main:hover:not(:disabled) { background: var(--rd2); }
+.rv-btn.ghost { background: transparent; color: var(--soft); border-color: var(--ln); }
+.rv-btn.ghost:hover:not(:disabled) { border-color: var(--pk2); color: var(--ink); }
+.rv-btn:disabled { opacity: .5; cursor: default; }
+.rv button:focus-visible { outline: 3px solid var(--pk2); outline-offset: 2px; }
+.rv-deco { display: flex; justify-content: center; gap: 14px; margin: 6px 0 14px; }
+.rv-deco svg { width: 64px; height: 64px; }
+.rv-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.rv-panel { background: var(--paper); border: 2px solid var(--ln); border-radius: 22px; padding: 14px 12px 16px; min-width: 0; }
+.rv-num { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--rd); font-weight: 800; margin: 0; }
+.rv-ptitle { font-family: 'Great Vibes', cursive; font-weight: normal; font-size: 32px; line-height: 1.1; color: var(--rd); margin: 0; }
+.rv-q { font-size: 13px; color: var(--soft); margin: 0 0 14px; }
+.rv-wheelbox { position: relative; width: min(100%, 280px); margin: 0 auto; }
+.rv-pointer { position: absolute; top: -8px; left: 50%; margin-left: -13px; width: 0; height: 0; border-left: 13px solid transparent; border-right: 13px solid transparent; border-top: 26px solid var(--rd2); z-index: 2; filter: drop-shadow(0 2px 2px rgba(69,39,45,.35)); transform-origin: 50% 0; }
+.rv-pointer.ping { animation: rvPing .6s ease; }
+@keyframes rvPing { 30% { transform: scale(1.35) rotate(-8deg); } 60% { transform: scale(1.2) rotate(6deg); } }
+.rv-disc { width: 100%; aspect-ratio: 1 / 1; border-radius: 50%; box-shadow: 0 10px 24px -10px rgba(142,34,48,.55); will-change: transform; }
+.rv-canvas { display: block; width: 100%; height: 100%; }
+.rv-result { margin: 14px 0 10px; background: var(--pk); border-radius: 14px; padding: 9px 10px; min-height: 66px; display: grid; align-content: center; gap: 2px; transition: background .3s, color .3s; }
+.rv-result span { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 800; color: var(--soft); }
+.rv-result b { font-size: 15px; line-height: 1.3; }
+.rv-result.hit { background: var(--rd); color: #fff; animation: rvPop .5s both; }
+.rv-result.hit span { color: #FBE4E7; }
+.rv-reveal { margin-top: 18px; background: linear-gradient(#FFFCF9, #FBE4E7); border: 2px solid var(--pk2); border-radius: 24px; padding: 22px 14px; animation: rvReveal .9s cubic-bezier(.3,1.3,.5,1) both; }
+@keyframes rvReveal { from { opacity: 0; transform: scale(.88) translateY(24px); } to { opacity: 1; transform: none; } }
+@keyframes rvPop { from { opacity: 0; transform: scale(.7) translateY(8px); } to { opacity: 1; transform: none; } }
+.rv-rtitle { font-family: 'Great Vibes', cursive; font-weight: normal; font-size: 38px; line-height: 1.1; color: var(--rd); margin: 2px 0 14px; text-wrap: balance; }
+.rv-rows { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-bottom: 16px; }
+.rv-row { background: #fff; border-radius: 16px; padding: 12px 10px; box-shadow: 0 4px 12px -6px rgba(142,34,48,.35); animation: rvPop .6s var(--d, 0s) both; }
+.rv-row small { display: block; font-size: 10px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--rd); font-weight: 800; margin-bottom: 4px; }
+.rv-row b { font-size: 16px; line-height: 1.35; }
+.rv-final { font-size: 16px; font-style: italic; line-height: 1.6; margin: 0 auto 16px; max-width: 460px; }
+.rv-acts { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.rv-pick { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 12px; }
+.rv-pick p { flex-basis: 100%; margin: 0; font-size: 13px; color: var(--soft); }
+.rv-chip { font: inherit; font-weight: 700; font-size: 14px; border-radius: 999px; border: 2px solid var(--pk2); background: var(--paper); padding: 8px 16px; cursor: pointer; color: var(--ink); min-height: 40px; touch-action: manipulation; }
+.rv-chip:hover { background: var(--pk); }
+.rv-kept { margin: 0 0 14px; background: var(--rd); color: #fff; border-radius: 14px; padding: 10px 14px; font-weight: 800; animation: rvPop .5s both; }
+.rv-fx { position: fixed; pointer-events: none; z-index: 80; }
+.rv-fx svg { width: 100%; height: 100%; fill: currentColor; }
+@media (max-width: 760px) { .rv-grid, .rv-rows { grid-template-columns: 1fr; } .rv-rtitle { font-size: 34px; } }
+@media (prefers-reduced-motion: reduce) { .rv * { animation: none !important; } }
 </style>
 </head>
 <body>
@@ -704,7 +756,7 @@ const activities = [
   "", // case 7 : labyrinthe du cœur
   "", // case 8 : photo mystère
   "", // case 9 : chasse au trésor
-  "Place les souvenirs dans le bon ordre !",
+  "", // case 10 : roues du rendez-vous
   "Surprise du jour : tu as gagné un petit bon pour une activité ensemble.",
   "Raconte-moi trois souvenirs que tu aimerais revivre.",
   "Devine la photo mystère !",
@@ -802,7 +854,7 @@ function openDay(day) {
   const title = document.getElementById("modal-title");
   const body = document.getElementById("modal-body");
 
-  modalContent.classList.remove("wide");
+  modalContent.classList.remove("wide", "xwide");
 
   if (day > getToday()) {
     title.textContent = `Case n° ${day} 🎁`;
@@ -827,6 +879,10 @@ function openDay(day) {
     title.textContent = "Le labyrinthe de notre amour ❤️";
     modalContent.classList.add("wide");
     showMaze();
+  } else if (day === 10) {
+    title.textContent = "Notre prochain rendez-vous ❤️";
+    modalContent.classList.add("xwide");
+    showRendezVous();
   } else if (day === 9) {
     title.textContent = "À la recherche de notre trésor ❤️";
     modalContent.classList.add("wide");
@@ -3410,6 +3466,226 @@ const PM_EMBEDDED = {
     const saved = Number(load(KEY, 0)) || 0;
     ts = { step: 0, done: Math.max(0, Math.min(5, saved)) };
     if (ts.done >= 5) viewFinal(false); else viewWelcome();
+  };
+})();
+
+
+/* =====================================================
+   CASE 10 : NOTRE PROCHAIN RENDEZ-VOUS ❤️
+   Trois roues de la chance : activité, lieu, ambiance.
+   Chaque proposition = [texte court sur la roue, texte complet affiché].
+   Tu peux modifier, ajouter ou retirer des propositions ici.
+   (Garde un nombre multiple de 4 par roue pour un bel affichage.)
+===================================================== */
+(function () {
+  "use strict";
+
+  const KEEP = "rdv-kept";
+  const WHEELS = [
+    {
+      id: "act", titre: "L'activité", question: "Que va-t-on faire ?", bouton: "Faire tourner l'activité", libelle: "Notre activité", court: "L'activité",
+      items: [
+        ["Cinéma", "Aller au cinéma"], ["Bowling", "Faire un bowling"], ["Patinoire", "Aller à la patinoire"], ["Escape game", "Faire un escape game"],
+        ["Attractions", "Aller dans un parc d'attractions"], ["Mini-golf", "Faire une partie de mini-golf"], ["Restaurant", "Aller au restaurant"], ["Jeux société", "Faire une soirée jeux de société"],
+        ["Balade en mer", "Faire une balade en bord de mer"], ["Shopping", "Faire une journée shopping"], ["Pique-nique", "Faire un pique-nique"], ["Création", "Faire une activité créative"],
+        ["Un verre", "Aller boire un verre"], ["Ciné maison", "Faire une soirée cinéma à la maison"], ["Nouveauté", "Découvrir une nouvelle activité"], ["Surprise", "Faire une sortie surprise"]
+      ]
+    },
+    {
+      id: "lieu", titre: "Le lieu", question: "Où allons-nous ?", bouton: "Faire tourner le lieu", libelle: "Notre lieu", court: "Le lieu",
+      items: [
+        ["Dunkerque", "À Dunkerque"], ["Bray-Dunes", "À Bray-Dunes"], ["Lille", "À Lille"], ["Plage", "À la plage"],
+        ["Parc", "Dans un parc"], ["Centre-ville", "Dans un centre-ville"], ["Lieu inconnu", "Dans un endroit que nous ne connaissons pas"], ["Restaurant", "Dans un restaurant"],
+        ["Maison", "À la maison"], ["À l'improviste", "Dans un lieu choisi au dernier moment"], ["Jolie vue", "Dans un endroit avec une jolie vue"], ["Ville rêvée", "Dans une ville que nous aimerions découvrir"]
+      ]
+    },
+    {
+      id: "amb", titre: "L'ambiance", question: "Quelle sera l'atmosphère ?", bouton: "Faire tourner l'ambiance", libelle: "Notre ambiance", court: "L'ambiance",
+      items: [
+        ["Romantique ❤️", "Romantique ❤️"], ["Drôle 😂", "Drôle et pleine de surprises 😂"], ["Aventurière 🌍", "Aventurière 🌍"], ["Cocooning 🧸", "Cocooning 🧸"],
+        ["Compétitive 🏆", "Compétitive 🏆"], ["Gourmande 🍰", "Gourmande 🍰"], ["Spontanée ✨", "Spontanée ✨"], ["Chic 🥂", "Élégante et chic 🥂"],
+        ["Nostalgique 🥰", "Nostalgique : se remémorer nos souvenirs 🥰"], ["Féerique ✨", "Magique et féerique ✨"], ["Détendue 🌸", "Détendue et sans pression 🌸"], ["Folle 🤪", "Un peu folle 🤪"]
+      ]
+    }
+  ];
+  const FINAL = "Rendez-vous à deux, et que le hasard nous réserve de beaux souvenirs ! ❤️";
+  const COLORS = ["#FBE4E7", "#F3E6D8", "#F4C6CC", "#FFF9F6"];
+  const HEART_D = "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z";
+  const HEART = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${HEART_D}"/></svg>`;
+  const STAR = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z"/></svg>`;
+  const reduce = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+
+  let run = 0, root, st, panels, reveal;
+  const h = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
+
+  /* ---------- Confettis, cœurs et étoiles ---------- */
+  function burst(x, y, n) {
+    if (reduce) return;
+    const cols = ["#B5313F", "#E58C99", "#F4C6CC", "#D6B46A", "#D9A58F"];
+    for (let i = 0; i < n; i++) {
+      const kind = i % 3, p = h("span", "rv-fx", kind === 0 ? HEART : kind === 1 ? STAR : "");
+      const s = kind === 2 ? 0 : 16 + Math.random() * 14;
+      if (kind === 2) { p.style.width = "9px"; p.style.height = "14px"; p.style.background = cols[i % cols.length]; p.style.borderRadius = "2px"; }
+      else { p.style.width = p.style.height = s + "px"; }
+      p.style.left = x + "px"; p.style.top = y + "px"; p.style.color = cols[i % cols.length];
+      document.body.appendChild(p);
+      const a = Math.random() * 6.283, d = 80 + Math.random() * 170;
+      p.animate([
+        { transform: "translate(-50%,-50%) scale(.3) rotate(0deg)", opacity: 1 },
+        { transform: `translate(calc(-50% + ${Math.cos(a) * d}px), calc(-50% + ${Math.sin(a) * d - 60}px)) scale(1) rotate(${(Math.random() - 0.5) * 540}deg)`, opacity: 1, offset: 0.65 },
+        { transform: `translate(calc(-50% + ${Math.cos(a) * d * 1.1}px), calc(-50% + ${Math.sin(a) * d + 40}px)) scale(.8) rotate(${(Math.random() - 0.5) * 700}deg)`, opacity: 0 }
+      ], { duration: 1400 + Math.random() * 800, easing: "cubic-bezier(.2,.7,.3,1)" }).onfinish = () => p.remove();
+    }
+  }
+
+  /* ---------- Dessin d'une roue ---------- */
+  function drawWheel(cv, items) {
+    const S = 560, c = cv.getContext("2d"), cx = S / 2, R = S / 2 - 8, n = items.length, seg = (2 * Math.PI) / n;
+    cv.width = cv.height = S;
+    c.clearRect(0, 0, S, S);
+    for (let i = 0; i < n; i++) {
+      const a0 = -Math.PI / 2 + i * seg;
+      c.beginPath(); c.moveTo(cx, cx); c.arc(cx, cx, R, a0, a0 + seg); c.closePath();
+      c.fillStyle = COLORS[i % COLORS.length]; c.fill();
+      c.strokeStyle = "#ffffff"; c.lineWidth = 3; c.stroke();
+      c.save(); c.translate(cx, cx); c.rotate(a0 + seg / 2);
+      c.textAlign = "right"; c.textBaseline = "middle"; c.fillStyle = "#45272D";
+      c.font = "800 24px Nunito, sans-serif";
+      c.fillText(items[i][0], R - 22, 0);
+      c.restore();
+    }
+    c.beginPath(); c.arc(cx, cx, R, 0, 2 * Math.PI); c.lineWidth = 12; c.strokeStyle = "#B5313F"; c.stroke();
+    c.beginPath(); c.arc(cx, cx, 38, 0, 2 * Math.PI); c.fillStyle = "#B5313F"; c.fill();
+    c.save(); c.translate(cx - 18, cx - 18); c.scale(1.5, 1.5); c.fillStyle = "#ffffff"; c.fill(new Path2D(HEART_D)); c.restore();
+  }
+
+  /* ---------- Écran d'accueil ---------- */
+  function viewWelcome() {
+    root.innerHTML = "";
+    const deco = h("div", "rv-deco");
+    deco.innerHTML = [0, 1, 2].map(i => `<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="28" fill="${COLORS[i]}" stroke="#B5313F" stroke-width="3"/><path d="M32 32L32 4M32 32L56 46M32 32L8 46" stroke="#fff" stroke-width="2"/><circle cx="32" cy="32" r="7" fill="#B5313F"/></svg>`).join("");
+    const t = h("p", "rv-text"); t.textContent = "Et si on laissait le hasard décider de notre prochaine aventure à deux ? Fais tourner les trois roues et découvre ce que nous réserve notre prochain rendez-vous !";
+    const go = h("button", "rv-btn main", "C'est parti !"); go.type = "button";
+    go.addEventListener("click", () => viewMain(false));
+    root.append(h("p", "rv-kick", "Case 10"), deco, t, go);
+  }
+
+  /* ---------- Écran des trois roues ---------- */
+  function viewMain(autoSpin) {
+    root.innerHTML = "";
+    st = { res: [null, null, null], rot: [0, 0, 0], spin: [false, false, false], kept: false };
+    panels = [];
+    const grid = h("div", "rv-grid");
+    WHEELS.forEach((w, wi) => {
+      const p = h("section", "rv-panel");
+      p.innerHTML = `<p class="rv-num">Roue ${wi + 1}</p><h3 class="rv-ptitle">${w.titre}</h3><p class="rv-q">${w.question}</p>
+        <div class="rv-wheelbox"><div class="rv-pointer"></div><div class="rv-disc"><canvas class="rv-canvas" role="img" aria-label="Roue : ${w.titre}"></canvas></div></div>
+        <div class="rv-result" aria-live="polite"><span>Résultat</span><b>—</b></div>`;
+      const btn = h("button", "rv-btn main", w.bouton); btn.type = "button";
+      btn.addEventListener("click", () => spin(wi));
+      p.appendChild(btn);
+      const cv = p.querySelector("canvas");
+      drawWheel(cv, w.items);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (cv.isConnected) drawWheel(cv, w.items); });
+      panels.push({ el: p, btn, disc: p.querySelector(".rv-disc"), pointer: p.querySelector(".rv-pointer"), box: p.querySelector(".rv-result"), out: p.querySelector(".rv-result b") });
+      grid.appendChild(p);
+    });
+    reveal = h("section", "rv-reveal"); reveal.hidden = true;
+    root.append(grid, reveal);
+    if (autoSpin) spinAll();
+  }
+
+  function spinAll() { [0, 1, 2].forEach(i => setTimeout(() => spin(i), i * 450)); }
+
+  /* ---------- Rotation d'une roue ---------- */
+  function spin(wi) {
+    if (st.spin[wi] || st.kept) return;
+    const w = WHEELS[wi], pn = panels[wi], id = run;
+    st.spin[wi] = true; st.res[wi] = null;
+    pn.btn.disabled = true; pn.box.classList.remove("hit"); pn.out.textContent = "…";
+    reveal.hidden = true;
+    const n = w.items.length, seg = 360 / n, idx = Math.floor(Math.random() * n);
+    const jitter = (Math.random() - 0.5) * seg * 0.6, center = idx * seg + seg / 2;
+    const delta = (((jitter - center - st.rot[wi]) % 360) + 360) % 360;
+    st.rot[wi] += 360 * (5 + Math.floor(Math.random() * 3)) + delta;
+    const dur = reduce ? 700 : 4600 + Math.random() * 1400;
+    pn.disc.style.transition = `transform ${dur}ms cubic-bezier(.3,0,.1,1)`;
+    pn.disc.style.transform = `rotate(${st.rot[wi]}deg)`;
+    let ended = false;
+    const fin = () => {
+      if (ended) return; ended = true;
+      if (id !== run) return;
+      st.spin[wi] = false; st.res[wi] = idx;
+      pn.out.textContent = w.items[idx][1]; pn.box.classList.add("hit");
+      pn.pointer.classList.add("ping"); setTimeout(() => pn.pointer.classList.remove("ping"), 700);
+      const r = pn.box.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + 10, 8);
+      if (st.res.every(x => x !== null) && !st.spin.some(Boolean)) showReveal();
+    };
+    pn.disc.addEventListener("transitionend", e => { if (e.propertyName === "transform") fin(); }, { once: true });
+    setTimeout(fin, dur + 400);
+  }
+
+  /* ---------- Révélation ---------- */
+  function rows() {
+    return WHEELS.map((w, i) => `<div class="rv-row" style="--d:${0.5 + i * 0.35}s"><small>${w.libelle}</small><b>${w.items[st.res[i]][1]}</b></div>`).join("");
+  }
+
+  function showReveal() {
+    const id = run;
+    reveal.hidden = false;
+    reveal.style.animation = "none"; void reveal.offsetWidth; reveal.style.animation = "";
+    reveal.innerHTML = `<p class="rv-kick">Surprise</p><h3 class="rv-rtitle">Notre prochain rendez-vous sera…</h3><div class="rv-rows">${rows()}</div><p class="rv-final"></p>`;
+    reveal.querySelector(".rv-final").textContent = FINAL;
+    const acts = h("div", "rv-acts");
+    const keep = h("button", "rv-btn main", "Garder ce rendez-vous"), replay = h("button", "rv-btn ghost", "Rejouer une roue"), again = h("button", "rv-btn ghost", "Tout recommencer");
+    keep.type = replay.type = again.type = "button";
+    const pick = h("div", "rv-pick"); pick.hidden = true;
+    pick.appendChild(h("p", "", "Quelle roue veux-tu relancer ? Les deux autres résultats sont conservés."));
+    WHEELS.forEach((w, wi) => {
+      const b = h("button", "rv-chip", w.court); b.type = "button";
+      b.addEventListener("click", () => { pick.hidden = true; spin(wi); panels[wi].el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" }); });
+      pick.appendChild(b);
+    });
+    keep.addEventListener("click", () => {
+      st.kept = true;
+      store(KEEP, { rows: WHEELS.map((w, i) => [w.libelle, w.items[st.res[i]][1]]) });
+      keep.disabled = replay.disabled = true; pick.hidden = true;
+      reveal.insertBefore(h("p", "rv-kept", "Rendez-vous gardé ❤️ C'est notre prochain rendez-vous !"), acts);
+      const r = reveal.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + 60, 26);
+    });
+    replay.addEventListener("click", () => { pick.hidden = !pick.hidden; });
+    again.addEventListener("click", () => { store(KEEP, null); viewMain(true); });
+    acts.append(keep, replay, again);
+    reveal.append(acts, pick);
+    setTimeout(() => {
+      if (id !== run) return;
+      reveal.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "nearest" });
+      const r = reveal.getBoundingClientRect();
+      burst(r.left + r.width * 0.25, r.top + 80, 22); burst(r.left + r.width * 0.75, r.top + 80, 22);
+    }, 250);
+  }
+
+  /* ---------- Rendez-vous déjà gardé ---------- */
+  function viewKept(data) {
+    root.innerHTML = "";
+    const box = h("section", "rv-reveal");
+    box.innerHTML = `<p class="rv-kick">Rendez-vous gardé ❤️</p><h3 class="rv-rtitle">Notre prochain rendez-vous sera…</h3><div class="rv-rows">${data.rows.map((r, i) => `<div class="rv-row" style="--d:${0.2 + i * 0.2}s"><small>${r[0]}</small><b>${r[1]}</b></div>`).join("")}</div><p class="rv-final"></p>`;
+    box.querySelector(".rv-final").textContent = FINAL;
+    const again = h("button", "rv-btn ghost", "Tout recommencer"); again.type = "button";
+    again.addEventListener("click", () => { store(KEEP, null); viewMain(true); });
+    const acts = h("div", "rv-acts"); acts.appendChild(again);
+    box.appendChild(acts); root.appendChild(box);
+  }
+
+  /* ---------- Point d'entrée (appelé par la case 10) ---------- */
+  window.showRendezVous = function () {
+    run++;
+    const body = document.getElementById("modal-body");
+    body.innerHTML = "";
+    root = h("div", "rv");
+    body.appendChild(root);
+    const kept = load(KEEP, null);
+    if (kept && kept.rows && kept.rows.length === WHEELS.length) viewKept(kept); else viewWelcome();
   };
 })();
 
