@@ -504,6 +504,148 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
   .pm-deco span, .pm-input.shake { animation: none; }
   .pm-tile { transition-duration: .01s; transition-delay: 0s !important; }
 }
+
+/* ---------- Case 25 : pleine largeur ---------- */
+.day:nth-child(25) { grid-column: 1 / -1; min-height: 90px; }
+
+/* ---------- Case 9 : chasse au trésor ---------- */
+.tr { --pk:#FBE4E7; --pk2:#F4C6CC; --paper:#FFFCF9; --sand:#F3E6D8; --rd:#B5313F; --rd2:#8E2230; --ink:#45272D; --soft:#80626A; --ln:#EBD3CF; --gold2:#D9A58F; text-align: center; color: var(--ink); }
+.tr [hidden] { display: none !important; }
+.tr svg { max-width: 100%; }
+.tr-kick { font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--rd); font-weight: 800; margin: 6px 0 2px; }
+.tr-title { font-family: 'Great Vibes', cursive; font-weight: normal; font-size: 36px; line-height: 1.15; color: var(--rd); margin: 2px 0 8px; text-wrap: balance; }
+.tr-text { font-size: 15px; line-height: 1.6; margin: 0 auto 14px; max-width: 460px; text-wrap: pretty; }
+.tr-q { font-weight: 700; margin: 0 0 12px; font-size: 15px; line-height: 1.5; }
+.tr-btn { font: inherit; font-weight: 800; font-size: 14px; border-radius: 999px; padding: 10px 20px; min-height: 44px; border: 2px solid transparent; cursor: pointer; touch-action: manipulation; transition: transform .15s, background .2s; }
+.tr-btn:active { transform: scale(.97); }
+.tr-btn.main { background: var(--rd); color: #fff; box-shadow: 0 6px 14px -6px rgba(181,49,63,.7); }
+.tr-btn.main:hover { background: var(--rd2); }
+.tr-btn.ghost { background: transparent; color: var(--soft); border-color: var(--ln); }
+.tr-btn.ghost:hover { border-color: var(--pk2); color: var(--ink); }
+.tr button:focus-visible, .tr input:focus-visible { outline: 3px solid var(--pk2); outline-offset: 2px; }
+.tr-badge { font-size: 11px; background: var(--pk); color: var(--rd2); border-radius: 999px; padding: 1px 7px; margin-left: 4px; }
+.tr-acts { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 16px; }
+.tr-msg { min-height: 24px; margin: 10px 0 0; font-size: 14px; color: var(--soft); }
+.tr-msg.soft { color: var(--rd); font-weight: 700; }
+.tr-hint { margin-top: 10px; background: var(--sand); border-radius: 14px; padding: 10px 14px; font-size: 14px; text-align: left; }
+.tr-hint b { color: var(--rd); margin-right: 6px; }
+.tr-shake { animation: trShake .4s; }
+@keyframes trShake { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
+@keyframes trPop { from { opacity: 0; transform: scale(.6) translateY(6px); } to { opacity: 1; transform: none; } }
+.tr-hud { margin-bottom: 12px; }
+.tr-count { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--soft); font-weight: 800; margin-bottom: 6px; }
+.tr-hearts { display: flex; justify-content: space-between; list-style: none; padding: 0; margin: 0 auto 8px; max-width: 280px; }
+.tr-hearts li { width: 28px; height: 28px; color: var(--ln); }
+.tr-hearts svg { width: 100%; height: 100%; fill: transparent; stroke: var(--pk2); stroke-width: 1.6; }
+.tr-hearts li.on { color: var(--rd); animation: trPop .6s both; }
+.tr-hearts li.on svg { fill: var(--rd); stroke: var(--rd); }
+.tr-bar { height: 6px; max-width: 280px; margin: 0 auto; background: var(--pk); border-radius: 6px; overflow: hidden; }
+.tr-bar i { display: block; height: 100%; background: var(--rd); border-radius: 6px; transition: width .9s cubic-bezier(.3,.9,.3,1); }
+.tr-arena { margin: 12px 0 4px; }
+.tr-env { width: min(220px, 70%); margin: 4px auto 10px; }
+.tr-env svg { width: 100%; height: auto; overflow: visible; }
+.tr-envcard { transform: translateY(-34px); animation: trCardUp 1.1s .3s cubic-bezier(.3,1.1,.5,1) both; }
+@keyframes trCardUp { from { transform: translateY(8px); } }
+/* étape 1 */
+.tr-slots { display: flex; flex-wrap: wrap; gap: 12px 16px; justify-content: center; margin-bottom: 18px; }
+.tr-group { display: flex; gap: 4px; }
+.tr-slot { width: clamp(24px, 7vw, 34px); height: clamp(32px, 9.5vw, 42px); border-radius: 8px; border: 2px dashed var(--pk2); background: transparent; font: 800 17px 'Nunito', sans-serif; color: var(--rd); padding: 0; cursor: pointer; }
+.tr-slot.filled { border-style: solid; background: var(--pk); }
+.tr-tiles { display: flex; flex-wrap: wrap; gap: 7px; justify-content: center; }
+.tr-tile { width: 44px; height: 48px; border-radius: 10px; border: 1px solid var(--ln); background: var(--sand); color: var(--ink); font: 800 18px 'Nunito', sans-serif; cursor: pointer; box-shadow: 0 2px 0 rgba(142,34,48,.12); padding: 0; touch-action: manipulation; }
+.tr-tile:disabled { opacity: .25; box-shadow: none; cursor: default; }
+/* étape 2 */
+.tr-chat { background: var(--pk); border-radius: 18px; padding: 12px; display: flex; flex-direction: column; gap: 8px; text-align: left; }
+.tr-chat-head { font-size: 12px; color: var(--soft); font-weight: 700; padding: 0 4px 4px; }
+.tr-bubble { max-width: 84%; padding: 8px 13px; border-radius: 16px; font-size: 14px; animation: trPop .5s var(--d, 0s) both; }
+.tr-bubble.l { align-self: flex-start; background: #fff; border-bottom-left-radius: 4px; }
+.tr-bubble.r { align-self: flex-end; background: var(--rd); color: #fff; border-bottom-right-radius: 4px; }
+.tr-dots { display: inline-flex; gap: 3px; margin-left: 8px; vertical-align: middle; }
+.tr-dots i { width: 5px; height: 5px; border-radius: 50%; background: #fff; opacity: .5; animation: trBlink 1.2s infinite; }
+.tr-dots i:nth-child(2) { animation-delay: .2s; }
+.tr-dots i:nth-child(3) { animation-delay: .4s; }
+@keyframes trBlink { 50% { opacity: 1; } }
+.tr-cues { display: flex; justify-content: center; gap: 22px; margin: 12px 0 0; font-size: 12px; color: var(--soft); }
+.tr-cues span { display: grid; justify-items: center; gap: 3px; }
+.tr-cues svg { width: 24px; height: 24px; fill: none; stroke: var(--rd); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.tr-field { width: 100%; font: inherit; font-size: 17px; padding: 12px 14px; border: 2px solid var(--ln); border-radius: 14px; background: #fff; color: var(--ink); margin-top: 14px; text-align: center; }
+/* étape 3 */
+.tr-clues { margin: 0 0 6px; display: grid; gap: 8px; font-size: 14px; text-align: left; }
+.tr-clues div { display: grid; grid-template-columns: 78px 1fr; gap: 10px; align-items: baseline; }
+.tr-clues dt { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--rd); font-weight: 800; }
+.tr-clues dd { margin: 0; }
+.tr-lock { position: relative; width: 220px; max-width: 100%; margin: 14px auto 0; padding-top: 58px; }
+.tr-shackle { position: absolute; top: 0; left: 50%; width: 116px; height: 84px; margin-left: -58px; border: 12px solid var(--gold2); border-bottom: none; border-radius: 58px 58px 0 0; transition: transform .6s cubic-bezier(.3,1.4,.5,1); transform-origin: 12% 100%; }
+.tr-lock.open .tr-shackle { transform: translateY(-16px) rotate(-18deg); }
+.tr-lockbody { position: relative; z-index: 1; background: linear-gradient(160deg, #EBC6B6, var(--gold2)); border-radius: 20px; padding: 16px 12px; box-shadow: 0 14px 24px -14px rgba(142,34,48,.5); }
+.tr-wheels { display: flex; gap: 10px; justify-content: center; }
+.tr-wheel { background: var(--paper); border-radius: 12px; width: 58px; display: grid; justify-items: center; padding: 2px 0; }
+.tr-wbtn { width: 100%; height: 34px; border: 0; background: transparent; color: var(--rd); cursor: pointer; display: grid; place-items: center; touch-action: manipulation; }
+.tr-wbtn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.tr-digit { font: 800 30px/1.2 'Nunito', sans-serif; color: var(--ink); }
+/* étape 4 */
+.tr-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.tr-mcard { background: var(--paper); border: 2px solid var(--ln); border-radius: 16px; padding: 8px 4px; cursor: pointer; text-align: center; font: inherit; color: inherit; touch-action: manipulation; }
+.tr-mcard svg { width: 100%; max-width: 96px; height: auto; }
+.tr-il { fill: none; stroke: var(--rd); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.tr-clue { display: block; font-size: 12px; color: var(--soft); line-height: 1.3; margin-top: 4px; }
+.tr-tag { display: none; font-weight: 800; font-size: 12px; color: var(--rd); margin-top: 6px; }
+.tr-mcard.sel { border-color: var(--rd); box-shadow: 0 0 0 3px var(--pk); }
+.tr-mcard.solved { background: var(--pk); border-color: var(--rd); cursor: default; }
+.tr-mcard.solved .tr-tag { display: block; }
+.tr-labels { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 14px; }
+.tr-chip { font: inherit; font-weight: 700; font-size: 14px; border-radius: 999px; border: 2px solid var(--pk2); background: var(--paper); padding: 8px 16px; cursor: pointer; color: var(--ink); touch-action: manipulation; }
+.tr-chip.sel { background: var(--rd); border-color: var(--rd); color: #fff; }
+.tr-chip:disabled { opacity: .35; cursor: default; }
+/* étape 5 */
+.tr-route { display: flex; list-style: none; padding: 0; margin: 0 0 16px; position: relative; }
+.tr-route::before { content: ""; position: absolute; left: 12%; right: 12%; top: 8px; border-top: 2px dotted var(--pk2); }
+.tr-route li { flex: 1; display: grid; justify-items: center; gap: 4px; font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--soft); font-weight: 800; }
+.tr-dot { width: 18px; height: 18px; border-radius: 50%; background: var(--paper); border: 2px solid var(--pk2); position: relative; z-index: 1; }
+.tr-route .done .tr-dot { background: var(--rd); border-color: var(--rd); }
+.tr-route .now { color: var(--rd); }
+.tr-route .now .tr-dot { border-color: var(--rd); box-shadow: 0 0 0 4px var(--pk); }
+.tr-choices { display: grid; gap: 10px; }
+.tr-choice { text-align: left; padding: 13px 16px; border-radius: 14px; border: 2px solid var(--ln); background: var(--paper); font: inherit; font-weight: 700; color: var(--ink); cursor: pointer; touch-action: manipulation; }
+.tr-choice:hover { border-color: var(--pk2); }
+.tr-choice.right, .tr-leaf.right { background: var(--pk); border-color: var(--rd); }
+.tr-choice.wrong, .tr-leaf.wrong { opacity: .4; }
+.tr-leaves { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.tr-leaf { border: 2px solid transparent; padding: 0; border-radius: 12px; overflow: hidden; background: var(--paper); box-shadow: 0 2px 8px rgba(142,34,48,.15); cursor: pointer; text-align: center; font: inherit; color: var(--ink); touch-action: manipulation; }
+.tr-leaf b { display: block; background: var(--rd); color: #fff; padding: 6px; font-size: 18px; }
+.tr-leaf span { display: block; padding: 10px 4px; font-size: 12px; line-height: 1.3; font-weight: 700; }
+.tr-scene { background: linear-gradient(var(--pk) 0 55%, var(--sand) 55% 100%); border-radius: 18px; height: 200px; position: relative; overflow: hidden; display: grid; place-items: end center; padding-bottom: 22px; }
+.tr-mound { width: 160px; height: 84px; border: 0; border-radius: 160px 160px 18px 18px; background: radial-gradient(circle at 40% 30%, #EBD2B9, #D3B190); cursor: pointer; padding: 0; touch-action: manipulation; }
+.tr-chest { width: 130px; animation: trPop .6s both; }
+.tr-chest svg { width: 100%; height: auto; }
+.tr-note { margin: 12px 0 0; min-height: 44px; font-size: 14px; }
+/* souvenir + final */
+.tr-memory { display: grid; justify-items: center; gap: 4px; }
+.tr-seal { width: 64px; height: 64px; border-radius: 50%; background: var(--pk); color: var(--rd); display: grid; place-items: center; animation: trPop .6s both; margin-bottom: 4px; }
+.tr-seal svg, .tr-fly svg, .tr-spark svg, .tr-node svg, .tr-inline { fill: currentColor; }
+.tr-seal svg { width: 30px; height: 30px; }
+.tr-memtext { font-size: 17px; line-height: 1.65; margin: 4px 0 18px; max-width: 440px; font-style: italic; text-wrap: pretty; }
+.tr-final { display: grid; gap: 22px; }
+.tr-letter { font-size: 17px; line-height: 1.7; font-style: italic; margin: 0; text-wrap: pretty; }
+.tr-inline { display: inline-block; width: .8em; height: .8em; color: var(--rd); vertical-align: -.05em; margin-left: 4px; }
+.tr-path { list-style: none; padding: 0; margin: 0; position: relative; display: grid; gap: 14px; text-align: left; }
+.tr-path::before { content: ""; position: absolute; left: 11px; top: 8px; bottom: 8px; border-left: 2px dotted var(--pk2); }
+.tr-path li { position: relative; padding-left: 38px; }
+.tr-node { position: absolute; left: 0; top: 0; width: 24px; height: 24px; background: var(--cream); color: var(--rd); display: grid; place-items: center; }
+.tr-node svg { width: 18px; height: 18px; }
+.tr-path strong { display: block; color: var(--rd); font-size: 15px; }
+.tr-path span { color: var(--soft); font-size: 14px; }
+.tr-gift { display: grid; justify-items: center; gap: 6px; background: var(--sand); border: 2px dashed var(--pk2); border-radius: 20px; padding: 18px; width: 100%; cursor: pointer; font: inherit; font-weight: 800; color: var(--ink); touch-action: manipulation; }
+.tr-gift .tr-seal { margin: 0; }
+.tr-surprise { background: var(--pk); border-radius: 18px; padding: 18px; animation: trPop .6s both; }
+.tr-surprise img { max-width: 100%; border-radius: 12px; margin-bottom: 10px; }
+.tr-surprise h4 { font-family: 'Great Vibes', cursive; font-weight: normal; font-size: 30px; color: var(--rd); margin: 0 0 4px; }
+.tr-surprise p { margin: 0; white-space: pre-line; }
+.tr-link { background: none; border: 0; font: inherit; font-size: 13px; color: var(--soft); text-decoration: underline; cursor: pointer; padding: 8px; }
+.tr-fly { position: fixed; width: 40px; height: 40px; z-index: 80; pointer-events: none; color: var(--rd); }
+.tr-spark { position: fixed; width: 22px; height: 22px; pointer-events: none; z-index: 80; }
+.tr-fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 70; }
+@media (prefers-reduced-motion: reduce) { .tr * { animation: none !important; transition: none !important; } }
 </style>
 </head>
 <body>
@@ -513,7 +655,7 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
   <div class="decoration">✦ ❄ ✦</div>
   <h1>Notre calendrier de l'Avent</h1>
   <p class="intro">
-    24 petites surprises pour rendre ton mois de décembre
+    25 petites surprises pour rendre ton mois de décembre
     encore plus magique. Une case par jour, un petit peu
     d'amour chaque matin. ❤️
   </p>
@@ -549,7 +691,7 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
 const MODE_TEST = true;
 const YEAR = 2026;
 
-/* Case qui ouvre le bingo de couple (choisis un numéro entre 6 et 24). */
+/* Case qui ouvre le bingo de couple (choisis un numéro entre 6 et 25, différent de 9). */
 const BINGO_DAY = 6;
 
 const activities = [
@@ -561,7 +703,7 @@ const activities = [
   "Défi photo : envoie-moi une photo de ton moment préféré de la journée.",
   "", // case 7 : labyrinthe du cœur
   "", // case 8 : photo mystère
-  "Quelle chanson te fait penser à nous ?",
+  "", // case 9 : chasse au trésor
   "Place les souvenirs dans le bon ordre !",
   "Surprise du jour : tu as gagné un petit bon pour une activité ensemble.",
   "Raconte-moi trois souvenirs que tu aimerais revivre.",
@@ -576,6 +718,7 @@ const activities = [
   "Remets les mots dans le bon ordre pour découvrir mon message secret.",
   "Bon pour une soirée rien que tous les deux !",
   "Un dernier petit mot pour te rappeler combien tu comptes pour moi.",
+  "C'est la veille de Noël ! Ferme les yeux une seconde et pense à tout ce qu'on a déjà vécu ensemble. Demain, la dernière case t'attend. ❤️",
   "Joyeux Noël mon amour ! ❤️ Voici ta dernière surprise."
 ];
 
@@ -639,9 +782,9 @@ const calendar = document.getElementById("calendar");
 let openedDays = load("advent-opened", []);
 
 function getToday() {
-  if (MODE_TEST) return 24;
+  if (MODE_TEST) return 25;
   const now = new Date();
-  return now.getFullYear() === YEAR && now.getMonth() === 11 ? Math.min(now.getDate(), 24) : 0;
+  return now.getFullYear() === YEAR && now.getMonth() === 11 ? Math.min(now.getDate(), 25) : 0;
 }
 
 function updateCountdown() {
@@ -684,6 +827,10 @@ function openDay(day) {
     title.textContent = "Le labyrinthe de notre amour ❤️";
     modalContent.classList.add("wide");
     showMaze();
+  } else if (day === 9) {
+    title.textContent = "À la recherche de notre trésor ❤️";
+    modalContent.classList.add("wide");
+    showTresor();
   } else if (day === 8) {
     title.textContent = "Photo mystère ❤️";
     modalContent.classList.add("wide");
@@ -721,7 +868,7 @@ function closeModal() {
   document.getElementById("modal").classList.remove("show");
 }
 
-for (let day = 1; day <= 24; day++) {
+for (let day = 1; day <= 25; day++) {
   const button = document.createElement("button");
   button.className = "day";
   button.dataset.day = day;
@@ -2715,6 +2862,557 @@ const PM_EMBEDDED = {
     render();
   };
 })();
+
+/* =====================================================
+   CASE 9 : À LA RECHERCHE DE NOTRE TRÉSOR ❤️
+   Chasse au trésor en 5 étapes, une énigme différente à chaque fois.
+===================================================== */
+(function () {
+  "use strict";
+
+  /* ---- À PERSONNALISER ---- */
+  const CFG = {
+    mois: "quatre", // durée des échanges avant la rencontre, en lettres
+    surprise: {     // la surprise finale : texte, et photo facultative
+      titre: "Ta surprise",
+      texte: "Ta surprise arrive très bientôt…",
+      image: "",    // colle ici une image au format data:image/... ou un lien
+      alt: ""
+    }
+  };
+  const KEY = "tresor-progress";
+
+  const HEART_D = "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z";
+  const HEART = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${HEART_D}"/></svg>`;
+  const STAR = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z"/></svg>`;
+  const reduce = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+
+  let run = 0, root, ts;
+  const h = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
+  const norm = s => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]/g, "");
+  const shake = e => { e.classList.remove("tr-shake"); void e.offsetWidth; e.classList.add("tr-shake"); };
+  const toTop = () => { const m = document.getElementById("modal-content"); if (m) m.scrollTop = 0; };
+
+  /* ---------- Effets ---------- */
+  function burst(x, y, n) {
+    if (reduce) return;
+    const cols = ["#B5313F", "#E58C99", "#F4C6CC", "#D6B46A"];
+    for (let i = 0; i < n; i++) {
+      const p = h("span", "tr-spark", i % 3 === 0 ? STAR : HEART);
+      p.style.left = x + "px"; p.style.top = y + "px"; p.style.color = cols[i % cols.length];
+      document.body.appendChild(p);
+      const a = Math.random() * 6.283, d = 60 + Math.random() * 120;
+      p.animate([
+        { transform: "translate(-50%,-50%) scale(.3)", opacity: 1 },
+        { transform: `translate(calc(-50% + ${Math.cos(a) * d}px), calc(-50% + ${Math.sin(a) * d - 40}px)) scale(${0.6 + Math.random() * 0.8}) rotate(${(Math.random() - 0.5) * 90}deg)`, opacity: 0 }
+      ], { duration: 900 + Math.random() * 500, easing: "cubic-bezier(.2,.7,.3,1)" }).onfinish = () => p.remove();
+    }
+  }
+
+  function fly(from, slot, done) {
+    const to = slot.getBoundingClientRect();
+    const f = h("div", "tr-fly", HEART);
+    document.body.appendChild(f);
+    const x0 = from.left + from.width / 2 - 20, y0 = from.top + from.height / 2 - 20;
+    f.style.left = x0 + "px"; f.style.top = y0 + "px";
+    const dx = to.left + to.width / 2 - 20 - x0, dy = to.top + to.height / 2 - 20 - y0;
+    f.animate([
+      { transform: "translate(0,0) scale(.4)", opacity: 0 },
+      { transform: "translate(0,-30px) scale(1.5)", opacity: 1, offset: 0.3 },
+      { transform: `translate(${dx}px,${dy}px) scale(.6)`, opacity: 1 }
+    ], { duration: 900, easing: "cubic-bezier(.5,0,.3,1)" }).onfinish = () => { f.remove(); done(); };
+  }
+
+  function rain(ms) {
+    if (reduce) return;
+    const c = h("canvas", "tr-fx");
+    c.setAttribute("aria-hidden", "true");
+    document.body.appendChild(c);
+    const ctx = c.getContext("2d");
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const W = (c.width = innerWidth * dpr), H = (c.height = innerHeight * dpr);
+    const path = new Path2D(HEART_D);
+    const cols = ["#B5313F", "#E58C99", "#F4C6CC", "#D9A58F", "#EDB4BB"];
+    const items = [], end = performance.now() + ms;
+    function frame(t) {
+      ctx.clearRect(0, 0, W, H);
+      if (t < end && Math.random() < 0.5) {
+        items.push({ x: Math.random() * W, y: -30 * dpr, s: (0.5 + Math.random() * 1.1) * dpr, vy: (1.2 + Math.random() * 2) * dpr, vx: (Math.random() - 0.5) * dpr, r: Math.random() * 6.28, vr: (Math.random() - 0.5) * 0.05, c: cols[Math.floor(Math.random() * cols.length)], sw: Math.random() * 6.28 });
+      }
+      for (let i = items.length - 1; i >= 0; i--) {
+        const p = items[i];
+        p.y += p.vy; p.sw += 0.03; p.x += p.vx + Math.sin(p.sw) * 0.6 * dpr; p.r += p.vr;
+        if (p.y > H + 40 * dpr) { items.splice(i, 1); continue; }
+        ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.scale(p.s, p.s); ctx.translate(-12, -12);
+        ctx.fillStyle = p.c; ctx.globalAlpha = 0.85; ctx.fill(path); ctx.restore();
+      }
+      if (t < end || items.length) requestAnimationFrame(frame); else c.remove();
+    }
+    requestAnimationFrame(frame);
+  }
+
+  /* ---------- Illustrations ---------- */
+  const ICE = `<svg viewBox="0 0 120 90" class="tr-il" aria-hidden="true"><path d="M38 14h22v30l26 6c8 2 12 8 12 14v6H34z" fill="#FBE4E7"/><path d="M48 24h12M48 32h12M48 40h12"/><path d="M26 76h72M42 70v6M86 70v6"/><path d="M18 18v14M11 25h14M13 20l10 10M23 20l-10 10"/><path d="M104 12v8M100 16h8"/></svg>`;
+  const BEACH = `<svg viewBox="0 0 120 90" class="tr-il" aria-hidden="true"><circle cx="88" cy="24" r="11" fill="#FBE4E7"/><path d="M88 6v4M88 38v4M70 24h4M102 24h4M75 11l3 3M98 34l3 3M101 11l-3 3M78 34l-3 3"/><path d="M30 80V46"/><path d="M16 46q14-18 28 0z" fill="#FBE4E7"/><path d="M6 60q13-10 26 0t26 0t26 0t26 0"/><path d="M6 71q13-10 26 0t26 0t26 0t26 0"/><path d="M4 83h112"/></svg>`;
+  const WHEEL = `<svg viewBox="0 0 120 90" class="tr-il" aria-hidden="true"><circle cx="60" cy="36" r="24"/><circle cx="60" cy="36" r="3" fill="#B5313F"/><path d="M36 36h48M60 12v48M43 19l34 34M77 19L43 53"/><g fill="#FBE4E7"><circle cx="36" cy="36" r="3.2"/><circle cx="84" cy="36" r="3.2"/><circle cx="60" cy="12" r="3.2"/><circle cx="60" cy="60" r="3.2"/><circle cx="43" cy="19" r="3.2"/><circle cx="77" cy="53" r="3.2"/><circle cx="77" cy="19" r="3.2"/><circle cx="43" cy="53" r="3.2"/></g><path d="M60 36L42 82M60 36L78 82M32 82h56"/></svg>`;
+  const CHEST = `<svg viewBox="0 0 120 100" aria-hidden="true"><rect x="10" y="45" width="100" height="50" rx="8" fill="#B5313F"/><path d="M10 45C10 12 110 12 110 45z" fill="#8E2230"/><rect x="52" y="45" width="16" height="50" fill="#F4C6CC"/><circle cx="60" cy="58" r="6" fill="#D9A58F"/><path d="M60 80c-1-1-9-6-9-12 0-4 2.500-5.500 5-5.500 2 0 3.400 1.200 4 2.500.600-1.300 2-2.500 4-2.500 2.500 0 5 1.500 5 5.500 0 6-8 11-9 12z" fill="#FFFCF9" transform="translate(0,2)"/><path d="M18 30v8M14 34h8M100 24v8M96 28h8" stroke="#D6B46A" stroke-width="2.500" stroke-linecap="round"/></svg>`;
+
+  const STEPS = [];
+
+  /* ---------- Étape 1 : lettres à remettre dans l'ordre ---------- */
+  STEPS.push({
+    kicker: "Étape 1 · Notre rencontre",
+    title: "Où tout a commencé",
+    prompt: "Deux personnes qui ne se connaissaient pas, un écran, et un petit coup de cœur. Remets les lettres dans l'ordre pour retrouver où nous nous sommes rencontrés.",
+    hints: ["C'est un endroit en ligne, fait pour que des inconnus se rencontrent.", "Le premier mot est « SITE » et le dernier commence par « RENC »."],
+    needsCheck: true,
+    memory: { titre: "Le début de l'histoire", texte: "Tout a commencé sur un site de rencontre. Deux inconnus, un écran, et le début de notre histoire." },
+    build(area, ctl) {
+      const words = ["SITE", "DE", "RENCONTRE"];
+      const letters = "NECOTRSEIDNREET".split("");
+      const slots = new Array(letters.length).fill(null);
+      const used = new Array(letters.length).fill(false);
+      const slotWrap = h("div", "tr-slots"), slotEls = [], tileEls = [];
+      let k = 0;
+      words.forEach(w => {
+        const g = h("div", "tr-group");
+        for (let i = 0; i < w.length; i++) {
+          const pos = k++;
+          const b = h("button", "tr-slot"); b.type = "button";
+          b.addEventListener("click", () => free(pos));
+          slotEls.push(b); g.appendChild(b);
+        }
+        slotWrap.appendChild(g);
+      });
+      const tiles = h("div", "tr-tiles");
+      letters.forEach((ch, i) => {
+        const b = h("button", "tr-tile", ch); b.type = "button";
+        b.addEventListener("click", () => place(i));
+        tileEls.push(b); tiles.appendChild(b);
+      });
+      area.append(slotWrap, tiles);
+      function paint() {
+        slotEls.forEach((b, p) => {
+          const t = slots[p];
+          b.textContent = t == null ? "" : letters[t];
+          b.classList.toggle("filled", t != null);
+          b.setAttribute("aria-label", t == null ? "Case vide" : "Lettre " + letters[t] + ", toucher pour retirer");
+        });
+        tileEls.forEach((b, i) => { b.disabled = used[i]; });
+      }
+      function place(i) { if (used[i]) return; const p = slots.indexOf(null); if (p < 0) return; slots[p] = i; used[i] = true; ctl.clear(); paint(); }
+      function free(p) { const t = slots[p]; if (t == null) return; slots[p] = null; used[t] = false; ctl.clear(); paint(); }
+      paint();
+      return {
+        check() {
+          if (slots.includes(null)) { ctl.say("Il manque encore quelques lettres, continue !"); return null; }
+          let pos = 0;
+          const got = words.map(w => { const part = slots.slice(pos, pos + w.length).map(t => letters[t]).join(""); pos += w.length; return part; });
+          return got.join("|") === words.join("|");
+        },
+        reset() { slots.fill(null); used.fill(false); paint(); }
+      };
+    }
+  });
+
+  /* ---------- Étape 2 : indices en conversation ---------- */
+  STEPS.push({
+    kicker: "Étape 2 · Nos premiers échanges",
+    title: "La suite en messages",
+    prompt: "Après notre rencontre, on a continué à se parler ailleurs. Lis les messages ci-dessous, puis écris le nom de l'application.",
+    hints: ["Son nom a 9 lettres.", "Elle commence par « Insta »…"],
+    needsCheck: true,
+    memory: { titre: "Les messages continuent", texte: "Après le site de rencontre, nous avons continué à discuter sur Instagram. Les messages se sont enchaînés." },
+    build(area, ctl) {
+      area.innerHTML = `
+        <div class="tr-chat" aria-label="Indices sous forme de conversation">
+          <div class="tr-chat-head">Messages</div>
+          <div class="tr-bubble l" style="--d:.1s">On s'est d'abord trouvés sur un site de rencontre…</div>
+          <div class="tr-bubble r" style="--d:.7s">Puis on a continué à se parler ailleurs.</div>
+          <div class="tr-bubble l" style="--d:1.3s">Là où l'on partage des photos, des stories et des messages privés.</div>
+          <div class="tr-bubble r" style="--d:1.9s">Elle s'appelle comment, cette appli ?<span class="tr-dots"><i></i><i></i><i></i></span></div>
+        </div>
+        <div class="tr-cues">
+          <span><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="3"/><circle cx="12" cy="13.5" r="3.5"/><path d="M8.5 7l1.2-2h4.6l1.2 2"/></svg>Photos</span>
+          <span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-dasharray="3 3"/><path d="M12 8v8M8 12h8"/></svg>Stories</span>
+          <span><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg>Messages</span>
+        </div>
+        <label class="tr-sr" for="tr-ans" style="position:absolute;left:-9999px">Nom de l'application</label>
+        <input class="tr-field" id="tr-ans" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Écris le nom de l'appli">`;
+      const input = area.querySelector("#tr-ans");
+      input.addEventListener("keydown", e => { if (e.key === "Enter") ctl.submit(); });
+      input.addEventListener("input", () => ctl.clear());
+      return {
+        check() {
+          const v = norm(input.value);
+          if (!v) { ctl.say("Écris ta réponse dans la case ci-dessus."); return null; }
+          return ["instagram", "insta", "ig"].includes(v);
+        },
+        reset() { input.value = ""; input.focus(); }
+      };
+    }
+  });
+
+  /* ---------- Étape 3 : cadenas à trois molettes ---------- */
+  STEPS.push({
+    kicker: "Étape 3 · Avant notre première rencontre",
+    title: "Le cadenas du temps",
+    prompt: "Avant de nous voir en vrai, il s'est passé un certain temps. Règle les trois molettes du cadenas grâce aux indices.",
+    hints: ["Pour les deux premiers chiffres, pense à tout ce qui n'était pas encore arrivé.", "Le dernier chiffre est plus grand que 3 et plus petit que 5."],
+    needsCheck: true,
+    checkLabel: "Ouvrir",
+    delay: 900,
+    memory: { titre: "Avant de se rencontrer", texte: "Pendant {mois} mois, nous avons discuté avant de nous rencontrer en vrai. Tout ce temps à apprendre à nous connaître à travers un écran." },
+    build(area, ctl) {
+      const start = [3, 7, 1], target = [0, 0, 4];
+      let vals = start.slice();
+      area.innerHTML = `
+        <dl class="tr-clues">
+          <div><dt>1er chiffre</dt><dd>Combien de fois s'était-on déjà vus en vrai ?</dd></div>
+          <div><dt>2e chiffre</dt><dd>Combien de fois s'était-on déjà embrassés ?</dd></div>
+          <div><dt>3e chiffre</dt><dd>Combien de mois a-t-on discuté avant de se rencontrer ?</dd></div>
+        </dl>
+        <div class="tr-lock" id="tr-lock"><div class="tr-shackle"></div><div class="tr-lockbody"><div class="tr-wheels" id="tr-wheels"></div></div></div>`;
+      const lock = area.querySelector("#tr-lock"), wheels = area.querySelector("#tr-wheels");
+      const up = `<svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg>`, down = `<svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>`;
+      const digits = [];
+      vals.forEach((_, i) => {
+        const w = h("div", "tr-wheel");
+        const bu = h("button", "tr-wbtn", up), bd = h("button", "tr-wbtn", down), d = h("div", "tr-digit");
+        bu.type = bd.type = "button";
+        bu.setAttribute("aria-label", "Augmenter le chiffre " + (i + 1));
+        bd.setAttribute("aria-label", "Diminuer le chiffre " + (i + 1));
+        bu.addEventListener("click", () => { vals[i] = (vals[i] + 1) % 10; ctl.clear(); paint(); });
+        bd.addEventListener("click", () => { vals[i] = (vals[i] + 9) % 10; ctl.clear(); paint(); });
+        w.append(bu, d, bd); wheels.appendChild(w); digits.push(d);
+      });
+      function paint() { digits.forEach((d, i) => { d.textContent = vals[i]; }); }
+      paint();
+      return {
+        check() {
+          const ok = vals.every((v, i) => v === target[i]);
+          if (ok) lock.classList.add("open");
+          return ok;
+        },
+        reset() { vals = start.slice(); lock.classList.remove("open"); paint(); }
+      };
+    }
+  });
+
+  /* ---------- Étape 4 : association illustrations / souvenirs ---------- */
+  STEPS.push({
+    kicker: "Étape 4 · Notre première journée ensemble",
+    title: "Trois souvenirs mélangés",
+    prompt: "Les souvenirs de ta première visite se sont mélangés. Touche une image, puis le souvenir qui lui correspond.",
+    hints: ["Commence par l'image la plus facile à reconnaître.", "Une patinoire, une plage et un parc d'attractions : trois ambiances très différentes."],
+    needsCheck: false,
+    memory: { titre: "Ta première visite", texte: "À la fin du mois d'août, tu es venu me rendre visite pour la première fois. La patinoire, la plage de Bray-Dunes, puis Plopsaland : une première journée ensemble qui restera dans nos souvenirs." },
+    build(area, ctl) {
+      const places = {
+        ice: { label: "La patinoire", clue: "Ici, on glisse sur la glace.", svg: ICE },
+        beach: { label: "La plage de Bray-Dunes", clue: "Du sable, des vagues et l'air marin.", svg: BEACH },
+        park: { label: "Plopsaland", clue: "Des manèges et des sensations fortes.", svg: WHEEL }
+      };
+      const cardOrder = ["beach", "park", "ice"], labelOrder = ["park", "ice", "beach"];
+      let selCard = null, selLabel = null, solved = 0, locked = false;
+      const cards = h("div", "tr-cards"), labels = h("div", "tr-labels"), cardEls = {}, chipEls = {};
+      cardOrder.forEach(id => {
+        const c = h("button", "tr-mcard", places[id].svg + `<span class="tr-clue">${places[id].clue}</span><span class="tr-tag">${places[id].label}</span>`);
+        c.type = "button"; c.addEventListener("click", () => pickCard(id));
+        cardEls[id] = c; cards.appendChild(c);
+      });
+      labelOrder.forEach(id => {
+        const c = h("button", "tr-chip", places[id].label);
+        c.type = "button"; c.addEventListener("click", () => pickLabel(id));
+        chipEls[id] = c; labels.appendChild(c);
+      });
+      area.append(cards, labels);
+      function paint() {
+        Object.keys(cardEls).forEach(id => cardEls[id].classList.toggle("sel", selCard === id));
+        Object.keys(chipEls).forEach(id => chipEls[id].classList.toggle("sel", selLabel === id));
+      }
+      function pickCard(id) { if (locked || cardEls[id].classList.contains("solved")) return; selCard = selCard === id ? null : id; ctl.clear(); paint(); tryMatch(); }
+      function pickLabel(id) { if (locked || chipEls[id].disabled) return; selLabel = selLabel === id ? null : id; ctl.clear(); paint(); tryMatch(); }
+      function tryMatch() {
+        if (!selCard || !selLabel) return;
+        if (selCard === selLabel) {
+          cardEls[selCard].classList.add("solved"); cardEls[selCard].classList.remove("sel");
+          chipEls[selLabel].disabled = true; chipEls[selLabel].classList.remove("sel");
+          selCard = selLabel = null; solved++;
+          if (solved === 3) { ctl.say("Les trois souvenirs sont retrouvés !"); ctl.win(600); }
+          else ctl.say("Bien vu, un souvenir de retrouvé !");
+        } else {
+          locked = true; ctl.fail();
+          setTimeout(() => { selCard = selLabel = null; locked = false; paint(); }, 600);
+        }
+        paint();
+      }
+      return {
+        reset() {
+          selCard = selLabel = null; solved = 0; locked = false;
+          Object.keys(cardEls).forEach(id => { cardEls[id].classList.remove("solved", "sel"); chipEls[id].disabled = false; chipEls[id].classList.remove("sel"); });
+        }
+      };
+    }
+  });
+
+  /* ---------- Étape 5 : carte au trésor en quatre temps ---------- */
+  STEPS.push({
+    kicker: "Étape 5 · Notre premier bisou",
+    title: "La carte au trésor",
+    prompt: "Dernière étape, la plus belle. Suis la carte de ta deuxième visite jusqu'au lendemain.",
+    needsCheck: false,
+    memory: { titre: "Notre premier bisou", texte: "Pour ta deuxième visite : le cinéma, puis la plage de Dunkerque, où nous nous sommes embrassés pour la première fois. Et le lendemain, nous sommes officiellement devenus un couple." },
+    build(area, ctl) {
+      let stage = 0;
+      const HINTS = [
+        ["Pense à une salle obscure, des fauteuils et un grand écran."],
+        ["Ce n'est pas la plage de ta première visite."],
+        ["Touche le tas de sable, plusieurs fois de suite."],
+        ["J est le jour du premier bisou. Que s'est-il passé juste après ?"]
+      ];
+      const route = h("ol", "tr-route");
+      ["Cinéma", "Plage", "Trésor", "Lendemain"].forEach(t => route.appendChild(h("li", "", `<span class="tr-dot"></span><span>${t}</span>`)));
+      const body = h("div");
+      area.append(route, body);
+
+      function paintRoute() { [...route.children].forEach((li, i) => { li.classList.toggle("done", i < stage); li.classList.toggle("now", i === stage); }); }
+      function render() { paintRoute(); ctl.resetHints(); ctl.clear(); body.innerHTML = ""; [cinema, beach, dig, calendar][stage](); }
+      function advance() { stage++; render(); }
+
+      function choices(question, opts, correct, wrong, leaves, onRight) {
+        body.appendChild(h("p", "tr-q", question));
+        const wrap = h("div", leaves ? "tr-leaves" : "tr-choices");
+        opts.forEach((o, i) => {
+          const b = h("button", leaves ? "tr-leaf" : "tr-choice", o); b.type = "button";
+          b.addEventListener("click", () => {
+            if (i === correct) {
+              b.classList.add("right");
+              [...wrap.children].forEach(x => { x.disabled = true; });
+              ctl.say("Exactement, on avance !");
+              setTimeout(onRight, 800);
+            } else { b.classList.add("wrong"); b.disabled = true; ctl.fail(wrong); }
+          });
+          wrap.appendChild(b);
+        });
+        body.appendChild(wrap);
+      }
+
+      function cinema() {
+        choices("Pour ta deuxième visite, tout a commencé dans une salle obscure, face à un grand écran. Où étions-nous ?",
+          ["Au cinéma", "À la patinoire", "À Plopsaland"], 0, "Pas celle-là… pense à ce qu'on a fait pendant ta deuxième visite.", false, advance);
+      }
+      function beach() {
+        choices("Après le film, direction la mer. Quelle plage nous a accueillis ?",
+          ["Bray-Dunes", "Dunkerque", "Calais"], 1, "Hmm, pas cette plage… souviens-toi de ce qui s'est passé juste après le cinéma.", false, advance);
+      }
+      function dig() {
+        const NEED = 5; let n = 0;
+        body.innerHTML = `<p class="tr-q">Sur cette plage, quelque chose de précieux est enterré. Touche le tas de sable pour creuser.</p>
+          <div class="tr-scene"><button type="button" class="tr-mound" aria-label="Creuser le sable"></button><div class="tr-chest" hidden>${CHEST}</div></div>
+          <p class="tr-note" aria-live="polite">Encore ${NEED} coups de pelle…</p>`;
+        const mound = body.querySelector(".tr-mound"), chest = body.querySelector(".tr-chest"), note = body.querySelector(".tr-note");
+        mound.addEventListener("click", () => {
+          n++; shake(mound);
+          if (n < NEED) {
+            mound.style.height = (84 - n * 12) + "px";
+            note.textContent = "Encore " + (NEED - n) + " coup" + (NEED - n > 1 ? "s" : "") + " de pelle…";
+            return;
+          }
+          mound.hidden = true; chest.hidden = false;
+          const r = chest.getBoundingClientRect();
+          burst(r.left + r.width / 2, r.top + r.height / 2, 18);
+          note.innerHTML = "<b>Notre premier bisou.</b><br>Le lieu : la plage de Dunkerque.";
+          const b = h("button", "tr-btn main", "Continuer la carte"); b.type = "button";
+          b.style.marginTop = "6px"; b.addEventListener("click", advance);
+          body.appendChild(b);
+        });
+      }
+      function calendar() {
+        choices("J est le jour de notre premier bisou. Quand sommes-nous officiellement devenus un couple ?",
+          ["<b>J</b><span>Le jour même du premier bisou</span>", "<b>J+1</b><span>Le lendemain du premier bisou</span>", "<b>J+7</b><span>Une semaine plus tard</span>"],
+          1, "Pas tout à fait… repense à ce qui s'est passé juste après le bisou.", true, () => ctl.win(300));
+      }
+      render();
+      return { reset() { render(); }, hints() { return HINTS[stage]; } };
+    }
+  });
+
+  /* ---------- Écrans ---------- */
+  function hudEl(cur, done) {
+    const w = h("div", "tr-hud");
+    w.appendChild(h("div", "tr-count", "Étape " + (cur + 1) + " sur 5"));
+    const ol = h("ol", "tr-hearts"); ol.setAttribute("aria-label", "Cœurs collectés");
+    for (let i = 0; i < 5; i++) ol.appendChild(h("li", i < done ? "on" : "", HEART));
+    w.append(ol, h("div", "tr-bar", `<i style="width:${done * 20}%"></i>`));
+    return w;
+  }
+  function markHud(hud, n) {
+    const li = hud.querySelectorAll("li")[n - 1];
+    if (li) li.classList.add("on");
+    const bar = hud.querySelector(".tr-bar i");
+    if (bar) bar.style.width = (n * 20) + "%";
+  }
+
+  function viewWelcome() {
+    root.innerHTML = "";
+    const resume = ts.done > 0 && ts.done < 5;
+    root.appendChild(h("div", "tr-env", `<svg viewBox="0 -30 220 190" aria-hidden="true">
+      <rect x="20" y="50" width="180" height="100" rx="8" fill="#EBD9C6"/>
+      <polygon points="20,50 200,50 110,-14" fill="#F3E6D8"/>
+      <g class="tr-envcard"><rect x="40" y="30" width="140" height="100" rx="6" fill="#FFFCF9" stroke="#EBD3CF"/>
+      <path d="M110 100c-1-1-14-9-14-19 0-6 4-9 8-9 3 0 5 2 6 4 1-2 3-4 6-4 4 0 8 3 8 9 0 10-13 18-14 19z" fill="#B5313F"/>
+      <path d="M70 52h80M82 62h56" stroke="#EBD3CF" stroke-width="3" stroke-linecap="round"/></g>
+      <polygon points="20,52 112,108 20,150" fill="#F6D3D6"/><polygon points="200,52 108,108 200,150" fill="#F6D3D6"/>
+      <polygon points="20,150 110,96 200,150" fill="#F8DDE0"/><circle cx="110" cy="112" r="11" fill="#B5313F"/>
+      <path d="M110 118c-.5-.4-6-4-6-8 0-2.400 1.600-3.600 3.200-3.600 1.200 0 2 .8 2.800 1.600.8-.8 1.600-1.600 2.800-1.600 1.600 0 3.200 1.200 3.200 3.600 0 4-5.500 7.600-6 8z" fill="#fff"/></svg>`));
+    root.appendChild(h("p", "tr-text", "Cinq énigmes, cinq souvenirs à retrouver de notre histoire, et un trésor tout au bout du chemin."));
+    const go = h("button", "tr-btn main", resume ? "Reprendre" : "Commencer"); go.type = "button";
+    go.addEventListener("click", () => { ts.step = resume ? ts.done : 0; viewStep(); });
+    root.appendChild(go);
+    if (resume) {
+      const again = h("div"); const b = h("button", "tr-link", "Tout recommencer depuis le début"); b.type = "button";
+      b.addEventListener("click", () => { ts.done = 0; store(KEY, 0); ts.step = 0; viewStep(); });
+      again.appendChild(b); root.appendChild(again);
+    }
+  }
+
+  function viewStep() {
+    const id = run, s = STEPS[ts.step];
+    let busy = false, inst = null, hintUsed = 0, fails = 0;
+    root.innerHTML = "";
+    toTop();
+    const hud = hudEl(ts.step, ts.done >= ts.step + 1 ? ts.step : ts.done);
+    const kick = h("p", "tr-kick"); kick.textContent = s.kicker;
+    const title = h("h3", "tr-title"); title.textContent = s.title;
+    const prompt = h("p", "tr-text"); prompt.textContent = s.prompt;
+    const arena = h("div", "tr-arena");
+    const msg = h("p", "tr-msg"); msg.setAttribute("role", "status"); msg.setAttribute("aria-live", "polite");
+    const hint = h("div", "tr-hint"); hint.hidden = true;
+    const bHint = h("button", "tr-btn ghost", "Indice"), bReset = h("button", "tr-btn ghost", "Recommencer"), bCheck = h("button", "tr-btn main", s.checkLabel || "Valider");
+    bHint.type = bReset.type = bCheck.type = "button";
+    bCheck.hidden = !s.needsCheck;
+    const acts = h("div", "tr-acts"); acts.append(bHint, bReset, bCheck);
+    root.append(hud, kick, title, prompt, arena, msg, hint, acts);
+
+    const FAILS = ["Pas tout à fait… mais tu es sur la bonne piste.", "Ce n'est pas ça, mais on ne lâche rien. Essaie encore !", "Oups, pas cette fois. Je crois en toi, retente ta chance !", "Presque… respire, regarde bien, et réessaie."];
+    const hintList = () => (inst && inst.hints ? inst.hints() : s.hints) || [];
+    const hintBtn = () => { const n = hintList().length; bHint.innerHTML = "Indice" + (hintUsed ? ` <span class="tr-badge">${hintUsed}/${n}</span>` : ""); };
+    const ctl = {
+      say(t) { msg.textContent = t; msg.className = "tr-msg"; },
+      clear() { msg.textContent = ""; msg.className = "tr-msg"; },
+      fail(m) { msg.textContent = m || FAILS[fails++ % FAILS.length]; msg.className = "tr-msg soft"; shake(arena); },
+      win(d) { win(d); },
+      submit() { check(); },
+      resetHints() { hintUsed = 0; hint.hidden = true; hint.textContent = ""; hintBtn(); }
+    };
+    function check() {
+      if (busy || !inst || !inst.check) return;
+      const r = inst.check();
+      if (r === true) win(s.delay || 500); else if (r === false) ctl.fail();
+    }
+    function win(d) {
+      if (busy) return;
+      busy = true;
+      setTimeout(() => {
+        if (id !== run) return;
+        const from = arena.getBoundingClientRect();
+        burst(from.left + from.width / 2, from.top + from.height / 2, 24);
+        ts.done = Math.max(ts.done, ts.step + 1); store(KEY, ts.done);
+        viewMemory(from);
+      }, d || 400);
+    }
+    bHint.addEventListener("click", () => {
+      const l = hintList(); if (!l.length) return;
+      hintUsed = Math.min(hintUsed + 1, l.length);
+      hint.hidden = false; hint.innerHTML = "<b>Indice " + hintUsed + "</b>"; hint.appendChild(document.createTextNode(l[hintUsed - 1]));
+      hintBtn();
+    });
+    bReset.addEventListener("click", () => { if (busy) return; if (inst && inst.reset) inst.reset(); ctl.clear(); });
+    bCheck.addEventListener("click", check);
+    hintBtn();
+    inst = s.build(arena, ctl);
+    hintBtn();
+  }
+
+  function viewMemory(from) {
+    const id = run, s = STEPS[ts.step];
+    root.innerHTML = "";
+    toTop();
+    const hud = hudEl(ts.step, ts.done - 1);
+    const m = h("div", "tr-memory", `<div class="tr-seal">${HEART}</div><p class="tr-kick">Souvenir retrouvé</p>`);
+    const t = h("h3", "tr-title"); t.textContent = s.memory.titre;
+    const p = h("p", "tr-memtext"); p.textContent = s.memory.texte.replace(/\{mois\}/g, CFG.mois);
+    const next = h("button", "tr-btn main", ts.step < STEPS.length - 1 ? "Étape suivante" : "Découvrir le trésor"); next.type = "button";
+    next.addEventListener("click", () => { if (ts.step < STEPS.length - 1) { ts.step++; viewStep(); } else viewFinal(true); });
+    m.append(t, p, next);
+    root.append(hud, m);
+    const slot = hud.querySelectorAll("li")[ts.done - 1];
+    const finish = () => { if (id === run) markHud(hud, ts.done); };
+    if (from && slot && !reduce) fly(from, slot, finish); else finish();
+  }
+
+  function viewFinal(celebrate) {
+    root.innerHTML = "";
+    toTop();
+    ts.done = 5; store(KEY, 5);
+    const w = h("div", "tr-final");
+    const top = h("div");
+    top.innerHTML = `<p class="tr-kick">Trésor retrouvé</p><h3 class="tr-title">Tu as retrouvé notre trésor</h3>`;
+    const hearts = h("ol", "tr-hearts"); hearts.setAttribute("aria-label", "Les cinq cœurs sont collectés");
+    for (let i = 0; i < 5; i++) hearts.appendChild(h("li", "on", HEART));
+    top.appendChild(hearts);
+    const letter = h("p", "tr-letter");
+    letter.textContent = "« De simples messages sur Internet à notre premier bisou, notre histoire a pris un joli chemin. Après " + CFG.mois + " mois à apprendre à nous connaître, nos premières sorties ensemble et ce moment sur la plage de Dunkerque, il n'aura fallu qu'un lendemain pour que nous devenions officiellement un couple. Et depuis, nous écrivons notre histoire à deux. »";
+    letter.insertAdjacentHTML("beforeend", `<svg class="tr-inline" viewBox="0 0 24 24" aria-hidden="true"><path d="${HEART_D}"/></svg>`);
+    const steps = [
+      ["Un site de rencontre", "Là où tout a commencé."],
+      ["Instagram", "Les messages continuent."],
+      [CFG.mois.charAt(0).toUpperCase() + CFG.mois.slice(1) + " mois", "À discuter avant de se voir en vrai."],
+      ["Fin août", "Ta première visite : la patinoire, la plage de Bray-Dunes et Plopsaland."],
+      ["Ta deuxième visite", "Le cinéma, puis la plage de Dunkerque et notre premier bisou."],
+      ["Le lendemain", "Nous devenons officiellement un couple."]
+    ];
+    const path = h("ol", "tr-path");
+    steps.forEach(x => path.appendChild(h("li", "", `<span class="tr-node">${HEART}</span><strong>${x[0]}</strong><span>${x[1]}</span>`)));
+    const pathWrap = h("div"); pathWrap.appendChild(h("p", "tr-kick", "Notre chemin")); pathWrap.appendChild(path);
+
+    const gift = h("div");
+    gift.appendChild(h("p", "tr-kick", "Une dernière chose"));
+    const gb = h("button", "tr-gift", `<span class="tr-seal">${HEART}</span>Ouvre ta surprise`); gb.type = "button";
+    const card = h("div", "tr-surprise"); card.hidden = true;
+    if (CFG.surprise.image) { const im = h("img"); im.src = CFG.surprise.image; im.alt = CFG.surprise.alt || ""; card.appendChild(im); }
+    const st = h("h4"); st.textContent = CFG.surprise.titre;
+    const sp = h("p"); sp.textContent = CFG.surprise.texte;
+    card.append(st, sp);
+    gb.addEventListener("click", () => {
+      gb.hidden = true; card.hidden = false;
+      const r = card.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + 40, 20);
+    });
+    gift.append(gb, card);
+
+    const replay = h("div"); const rb = h("button", "tr-link", "Rejouer depuis le début"); rb.type = "button";
+    rb.addEventListener("click", () => { ts.done = 0; store(KEY, 0); viewWelcome(); });
+    replay.appendChild(rb);
+
+    w.append(top, letter, pathWrap, gift, replay);
+    root.appendChild(w);
+    if (celebrate) rain(7000);
+  }
+
+  /* ---------- Point d'entrée (appelé par la case 9) ---------- */
+  window.showTresor = function () {
+    run++;
+    const body = document.getElementById("modal-body");
+    body.innerHTML = "";
+    root = h("div", "tr");
+    body.appendChild(root);
+    const saved = Number(load(KEY, 0)) || 0;
+    ts = { step: 0, done: Math.max(0, Math.min(5, saved)) };
+    if (ts.done >= 5) viewFinal(false); else viewWelcome();
+  };
+})();
+
 </script>
 
 </body>
