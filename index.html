@@ -367,6 +367,41 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
 .bingo-item .box { flex: none; width: 18px; height: 18px; margin-top: 1px; border: 2px solid var(--gold); border-radius: 5px; display: grid; place-items: center; color: white; font-size: 12px; }
 .bingo-item.on .box { background: var(--green); border-color: var(--green); }
 .bingo-item.on .box::before { content: "✓"; }
+
+/* ---------- Labyrinthe du cœur ---------- */
+.maze-levels { display: flex; gap: 6px; justify-content: center; margin: 8px 0; }
+.maze-pill {
+  border: 2px solid var(--gold); border-radius: 20px; padding: 5px 14px; background: white;
+  color: var(--dark); font: inherit; font-size: 12px; font-weight: 800; cursor: pointer;
+}
+.maze-pill.on { background: var(--green); border-color: var(--green); color: white; }
+.maze-status { font-weight: 800; color: var(--green); font-size: 14px; min-height: 22px; margin: 6px 0 !important; }
+.maze-wrap { width: 100%; display: flex; justify-content: center; margin: 6px 0; }
+#maze-canvas {
+  display: block; max-width: 100%; touch-action: none; cursor: pointer;
+  border-radius: 14px; box-shadow: 0 0 0 2px var(--gold); background: #fffdf8;
+}
+.maze-pad {
+  display: grid; grid-template-columns: repeat(3, 58px); grid-template-rows: repeat(2, 50px);
+  gap: 6px; justify-content: center; margin: 14px 0 6px;
+}
+.maze-key {
+  border: 2px solid var(--gold); border-radius: 12px; background: white; color: var(--green);
+  font: inherit; font-size: 22px; font-weight: 800; cursor: pointer; touch-action: manipulation;
+}
+.maze-key:active { background: #fbefd0; }
+.maze-key.up { grid-column: 2; grid-row: 1; }
+.maze-key.left { grid-column: 1; grid-row: 2; }
+.maze-key.down { grid-column: 2; grid-row: 2; }
+.maze-key.right { grid-column: 3; grid-row: 2; }
+.maze-heart {
+  position: fixed; bottom: -40px; z-index: 20; pointer-events: none;
+  animation: mazeFloat 2.6s ease-out forwards;
+}
+@keyframes mazeFloat {
+  from { transform: translateY(0) rotate(0); opacity: 1; }
+  to { transform: translateY(-110vh) rotate(25deg); opacity: 0; }
+}
 </style>
 </head>
 <body>
@@ -422,7 +457,7 @@ const activities = [
   "Petit quiz : quel jour nous sommes-nous rencontrés ?",
   "Une surprise t'attend : reconstitue notre puzzle !",
   "Défi photo : envoie-moi une photo de ton moment préféré de la journée.",
-  "Aujourd'hui, prends quelques minutes pour lire mon petit mot d'amour. ❤️",
+  "", // case 7 : labyrinthe du cœur
   "Un rébus spécial nous deux t'attend !",
   "Quelle chanson te fait penser à nous ?",
   "Place les souvenirs dans le bon ordre !",
@@ -543,6 +578,10 @@ function openDay(day) {
     title.textContent = "Le bingo de notre couple ❤️";
     modalContent.classList.add("wide");
     showBingo();
+  } else if (day === 7) {
+    title.textContent = "Le labyrinthe de notre amour ❤️";
+    modalContent.classList.add("wide");
+    showMaze();
   } else if (day === 5) {
     title.textContent = "Notre puzzle ❤️";
     modalContent.classList.add("wide");
@@ -1852,6 +1891,308 @@ function showPuzzle(lv) {
     if (![3, 4, 5].includes(bs.size)) bs.size = 4;
     if (!bValid()) bNewGrid();
     bRender();
+  };
+})();
+
+/* =====================================================
+   LABYRINTHE DU CŒUR ❤️ (ouvert par la case 7)
+   Le cœur part en haut à gauche et doit rejoindre la destination
+   en bas à droite. Déplacement : doigt/souris (glisser), flèches
+   du clavier ou boutons. Le labyrinthe et la progression sont
+   sauvegardés ; "Nouveau" en tire un autre.
+===================================================== */
+const MAZE_START_EMOJI = "❤️";   // le héros
+const MAZE_END_EMOJI = "🏠";     // la destination (change-la : 🎁 💍 🌟 ...)
+const MAZE_WIN_MESSAGE =
+  "Bravo, tu as guidé mon cœur jusqu'à destination ! ❤️\n" +
+  "Où que j'aille, mon chemin mène toujours à toi.";   // <- remplace par ton petit mot
+
+(function () {
+  const KEY = "advent-maze-v1";
+  const SIZES = { 8: "Facile", 11: "Moyen", 15: "Difficile" };
+  const NB = 1, EB = 2, SB = 4, WB = 8;                  // bits : passage ouvert au nord/est/sud/ouest
+  const DIRS = [[0, -1, NB, SB], [1, 0, EB, WB], [0, 1, SB, NB], [-1, 0, WB, EB]];
+  const EMOJI_FONT = '"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+
+  let st = Object.assign({ size: 11, seed: 0, pos: 0, trail: [0], moves: 0, won: false }, load(KEY, {}));
+  let cells = null;
+  function save() { store(KEY, st); }
+
+  function rng(seed) {
+    let a = seed >>> 0;
+    return function () {
+      a = (a + 0x6D2B79F5) >>> 0;
+      let t = a;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  function generate(n, seed) {
+    const rand = rng(seed);
+    const out = new Array(n * n).fill(0);
+    const seen = new Array(n * n).fill(false);
+    const stack = [0];
+    seen[0] = true;
+    while (stack.length) {
+      const cur = stack[stack.length - 1];
+      const c = cur % n, r = (cur - c) / n;
+      const opts = DIRS.filter(d => {
+        const nc = c + d[0], nr = r + d[1];
+        return nc >= 0 && nc < n && nr >= 0 && nr < n && !seen[nr * n + nc];
+      });
+      if (!opts.length) { stack.pop(); continue; }
+      const d = opts[Math.floor(rand() * opts.length)];
+      const nx = (r + d[1]) * n + c + d[0];
+      out[cur] |= d[2];
+      out[nx] |= d[3];
+      seen[nx] = true;
+      stack.push(nx);
+    }
+    return out;
+  }
+
+  function build() { cells = generate(st.size, st.seed); }
+
+  function valid() {
+    return !!SIZES[st.size] && st.seed > 0 && Array.isArray(st.trail) && st.trail.length > 0 &&
+      st.pos >= 0 && st.pos < st.size * st.size && st.trail[st.trail.length - 1] === st.pos;
+  }
+
+  function newMaze(size) {
+    st.size = size || st.size;
+    st.seed = Math.floor(Math.random() * 4294967000) + 1;
+    st.pos = 0; st.trail = [0]; st.moves = 0; st.won = false;
+    save();
+    build();
+  }
+
+  function restart() {
+    st.pos = 0; st.trail = [0]; st.moves = 0; st.won = false;
+    save();
+  }
+
+  /* ---------- Déplacements ---------- */
+  function moveTo(np) {
+    const t = st.trail;
+    if (t.length > 1 && t[t.length - 2] === np) t.pop(); else t.push(np);
+    st.pos = np;
+    st.moves++;
+    const justWon = !st.won && np === st.size * st.size - 1;
+    if (justWon) st.won = true;
+    save();
+    draw();
+    updateUI();
+    if (justWon) {
+      burst();
+      const w = document.getElementById("maze-win");
+      if (w) setTimeout(() => w.scrollIntoView({ behavior: "smooth", block: "nearest" }), 350);
+    }
+  }
+
+  function step(di) {
+    if (st.won) return;
+    const n = st.size, c = st.pos % n, r = (st.pos - c) / n, d = DIRS[di];
+    if (!(cells[st.pos] & d[2])) return;
+    moveTo((r + d[1]) * n + c + d[0]);
+  }
+
+  /* Plus court chemin (en suivant les couloirs) de la position actuelle vers "target". */
+  function pathTo(target, maxLen) {
+    const n = st.size;
+    const prev = new Map([[st.pos, -1]]);
+    const q = [st.pos];
+    for (let i = 0; i < q.length; i++) {
+      const cur = q[i];
+      if (cur === target) break;
+      const c = cur % n, r = (cur - c) / n;
+      DIRS.forEach(d => {
+        if (cells[cur] & d[2]) {
+          const nx = (r + d[1]) * n + c + d[0];
+          if (!prev.has(nx)) { prev.set(nx, cur); q.push(nx); }
+        }
+      });
+    }
+    if (!prev.has(target)) return null;
+    const p = [];
+    for (let x = target; x !== -1; x = prev.get(x)) p.push(x);
+    p.reverse();
+    p.shift();
+    return p.length <= maxLen ? p : null;
+  }
+
+  function pointerCell(e, cv) {
+    const rect = cv.getBoundingClientRect();
+    const size = rect.width, pad = 8, n = st.size;
+    const cs = (size - pad * 2) / n;
+    const x = (e.clientX - rect.left) - pad, y = (e.clientY - rect.top) - pad;
+    const c = Math.floor(x / cs), r = Math.floor(y / cs);
+    if (c < 0 || c >= n || r < 0 || r >= n) return -1;
+    return r * n + c;
+  }
+
+  function onPointer(e) {
+    if (st.won) return;
+    const cv = e.currentTarget;
+    const target = pointerCell(e, cv);
+    if (target < 0 || target === st.pos) return;
+    const p = pathTo(target, 3);          // on suit les couloirs, jamais à travers un mur
+    if (p) p.forEach(cell => { if (!st.won) moveTo(cell); });
+  }
+
+  /* ---------- Dessin ---------- */
+  function draw() {
+    const cv = document.getElementById("maze-canvas");
+    if (!cv || !cells) return;
+    const holder = cv.parentElement;
+    const size = Math.max(200, Math.min(holder.clientWidth || 360, 460));
+    const dpr = window.devicePixelRatio || 1;
+    cv.style.width = size + "px";
+    cv.style.height = size + "px";
+    cv.width = Math.round(size * dpr);
+    cv.height = Math.round(size * dpr);
+    const ctx = cv.getContext("2d");
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, size, size);
+
+    const n = st.size, pad = 8, cs = (size - pad * 2) / n;
+    const cx = i => pad + (i % n) * cs + cs / 2;
+    const cy = i => pad + Math.floor(i / n) * cs + cs / 2;
+
+    // case d'arrivée en surbrillance
+    const end = n * n - 1;
+    ctx.fillStyle = "#f6e7bf";
+    ctx.fillRect(pad + (n - 1) * cs, pad + (n - 1) * cs, cs, cs);
+
+    // fil d'Ariane
+    if (st.trail.length > 1) {
+      ctx.strokeStyle = "rgba(165,43,64,.35)";
+      ctx.lineWidth = cs * 0.32;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.beginPath();
+      st.trail.forEach((i, k) => k ? ctx.lineTo(cx(i), cy(i)) : ctx.moveTo(cx(i), cy(i)));
+      ctx.stroke();
+    }
+
+    // murs
+    ctx.strokeStyle = "#392b28";
+    ctx.lineWidth = Math.max(2, cs * 0.09);
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    for (let i = 0; i < n * n; i++) {
+      const c = i % n, r = (i - c) / n;
+      const x = pad + c * cs, y = pad + r * cs;
+      if (!(cells[i] & NB)) { ctx.moveTo(x, y); ctx.lineTo(x + cs, y); }
+      if (!(cells[i] & WB)) { ctx.moveTo(x, y); ctx.lineTo(x, y + cs); }
+      if (c === n - 1) { ctx.moveTo(x + cs, y); ctx.lineTo(x + cs, y + cs); }
+      if (r === n - 1) { ctx.moveTo(x, y + cs); ctx.lineTo(x + cs, y + cs); }
+    }
+    ctx.stroke();
+
+    // destination puis cœur
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.font = Math.round(cs * 0.62) + "px " + EMOJI_FONT;
+    ctx.fillText(MAZE_END_EMOJI, cx(end), cy(end) + cs * 0.03);
+    if (st.won) {
+      ctx.font = Math.round(cs * 0.4) + "px " + EMOJI_FONT;
+      ctx.fillText(MAZE_START_EMOJI, cx(end) + cs * 0.28, cy(end) - cs * 0.3);
+    } else {
+      ctx.font = Math.round(cs * 0.62) + "px " + EMOJI_FONT;
+      ctx.fillText(MAZE_START_EMOJI, cx(st.pos), cy(st.pos) + cs * 0.03);
+    }
+  }
+
+  /* ---------- Interface ---------- */
+  function updateUI() {
+    const status = document.getElementById("maze-status");
+    const win = document.getElementById("maze-win");
+    if (!status || !win) return;
+    status.textContent = st.won
+      ? "Arrivé en " + st.moves + " pas ! 🎉"
+      : (st.moves ? "Pas : " + st.moves : "Fais glisser le cœur ou utilise les flèches");
+    win.style.display = st.won ? "block" : "none";
+  }
+
+  function burst() {
+    for (let i = 0; i < 16; i++) {
+      const h = qEl("span", "maze-heart", i % 3 ? "❤️" : "✨");
+      h.style.left = Math.round(Math.random() * 92 + 2) + "vw";
+      h.style.fontSize = Math.round(18 + Math.random() * 22) + "px";
+      h.style.animationDelay = (Math.random() * 0.8).toFixed(2) + "s";
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), 3800);
+    }
+  }
+
+  function mButton(cls, text, fn, label) {
+    const b = qEl("button", cls, text);
+    b.type = "button";
+    if (label) b.setAttribute("aria-label", label);
+    b.addEventListener("click", fn);
+    return b;
+  }
+
+  function render() {
+    const body = document.getElementById("modal-body");
+    body.innerHTML = "";
+    body.appendChild(qEl("p", "game-intro", "Guide le cœur jusqu'à sa destination. Fais-le glisser du doigt, ou utilise les flèches. ❤️"));
+
+    const levels = qEl("div", "maze-levels");
+    Object.keys(SIZES).forEach(k => {
+      levels.appendChild(mButton("maze-pill" + (st.size === +k ? " on" : ""), SIZES[k], () => { newMaze(+k); render(); }));
+    });
+    body.appendChild(levels);
+
+    const status = qEl("p", "maze-status", "");
+    status.id = "maze-status";
+    body.appendChild(status);
+
+    const wrap = qEl("div", "maze-wrap");
+    const cv = document.createElement("canvas");
+    cv.id = "maze-canvas";
+    cv.setAttribute("aria-label", "Labyrinthe : guide le cœur jusqu'à la destination");
+    cv.addEventListener("pointerdown", e => { cv.setPointerCapture(e.pointerId); onPointer(e); });
+    cv.addEventListener("pointermove", e => { if (e.buttons || e.pointerType === "touch") onPointer(e); });
+    wrap.appendChild(cv);
+    body.appendChild(wrap);
+
+    const pad = qEl("div", "maze-pad");
+    [["up", "↑", 0, "Haut"], ["left", "←", 3, "Gauche"], ["down", "↓", 2, "Bas"], ["right", "→", 1, "Droite"]].forEach(([cls, sym, di, label]) => {
+      pad.appendChild(mButton("maze-key " + cls, sym, () => step(di), label));
+    });
+    body.appendChild(pad);
+
+    const win = qEl("div", "victory-message", MAZE_WIN_MESSAGE);
+    win.id = "maze-win";
+    win.style.whiteSpace = "pre-line";
+    win.style.marginTop = "12px";
+    body.appendChild(win);
+
+    const actions = qEl("div", "quiz-actions");
+    actions.appendChild(mButton("link-btn", "Recommencer", () => { restart(); draw(); updateUI(); }));
+    actions.appendChild(mButton("link-btn", "Nouveau labyrinthe", () => { newMaze(); render(); }));
+    body.appendChild(actions);
+
+    updateUI();
+    draw();
+  }
+
+  document.addEventListener("keydown", (e) => {
+    const cv = document.getElementById("maze-canvas");
+    if (!cv || !document.getElementById("modal").classList.contains("show")) return;
+    const map = { ArrowUp: 0, ArrowRight: 1, ArrowDown: 2, ArrowLeft: 3, w: 0, d: 1, s: 2, a: 3 };
+    if (!(e.key in map)) return;
+    e.preventDefault();
+    step(map[e.key]);
+  });
+  window.addEventListener("resize", draw);
+
+  window.showMaze = function () {
+    if (!valid()) newMaze(SIZES[st.size] ? st.size : 11); else build();
+    render();
   };
 })();
 </script>
