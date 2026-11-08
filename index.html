@@ -823,6 +823,66 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
 .sc-fx { position: fixed; pointer-events: none; z-index: 80; }
 .sc-fx svg { width: 100%; height: 100%; fill: currentColor; }
 @media (prefers-reduced-motion: reduce) { .sc * { animation: none !important; transition: none !important; } }
+
+/* ---------- Case 14 : Qui de nous deux ? ---------- */
+.qd { --pk:#FBE4E7; --pk2:#F4C6CC; --paper:#FFFCF9; --sand:#F3E6D8; --rd:#B5313F; --rd2:#8E2230; --ink:#45272D; --soft:#80626A; --ln:#EBD3CF; text-align: center; color: var(--ink); }
+.qd [hidden] { display: none !important; }
+.qd-kick { font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--rd); font-weight: 800; margin: 4px 0 2px; }
+.qd-title { font-family: 'Great Vibes', cursive; font-weight: normal; font-size: 38px; line-height: 1.12; color: var(--rd); margin: 2px 0 8px; text-wrap: balance; }
+.qd-text { font-size: 16px; line-height: 1.6; margin: 0 auto 16px; max-width: 460px; text-wrap: pretty; }
+.qd-note { font-size: 13px; line-height: 1.5; color: var(--soft); margin: 0 auto 14px; max-width: 460px; }
+.qd-btn { font: inherit; font-weight: 800; font-size: 15px; border-radius: 999px; padding: 12px 22px; min-height: 48px; border: 2px solid transparent; cursor: pointer; touch-action: manipulation; transition: transform .15s, background .2s, opacity .2s; }
+.qd-btn:active:not(:disabled) { transform: scale(.97); }
+.qd-btn.main { background: var(--rd); color: #fff; box-shadow: 0 6px 14px -6px rgba(181,49,63,.7); }
+.qd-btn.main:hover:not(:disabled) { background: var(--rd2); }
+.qd-btn.ghost { background: transparent; color: var(--soft); border-color: var(--ln); }
+.qd-btn.ghost:hover:not(:disabled) { border-color: var(--pk2); color: var(--ink); }
+.qd-btn:disabled { opacity: .4; cursor: default; }
+.qd button:focus-visible, .qd input:focus-visible { outline: 3px solid var(--pk2); outline-offset: 2px; }
+.qd-acts { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 14px; }
+.qd-msg { min-height: 24px; margin: 10px 0 0; font-weight: 800; color: var(--rd); font-size: 14px; }
+.qd-tiny { background: none; border: 0; color: var(--soft); opacity: .45; font-size: 12px; padding: 10px 14px; cursor: pointer; margin-top: 10px; }
+.qd-tiny:hover { opacity: .9; text-decoration: underline; }
+.qd-icons { display: flex; justify-content: center; gap: 12px; font-size: 34px; margin: 4px 0 8px; }
+.qd-bar { height: 8px; background: var(--pk); border-radius: 8px; overflow: hidden; margin: 6px 0 4px; }
+.qd-bar i { display: block; height: 100%; width: 0; background: var(--rd); border-radius: 8px; transition: width .5s cubic-bezier(.3,.9,.3,1); }
+.qd-count { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--soft); font-weight: 800; }
+.qd-cat { display: inline-block; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 800; color: var(--rd2); background: var(--pk); padding: 4px 12px; border-radius: 999px; margin: 14px 0 8px; }
+.qd-q { font-size: 21px; font-weight: 800; line-height: 1.35; margin: 4px auto 18px; max-width: 460px; text-wrap: balance; min-height: 3.8em; display: grid; align-items: center; }
+.qd-card { animation: qdIn .35s both; }
+@keyframes qdIn { from { opacity: 0; transform: translateX(18px); } to { opacity: 1; transform: none; } }
+.qd-choices { display: grid; gap: 10px; max-width: 360px; margin: 0 auto; }
+.qd-choice { font: inherit; font-weight: 800; font-size: 17px; min-height: 56px; border-radius: 16px; border: 2px solid var(--ln); background: var(--paper); color: var(--ink); cursor: pointer; touch-action: manipulation; transition: transform .15s, border-color .2s, background .2s; }
+.qd-choice:hover { border-color: var(--pk2); transform: translateY(-1px); }
+.qd-choice.sel { background: var(--rd); border-color: var(--rd); color: #fff; }
+.qd-prep-head { position: sticky; top: -26px; z-index: 3; background: var(--cream); padding: 10px 0 6px; margin-bottom: 4px; }
+.qd-list { display: grid; gap: 10px; text-align: left; }
+.qd-row { background: var(--paper); border: 2px solid var(--ln); border-radius: 16px; padding: 12px; }
+.qd-row.ok { border-color: var(--pk2); background: #fff; }
+.qd-row p { margin: 0 0 10px; font-weight: 700; font-size: 15px; line-height: 1.4; }
+.qd-row p span { color: var(--rd); font-weight: 800; margin-right: 4px; }
+.qd-mini { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.qd-mini button { font: inherit; font-weight: 800; font-size: 14px; min-height: 44px; border-radius: 12px; border: 2px solid var(--ln); background: var(--paper); color: var(--ink); cursor: pointer; touch-action: manipulation; padding: 4px; }
+.qd-mini button.sel { background: var(--rd); border-color: var(--rd); color: #fff; }
+.qd-foot { position: sticky; bottom: -26px; background: var(--cream); padding: 12px 0 4px; margin-top: 10px; }
+.qd-ready { background: var(--rd); color: #fff; border-radius: 14px; padding: 12px 14px; font-weight: 800; line-height: 1.45; animation: qdPop .5s both; margin: 0 0 12px; }
+@keyframes qdPop { from { opacity: 0; transform: scale(.8) translateY(8px); } to { opacity: 1; transform: none; } }
+.qd-code { font: inherit; font-size: 20px; text-align: center; letter-spacing: 6px; width: min(100%, 220px); padding: 10px; border: 2px solid var(--ln); border-radius: 14px; background: #fff; color: var(--ink); }
+.qd-score { font-weight: 800; font-size: 54px; color: var(--rd); line-height: 1; margin: 6px 0 2px; }
+.qd-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 14px 0; }
+.qd-stat { background: var(--pk); border-radius: 14px; padding: 10px 6px; }
+.qd-stat b { display: block; font-size: 24px; color: var(--rd2); }
+.qd-stat span { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; font-weight: 800; color: var(--soft); }
+.qd-verdict { font-size: 17px; line-height: 1.55; font-weight: 700; margin: 6px auto 8px; max-width: 460px; text-wrap: balance; }
+.qd-det { text-align: left; margin: 10px 0; border: 2px solid var(--ln); border-radius: 14px; background: var(--paper); }
+.qd-det summary { cursor: pointer; padding: 12px 14px; font-weight: 800; min-height: 44px; }
+.qd-det ul { list-style: none; margin: 0; padding: 0 12px 10px; display: grid; gap: 8px; }
+.qd-det li { font-size: 14px; line-height: 1.4; padding: 8px 10px; border-radius: 10px; background: #fff; }
+.qd-det li small { display: block; color: var(--soft); margin-top: 2px; }
+.qd-fx { position: fixed; pointer-events: none; z-index: 80; }
+.qd-fx svg { width: 100%; height: 100%; fill: currentColor; }
+@media (max-width: 420px) { .qd-title { font-size: 34px; } .qd-q { font-size: 19px; } .qd-prep-head, .qd-foot { top: -20px; bottom: -20px; } .qd-prep-head { bottom: auto; } .qd-foot { top: auto; } }
+@media (prefers-reduced-motion: reduce) { .qd * { animation: none !important; transition: none !important; } }
 </style>
 </head>
 <body>
@@ -885,7 +945,7 @@ const activities = [
   "", // case 11 : menu de la soirée
   "", // case 12 : lettre à ouvrir
   "", // case 13 : ticket à gratter
-  "Défi du jour : donne-moi cinq choses que tu aimes chez moi.",
+  "", // case 14 : qui de nous deux ?
   "Une petite énigme sur notre histoire t'attend.",
   "Quel est ton souvenir préféré de nous deux ?",
   "Petit jeu : tu préfères quoi ?",
@@ -1004,6 +1064,10 @@ function openDay(day) {
     title.textContent = "Le labyrinthe de notre amour ❤️";
     modalContent.classList.add("wide");
     showMaze();
+  } else if (day === 14) {
+    title.textContent = "Qui de nous deux ? ❤️";
+    modalContent.classList.add("wide");
+    showQuiDeNous();
   } else if (day === 13) {
     title.textContent = "Gratte et découvre ta surprise ! ❤️";
     modalContent.classList.add("wide");
@@ -4389,6 +4453,322 @@ const PM_EMBEDDED = {
     const root = h("div", "sc");
     body.appendChild(root);
     build(root);
+  };
+})();
+
+
+/* =====================================================
+   CASE 14 : QUI DE NOUS DEUX ? ❤️
+   -> Réglages à personnaliser juste ici.
+===================================================== */
+(function () {
+  "use strict";
+
+  const NOM_LUI = "Gabriel";    // prénom de ton copain (utilisé dans les résultats)
+  const NOM_ELLE = "Lucile";    // ton prénom (utilisé dans les résultats)
+
+  /* Code secret facultatif pour entrer dans l'écran de préparation.
+     Laisse "" pour ne pas en mettre. Exemple : "1412" */
+  const CODE_PREPARATION = "";
+
+  /* MES RÉPONSES DANS LE CODE (facultatif).
+     Utile si ton copain joue sur un autre appareil que celui où tu as préparé tes réponses
+     (le stockage du navigateur ne voyage pas d'un appareil à l'autre).
+     Écris 35 réponses parmi "moi", "toi", "les deux" : ici « moi » = toi (Lucile), « toi » = lui.
+     Laisse [] pour utiliser seulement l'écran de préparation. */
+  const MES_REPONSES = [];
+
+  const KEY = "quidenous-reponses", DRAFT = "quidenous-brouillon";
+  const QUESTIONS = [
+    ["Notre quotidien", "Qui met le plus de temps à se préparer ?"],
+    ["Notre quotidien", "Qui est le plus souvent fatigué ?"],
+    ["Notre quotidien", "Qui pourrait dormir toute la journée ?"],
+    ["Notre quotidien", "Qui passe le plus de temps sur son téléphone ?"],
+    ["Notre quotidien", "Qui est le plus désordonné ?"],
+    ["Notre quotidien", "Qui a le plus souvent faim ?"],
+    ["Notre couple", "Qui est le plus câlin ?"],
+    ["Notre couple", "Qui dit le plus souvent « Je t'aime » ?"],
+    ["Notre couple", "Qui est le plus romantique ?"],
+    ["Notre couple", "Qui réclame le plus de bisous ?"],
+    ["Notre couple", "Qui est le plus jaloux ?"],
+    ["Notre couple", "Qui serait le plus susceptible de préparer une surprise à l'autre ?"],
+    ["Nos sorties et loisirs", "Qui choisit le film à regarder ?"],
+    ["Nos sorties et loisirs", "Qui est le plus gourmand au restaurant ?"],
+    ["Nos sorties et loisirs", "Qui est le plus compétitif pendant les jeux ?"],
+    ["Nos sorties et loisirs", "Qui propose le plus souvent des sorties ?"],
+    ["Nos sorties et loisirs", "Qui voudrait prolonger une sortie plutôt que rentrer ?"],
+    ["Nos sorties et loisirs", "Qui prend le plus de photos ?"],
+    ["Nos petites habitudes", "Qui boude le plus facilement ?"],
+    ["Nos petites habitudes", "Qui rigole pour rien ?"],
+    ["Nos petites habitudes", "Qui est le plus têtu ?"],
+    ["Nos petites habitudes", "Qui parle le plus ?"],
+    ["Nos petites habitudes", "Qui est le plus susceptible d'oublier quelque chose ?"],
+    ["Nos petites habitudes", "Qui envoie le plus de messages ?"],
+    ["Nos situations amusantes", "Qui est le plus susceptible de faire quelque chose de ridicule ?"],
+    ["Nos situations amusantes", "Qui rigole au pire moment ?"],
+    ["Nos situations amusantes", "Qui fait le premier pas pour se réconcilier après une dispute ?"],
+    ["Nos situations amusantes", "Qui mange dans l'assiette de l'autre ?"],
+    ["Nos situations amusantes", "Qui serait le plus partant pour un voyage improvisé ?"],
+    ["Nos situations amusantes", "Qui est le plus triste après un au revoir ?"],
+    ["Nos situations amusantes", "Qui pourrait regarder plusieurs fois le même film ?"],
+    ["Nos situations amusantes", "Qui fait le plus de compliments à l'autre ?"],
+    ["Nos situations amusantes", "Qui risque de s'endormir devant un film ?"],
+    ["Nos situations amusantes", "Qui ferait le premier câlin après une journée difficile ?"],
+    ["Nos situations amusantes", "Qui serait le plus tenté d'adopter encore plus d'animaux ?"]
+  ];
+  const N = QUESTIONS.length;
+  const VALS = ["lui", "elle", "both"];
+  const FINAL_MSGS = [
+    [70, "On dirait qu'on se connaît vraiment par cœur ! ❤️"],
+    [40, "On se ressemble sur certaines choses… mais il nous reste encore des surprises à découvrir !"],
+    [0, "Heureusement qu'on ne se ressemble pas sur tout, c'est aussi ce qui fait notre histoire ! ❤️"]
+  ];
+
+  const HEART_D = "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z";
+  const HEART = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${HEART_D}"/></svg>`;
+  const STAR = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z"/></svg>`;
+  const reduce = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+  let run = 0, root;
+  const h = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
+  const toTop = () => { const m = document.getElementById("modal-content"); if (m) m.scrollTop = 0; };
+  const valid = a => Array.isArray(a) && a.length === N && a.every(v => VALS.includes(v));
+  const nom = v => (v === "lui" ? NOM_LUI : v === "elle" ? NOM_ELLE : "Les deux");
+
+  /* réponses secrètes : navigateur d'abord, sinon réponses écrites dans le code */
+  function getSaved() {
+    const s = load(KEY, null);
+    if (valid(s)) return s;
+    const code = MES_REPONSES.map(x => { const t = String(x).toLowerCase().trim(); return t === "moi" ? "elle" : t === "toi" ? "lui" : t === "les deux" ? "both" : ""; });
+    return valid(code) ? code : null;
+  }
+
+  function burst(x, y, n) {
+    if (reduce) return;
+    const cols = ["#B5313F", "#E58C99", "#F4C6CC", "#D6B46A", "#D9A58F"];
+    for (let i = 0; i < n; i++) {
+      const kind = i % 3, p = h("span", "qd-fx", kind === 0 ? HEART : kind === 1 ? STAR : "");
+      if (kind === 2) { p.style.width = "9px"; p.style.height = "14px"; p.style.background = cols[i % cols.length]; p.style.borderRadius = "2px"; }
+      else { const s = 16 + Math.random() * 14; p.style.width = p.style.height = s + "px"; }
+      p.style.left = x + "px"; p.style.top = y + "px"; p.style.color = cols[i % cols.length];
+      document.body.appendChild(p);
+      const a = Math.random() * 6.283, d = 80 + Math.random() * 170;
+      p.animate([
+        { transform: "translate(-50%,-50%) scale(.3) rotate(0deg)", opacity: 1 },
+        { transform: `translate(calc(-50% + ${Math.cos(a) * d}px), calc(-50% + ${Math.sin(a) * d - 60}px)) scale(1) rotate(${(Math.random() - 0.5) * 540}deg)`, opacity: 1, offset: 0.65 },
+        { transform: `translate(calc(-50% + ${Math.cos(a) * d * 1.1}px), calc(-50% + ${Math.sin(a) * d + 40}px)) scale(.8) rotate(${(Math.random() - 0.5) * 700}deg)`, opacity: 0 }
+      ], { duration: 1400 + Math.random() * 800, easing: "cubic-bezier(.2,.7,.3,1)" }).onfinish = () => p.remove();
+    }
+  }
+
+  /* ---------- Accueil ---------- */
+  function viewWelcome(msgText) {
+    root.innerHTML = "";
+    toTop();
+    const ready = !!getSaved();
+    root.appendChild(h("p", "qd-kick", "Case 14"));
+    root.appendChild(h("div", "qd-icons", "<span aria-hidden='true'>🙋‍♂️</span><span aria-hidden='true'>❤️</span><span aria-hidden='true'>🙋‍♀️</span>"));
+    const t = h("h3", "qd-title"); t.textContent = "Qui de nous deux ?"; root.appendChild(t);
+    const p = h("p", "qd-text"); p.textContent = "35 petites situations de notre quotidien. À chaque fois, dis-moi qui, de nous deux, est le plus concerné : toi, moi ou les deux. Puis on compare !"; root.appendChild(p);
+    const acts = h("div", "qd-acts");
+    const msg = h("p", "qd-msg"); msg.setAttribute("role", "status"); msg.setAttribute("aria-live", "polite"); msg.textContent = msgText || "";
+    if (!ready) {
+      const prep = h("button", "qd-btn ghost", "Préparer mes réponses ❤️"); prep.type = "button";
+      prep.addEventListener("click", askPrep);
+      acts.appendChild(prep);
+    }
+    const go = h("button", "qd-btn main", "Commencer le jeu"); go.type = "button";
+    go.addEventListener("click", () => {
+      if (!getSaved()) { msg.textContent = "Mes réponses secrètes ne sont pas encore prêtes. Prépare-les d'abord avec « Préparer mes réponses ❤️ »."; return; }
+      startGame();
+    });
+    acts.appendChild(go);
+    root.append(acts, msg);
+    if (ready) {
+      const tiny = h("button", "qd-tiny", "✎ modifier mes réponses"); tiny.type = "button";
+      tiny.addEventListener("click", askPrep);
+      root.appendChild(tiny);
+    }
+  }
+
+  /* ---------- Accès à la préparation (code facultatif) ---------- */
+  function askPrep() {
+    if (!CODE_PREPARATION) return viewPrep();
+    root.innerHTML = "";
+    root.appendChild(h("p", "qd-kick", "Espace réservé"));
+    const p = h("p", "qd-text", "Entre ton code pour préparer tes réponses."); root.appendChild(p);
+    const lab = h("label", "qd-note"); lab.setAttribute("for", "qd-code"); lab.textContent = "Code";
+    const inp = h("input", "qd-code"); inp.id = "qd-code"; inp.type = "password"; inp.autocomplete = "off"; inp.inputMode = "numeric";
+    const msg = h("p", "qd-msg"); msg.setAttribute("role", "status");
+    const ok = h("button", "qd-btn main", "Entrer"); ok.type = "button";
+    const back = h("button", "qd-btn ghost", "Retour"); back.type = "button";
+    const go = () => { if (inp.value === CODE_PREPARATION) viewPrep(); else { msg.textContent = "Ce n'est pas le bon code."; inp.value = ""; inp.focus(); } };
+    ok.addEventListener("click", go); back.addEventListener("click", () => viewWelcome());
+    inp.addEventListener("keydown", e => { if (e.key === "Enter") go(); });
+    const acts = h("div", "qd-acts"); acts.append(back, ok);
+    root.append(lab, inp, msg, acts);
+    inp.focus();
+  }
+
+  /* ---------- Préparation de mes réponses ---------- */
+  function viewPrep() {
+    root.innerHTML = "";
+    toTop();
+    const saved = getSaved(), draftRaw = load(DRAFT, null);
+    let draft = Array.isArray(draftRaw) && draftRaw.length === N ? draftRaw.slice() : (saved ? saved.slice() : new Array(N).fill(null));
+    draft = draft.map(v => (VALS.includes(v) ? v : null));
+    const count = () => draft.filter(Boolean).length;
+
+    const head = h("div", "qd-prep-head");
+    const title = h("h3", "qd-title"); title.textContent = "Mes réponses secrètes ❤️"; title.style.fontSize = "32px";
+    const note = h("p", "qd-note"); note.textContent = "Réponds de ton point de vue : ici, « Moi » c'est toi et « Toi » c'est lui. Tu peux changer tes choix et revenir quand tu veux.";
+    const cnt = h("div", "qd-count"), bar = h("div", "qd-bar", "<i></i>");
+    head.append(title, note, cnt, bar);
+
+    const list = h("div", "qd-list"), rows = [];
+    let lastCat = "";
+    QUESTIONS.forEach((q, i) => {
+      if (q[0] !== lastCat) { lastCat = q[0]; const c = h("div"); c.style.textAlign = "left"; c.appendChild(h("span", "qd-cat", "")); c.firstChild.textContent = q[0]; list.appendChild(c); }
+      const row = h("div", "qd-row"); row.id = "qd-p" + i;
+      const p = h("p", ""); const num = h("span", "", (i + 1) + "."); p.append(num, document.createTextNode(" " + q[1]));
+      const mini = h("div", "qd-mini"); mini.setAttribute("role", "group"); mini.setAttribute("aria-label", "Réponse à la question " + (i + 1));
+      const btns = [["elle", "Moi"], ["lui", "Toi"], ["both", "Les deux"]].map(([v, lab]) => {
+        const b = h("button", "", lab); b.type = "button"; b.setAttribute("aria-pressed", "false");
+        b.addEventListener("click", () => { draft[i] = v; store(DRAFT, draft); paint(); });
+        mini.appendChild(b); return [v, b];
+      });
+      row.append(p, mini); list.appendChild(row); rows.push({ row, btns });
+    });
+
+    const foot = h("div", "qd-foot");
+    const msg = h("p", "qd-msg"); msg.setAttribute("role", "status"); msg.setAttribute("aria-live", "polite");
+    const save = h("button", "qd-btn main", "Enregistrer mes réponses"); save.type = "button";
+    const cancel = h("button", "qd-btn ghost", "Retour"); cancel.type = "button";
+    const next = h("button", "qd-btn ghost", "Prochaine question vide"); next.type = "button";
+    const acts = h("div", "qd-acts"); acts.style.marginTop = "0"; acts.append(cancel, next, save);
+    foot.append(msg, acts);
+    root.append(head, list, foot);
+
+    function paint() {
+      const n = count();
+      cnt.textContent = n + " réponse" + (n > 1 ? "s" : "") + " sur " + N;
+      bar.firstChild.style.width = (n / N * 100) + "%";
+      rows.forEach((r, i) => { r.row.classList.toggle("ok", !!draft[i]); r.btns.forEach(([v, b]) => { const on = draft[i] === v; b.classList.toggle("sel", on); b.setAttribute("aria-pressed", on ? "true" : "false"); }); });
+      save.disabled = n < N; next.hidden = n === N;
+      msg.textContent = n < N ? "" : "Toutes les réponses sont renseignées. Tu peux les enregistrer !";
+    }
+    next.addEventListener("click", () => { const i = draft.findIndex(v => !v); if (i >= 0) { const el = document.getElementById("qd-p" + i); if (el) el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" }); } });
+    cancel.addEventListener("click", () => viewWelcome());
+    save.addEventListener("click", () => {
+      if (count() < N) return;
+      store(KEY, draft.slice()); try { localStorage.removeItem(DRAFT); } catch (e) {}
+      viewSaved();
+    });
+    paint();
+  }
+
+  function viewSaved() {
+    const id = run;
+    root.innerHTML = "";
+    toTop();
+    root.appendChild(h("div", "qd-icons", "<span aria-hidden='true'>🔒</span><span aria-hidden='true'>❤️</span>"));
+    const ok = h("p", "qd-ready"); ok.textContent = "Tes réponses sont bien enregistrées ! Elles resteront secrètes jusqu'à la fin du jeu. ❤️";
+    const p = h("p", "qd-note"); p.textContent = "Mon copain peut maintenant commencer le jeu.";
+    const back = h("button", "qd-btn ghost", "Retour à l'accueil"); back.type = "button";
+    const go = h("button", "qd-btn main", "Commencer le jeu"); go.type = "button";
+    back.addEventListener("click", () => viewWelcome()); go.addEventListener("click", startGame);
+    const acts = h("div", "qd-acts"); acts.append(back, go);
+    root.append(ok, p, acts);
+    setTimeout(() => { if (id !== run) return; const r = ok.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + 20, 20); }, 150);
+  }
+
+  /* ---------- Le jeu ---------- */
+  function startGame() {
+    const order = QUESTIONS.map((_, i) => i);
+    for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
+    viewQuestion({ order, ans: new Array(N).fill(null), pos: 0 });
+  }
+
+  function viewQuestion(g) {
+    root.innerHTML = "";
+    toTop();
+    const qi = g.order[g.pos], q = QUESTIONS[qi];
+    const wrap = h("div", "qd-card");
+    const cnt = h("div", "qd-count"); const left = N - g.pos - 1;
+    cnt.textContent = "Question " + (g.pos + 1) + " sur " + N + (left ? " · encore " + left : " · la dernière !");
+    const bar = h("div", "qd-bar", "<i></i>");
+    const cat = h("span", "qd-cat"); cat.textContent = q[0];
+    const qt = h("h3", "qd-q"); qt.textContent = q[1];
+    const ch = h("div", "qd-choices"); ch.setAttribute("role", "group"); ch.setAttribute("aria-label", "Ta réponse");
+    const next = h("button", "qd-btn main", g.pos === N - 1 ? "Voir le résultat" : "Question suivante →"); next.type = "button"; next.disabled = g.ans[qi] === null;
+    const prev = h("button", "qd-btn ghost", "← Précédente"); prev.type = "button"; prev.disabled = g.pos === 0;
+    const btns = [["lui", "Moi"], ["elle", "Toi"], ["both", "Les deux"]].map(([v, lab]) => {
+      const b = h("button", "qd-choice" + (g.ans[qi] === v ? " sel" : ""), lab); b.type = "button"; b.setAttribute("aria-pressed", g.ans[qi] === v ? "true" : "false");
+      b.addEventListener("click", () => {
+        g.ans[qi] = v; next.disabled = false;
+        btns.forEach(x => { const on = x === b; x.classList.toggle("sel", on); x.setAttribute("aria-pressed", on ? "true" : "false"); });
+        const r = b.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + 10, 5);
+      });
+      ch.appendChild(b); return b;
+    });
+    prev.addEventListener("click", () => { if (g.pos > 0) { g.pos--; viewQuestion(g); } });
+    next.addEventListener("click", () => { if (g.ans[qi] === null) return; if (g.pos === N - 1) viewResult(g); else { g.pos++; viewQuestion(g); } });
+    const acts = h("div", "qd-acts"); acts.append(prev, next);
+    wrap.append(cnt, bar, cat, qt, ch, acts);
+    root.appendChild(wrap);
+    requestAnimationFrame(() => { bar.firstChild.style.width = ((g.pos) / N * 100) + "%"; requestAnimationFrame(() => { bar.firstChild.style.width = ((g.pos + (g.ans[qi] !== null ? 1 : 0)) / N * 100) + "%"; }); });
+  }
+
+  /* ---------- Comparaison et résultat ---------- */
+  function viewResult(g) {
+    const id = run, mine = getSaved();
+    root.innerHTML = "";
+    toTop();
+    if (!mine) return viewWelcome("Mes réponses secrètes ne sont plus disponibles. Prépare-les de nouveau.");
+    const same = [], diff = [];
+    for (let i = 0; i < N; i++) (g.ans[i] === mine[i] ? same : diff).push(i);
+    const pct = Math.round(same.length / N * 100);
+    const verdict = FINAL_MSGS.find(m => pct >= m[0])[1];
+
+    root.appendChild(h("p", "qd-kick", "Le verdict"));
+    const t = h("h3", "qd-title"); t.textContent = "Notre score ❤️"; root.appendChild(t);
+    root.appendChild(h("div", "qd-score", pct + " %"));
+    const sub = h("p", "qd-note"); sub.textContent = "de réponses identiques"; root.appendChild(sub);
+    root.appendChild(h("div", "qd-stats", `<div class="qd-stat"><b>${same.length}</b><span>Pareil</span></div><div class="qd-stat"><b>${diff.length}</b><span>Différent</span></div><div class="qd-stat"><b>${N}</b><span>Questions</span></div>`));
+    const v = h("p", "qd-verdict"); v.textContent = verdict; root.appendChild(v);
+    const dis = h("p", "qd-note"); dis.textContent = "Ce score est uniquement là pour s'amuser : il ne représente pas du tout notre compatibilité."; root.appendChild(dis);
+
+    const mk = (label, idxs, showBoth) => {
+      const d = h("details", "qd-det"), s = h("summary"); s.textContent = label + " (" + idxs.length + ")"; d.appendChild(s);
+      const ul = h("ul");
+      if (!idxs.length) { const li = h("li"); li.textContent = "Aucune question dans cette liste."; ul.appendChild(li); }
+      idxs.forEach(i => {
+        const li = h("li"), b = h("span"); b.textContent = QUESTIONS[i][1]; li.appendChild(b);
+        const sm = h("small");
+        sm.textContent = showBoth ? "Toi : " + nom(g.ans[i]) + " · Moi : " + nom(mine[i]) : "Nous avons répondu pareil : " + nom(g.ans[i]);
+        li.appendChild(sm); ul.appendChild(li);
+      });
+      d.appendChild(ul); return d;
+    };
+    root.append(mk("Questions où nous avons répondu pareil", same, false), mk("Questions où nous avons répondu différemment", diff, true));
+
+    const again = h("button", "qd-btn main", "Recommencer une partie"); again.type = "button";
+    again.addEventListener("click", startGame);
+    const acts = h("div", "qd-acts"); acts.appendChild(again); root.appendChild(acts);
+    setTimeout(() => {
+      if (id !== run) return;
+      const r = v.getBoundingClientRect();
+      burst(r.left + r.width * 0.25, r.top, 22); burst(r.left + r.width * 0.75, r.top, 22);
+    }, 300);
+  }
+
+  /* ---------- Point d'entrée (appelé par la case 14) ---------- */
+  window.showQuiDeNous = function () {
+    run++;
+    const body = document.getElementById("modal-body");
+    body.innerHTML = "";
+    root = h("div", "qd");
+    body.appendChild(root);
+    viewWelcome();
   };
 })();
 
