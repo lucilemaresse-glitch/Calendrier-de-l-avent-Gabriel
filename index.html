@@ -805,6 +805,7 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
 .sc-msg { font-weight: 800; font-size: 17px; line-height: 1.45; color: var(--rd2); margin: 0; text-wrap: balance; }
 .sc-name { font-family: 'Great Vibes', cursive; font-size: 36px; line-height: 1.1; color: var(--rd); margin: 0; }
 .sc-desc { font-size: 14px; line-height: 1.5; color: var(--soft); margin: 0; }
+.sc-gift { margin: 6px 0 0; padding: 8px 16px; background: var(--pk); border: 2px dashed var(--rd); border-radius: 999px; font-weight: 800; font-size: 15px; color: var(--rd2); }
 .sc-prize img { max-width: 100%; max-height: 200px; border-radius: 12px; }
 .sc-prize.win { background: radial-gradient(circle at 50% 40%, #FFF3F4, #fff 70%); }
 .sc-prize.win .sc-msg { animation: scPulse 1.4s ease-in-out 3; }
@@ -4172,6 +4173,7 @@ const PM_EMBEDDED = {
     message: "FÉLICITATIONS ! ❤️ TU AS GAGNÉ UNE SURPRISE DE LA PART DE TA CHÉRIE !",
     nom: "Le nom de ta surprise",
     description: "Ici, une petite description de ta surprise.",
+    cadeau: "🎁 Un vrai petit cadeau à lui remettre.",  // ligne finale (laisse "" pour l'enlever)
     image: "",   // photo ou illustration (facultatif)
     alt: ""      // description de l'image (facultatif)
   };
@@ -4253,6 +4255,7 @@ const PM_EMBEDDED = {
     }
     const n = h("p", "sc-name"); n.textContent = SURPRISE.nom; prize.appendChild(n);
     const d = h("p", "sc-desc"); d.textContent = SURPRISE.description; prize.appendChild(d);
+    if (SURPRISE.cadeau) { const c = h("p", "sc-gift"); c.textContent = SURPRISE.cadeau; prize.appendChild(c); }
 
     /* boutons */
     const snd = h("button", "sc-btn"); snd.type = "button";
