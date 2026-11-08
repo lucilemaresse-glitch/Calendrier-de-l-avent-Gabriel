@@ -883,6 +883,53 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
 .qd-fx svg { width: 100%; height: 100%; fill: currentColor; }
 @media (max-width: 420px) { .qd-title { font-size: 34px; } .qd-q { font-size: 19px; } .qd-prep-head, .qd-foot { top: -20px; bottom: -20px; } .qd-prep-head { bottom: auto; } .qd-foot { top: auto; } }
 @media (prefers-reduced-motion: reduce) { .qd * { animation: none !important; transition: none !important; } }
+
+/* ---------- Case 15 : Tu préfères ? ---------- */
+.tp { --pk:#FBE4E7; --pk2:#F4C6CC; --paper:#FFFCF9; --sand:#F3E6D8; --rd:#B5313F; --rd2:#8E2230; --ink:#45272D; --soft:#80626A; --ln:#EBD3CF; text-align: center; color: var(--ink); }
+.tp [hidden] { display: none !important; }
+.tp-kick { font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--rd); font-weight: 800; margin: 4px 0 2px; }
+.tp-title { font-family: 'Great Vibes', cursive; font-weight: normal; font-size: 38px; line-height: 1.12; color: var(--rd); margin: 2px 0 8px; text-wrap: balance; }
+.tp-text { font-size: 16px; line-height: 1.6; margin: 0 auto 16px; max-width: 460px; text-wrap: pretty; }
+.tp-note { font-size: 13px; color: var(--soft); margin: 0 0 8px; }
+.tp-icons { display: flex; justify-content: center; gap: 12px; font-size: 34px; margin: 4px 0 8px; }
+.tp-btn { font: inherit; font-weight: 800; font-size: 15px; border-radius: 999px; padding: 12px 22px; min-height: 48px; border: 2px solid transparent; cursor: pointer; touch-action: manipulation; transition: transform .15s, background .2s, opacity .2s; }
+.tp-btn:active:not(:disabled) { transform: scale(.97); }
+.tp-btn.main { background: var(--rd); color: #fff; box-shadow: 0 6px 14px -6px rgba(181,49,63,.7); }
+.tp-btn.main:hover:not(:disabled) { background: var(--rd2); }
+.tp-btn.ghost { background: transparent; color: var(--soft); border-color: var(--ln); }
+.tp-btn.ghost:hover:not(:disabled) { border-color: var(--pk2); color: var(--ink); }
+.tp-btn:disabled { opacity: .4; cursor: default; }
+.tp button:focus-visible { outline: 3px solid var(--pk2); outline-offset: 2px; }
+.tp-acts { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 16px; }
+.tp-count { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--soft); font-weight: 800; }
+.tp-bar { height: 8px; background: var(--pk); border-radius: 8px; overflow: hidden; margin: 6px 0 4px; }
+.tp-bar i { display: block; height: 100%; width: 0; background: var(--rd); border-radius: 8px; transition: width .5s cubic-bezier(.3,.9,.3,1); }
+.tp-cat { display: inline-block; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 800; color: var(--rd2); background: var(--pk); padding: 4px 12px; border-radius: 999px; margin: 14px 0 6px; }
+.tp-q { font-family: 'Great Vibes', cursive; font-size: 40px; line-height: 1.1; color: var(--rd); margin: 4px 0 12px; }
+.tp-card-wrap { animation: tpIn .35s both; }
+@keyframes tpIn { from { opacity: 0; transform: translateX(18px); } to { opacity: 1; transform: none; } }
+.tp-duo { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: 0 auto; }
+.tp-opt { position: relative; font: inherit; color: var(--ink); cursor: pointer; border: 3px solid var(--ln); border-radius: 22px; padding: 22px 14px; min-height: 190px; display: grid; justify-items: center; align-content: center; gap: 10px; touch-action: manipulation; transition: transform .2s, border-color .2s, box-shadow .2s, background .2s, opacity .2s; background: var(--pk); }
+.tp-opt.b { background: var(--sand); }
+.tp-opt:hover { transform: translateY(-3px); border-color: var(--pk2); }
+.tp-emo { font-size: 52px; line-height: 1; }
+.tp-lab { font-weight: 800; font-size: 17px; line-height: 1.35; text-wrap: balance; }
+.tp-opt.sel { border-color: var(--rd); background: #fff; box-shadow: 0 0 0 4px var(--pk2), 0 14px 24px -14px rgba(142,34,48,.55); transform: scale(1.03); }
+.tp-opt.sel::after { content: "♥"; position: absolute; top: 8px; right: 12px; color: var(--rd); font-size: 22px; animation: tpPop .4s both; }
+.tp-opt.off { opacity: .55; }
+@keyframes tpPop { from { opacity: 0; transform: scale(.3); } to { opacity: 1; transform: none; } }
+.tp-ou { position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%; background: var(--rd); color: #fff; font-weight: 800; font-size: 13px; letter-spacing: 1px; display: grid; place-items: center; z-index: 2; box-shadow: 0 0 0 4px var(--cream); pointer-events: none; }
+.tp-bt { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 18px; }
+.tp-final { font-size: 17px; line-height: 1.65; font-style: italic; max-width: 480px; margin: 8px auto 16px; text-wrap: pretty; }
+.tp-recap { text-align: left; margin: 12px 0; display: grid; gap: 8px; }
+.tp-rcat { font-weight: 800; color: var(--rd2); font-size: 14px; margin: 10px 0 2px; }
+.tp-ritem { background: var(--paper); border: 2px solid var(--ln); border-radius: 14px; padding: 10px 12px; font-size: 14px; line-height: 1.4; }
+.tp-ritem b { color: var(--rd2); }
+.tp-ritem small { display: block; color: var(--soft); margin-top: 3px; }
+.tp-fx { position: fixed; pointer-events: none; z-index: 80; }
+.tp-fx svg { width: 100%; height: 100%; fill: currentColor; }
+@media (max-width: 560px) { .tp-duo { grid-template-columns: 1fr; gap: 22px; } .tp-opt { min-height: 130px; grid-template-columns: auto 1fr; justify-items: start; text-align: left; padding: 16px; } .tp-emo { font-size: 42px; } .tp-lab { font-size: 16px; } .tp-title { font-size: 34px; } .tp-q { font-size: 34px; } }
+@media (prefers-reduced-motion: reduce) { .tp * { animation: none !important; transition: none !important; } }
 </style>
 </head>
 <body>
@@ -946,7 +993,7 @@ const activities = [
   "", // case 12 : lettre à ouvrir
   "", // case 13 : ticket à gratter
   "", // case 14 : qui de nous deux ?
-  "Une petite énigme sur notre histoire t'attend.",
+  "", // case 15 : tu préfères ?
   "Quel est ton souvenir préféré de nous deux ?",
   "Petit jeu : tu préfères quoi ?",
   "Surprise : une petite vidéo rien que pour toi !",
@@ -1064,6 +1111,10 @@ function openDay(day) {
     title.textContent = "Le labyrinthe de notre amour ❤️";
     modalContent.classList.add("wide");
     showMaze();
+  } else if (day === 15) {
+    title.textContent = "Tu préfères ? ❤️";
+    modalContent.classList.add("wide");
+    showTuPreferes();
   } else if (day === 14) {
     title.textContent = "Qui de nous deux ? ❤️";
     modalContent.classList.add("wide");
@@ -4767,6 +4818,171 @@ const PM_EMBEDDED = {
     const body = document.getElementById("modal-body");
     body.innerHTML = "";
     root = h("div", "qd");
+    body.appendChild(root);
+    viewWelcome();
+  };
+})();
+
+
+/* =====================================================
+   CASE 15 : TU PRÉFÈRES ? ❤️
+   Chaque dilemme = [catégorie, emoji A, proposition A, emoji B, proposition B].
+   Tu peux modifier, ajouter ou retirer des dilemmes ici.
+===================================================== */
+(function () {
+  "use strict";
+
+  const CATS = ["❤️ Amour et couple", "🌍 Voyages et aventures", "😂 Dilemmes amusants", "🍿 Goûts et loisirs", "💕 Notre avenir et nos envies"];
+  const D = [
+    [0, "💋", "Recevoir 100 petits bisous", "🤗", "Recevoir un énorme câlin de 10 minutes"],
+    [0, "🕯️", "Une soirée romantique aux chandelles", "😂", "Une soirée à rire ensemble devant un film"],
+    [0, "🎒", "Partir en week-end surprise avec moi", "🗺️", "Organiser ensemble notre prochain voyage"],
+    [0, "💌", "Recevoir une lettre d'amour", "🎁", "Recevoir un cadeau surprise"],
+    [0, "📵", "Passer une journée entière à deux sans téléphone", "🌙", "Passer une soirée entière à discuter jusqu'au bout de la nuit"],
+    [0, "🥰", "Revivre notre premier rendez-vous", "😘", "Revivre notre premier bisou"],
+    [1, "🏔️", "Partir une semaine à la montagne", "🏖️", "Partir une semaine au bord de la mer"],
+    [1, "🏙️", "Visiter une grande ville inconnue", "🏡", "Découvrir un petit village plein de charme"],
+    [1, "🚗", "Faire un road trip sans itinéraire", "🏨", "Partir dans un hôtel de luxe"],
+    [1, "🌳", "Dormir dans une cabane dans les arbres", "🌊", "Dormir dans un hôtel avec vue sur la mer"],
+    [1, "✈️", "Partir à l'autre bout du monde", "📍", "Découvrir une destination près de chez toi"],
+    [1, "🎢", "Faire un voyage rempli d'activités", "🛋️", "Passer des vacances tranquilles sans programme"],
+    [2, "🍕", "Ne plus jamais manger de pizza", "🍔", "Ne plus jamais manger de burgers"],
+    [2, "🎤", "Chanter devant 100 personnes", "💃", "Danser devant 100 personnes"],
+    [2, "⏰", "Toujours arriver 30 minutes en avance", "🐢", "Toujours avoir 15 minutes de retard"],
+    [2, "😮", "Avoir le hoquet pendant une journée entière", "🤧", "Éternuer toutes les cinq minutes"],
+    [2, "🎬", "Ne plus jamais regarder de films", "📺", "Ne plus jamais regarder de séries"],
+    [2, "🧠", "Pouvoir lire dans les pensées", "🫥", "Pouvoir devenir invisible"],
+    [3, "🍿", "Une soirée cinéma avec plein de snacks", "🎲", "Une soirée jeux de société"],
+    [3, "🍽️", "Manger au restaurant", "👩‍🍳", "Cuisiner un bon repas à la maison"],
+    [3, "🎧", "Écouter de la musique toute la journée", "📺", "Regarder tes séries préférées toute la journée"],
+    [3, "🎸", "Aller à un concert de ton artiste préféré", "🎪", "Aller à un festival de musique"],
+    [3, "🏃", "Faire une activité sportive ensemble", "🎨", "Faire une activité créative ensemble"],
+    [3, "🧰", "Recevoir un cadeau utile", "🎉", "Recevoir un cadeau complètement inattendu"],
+    [4, "🌾", "Vivre dans une grande maison à la campagne", "🌆", "Vivre dans un bel appartement en ville"],
+    [4, "🐶", "Adopter un chien", "🐱", "Adopter un chat"],
+    [4, "🏠", "Construire une maison ensemble", "🌍", "Voyager pendant un an ensemble"],
+    [4, "🍷", "Avoir une soirée en amoureux chaque semaine", "🧳", "Partir en week-end en amoureux chaque mois"],
+    [4, "📸", "Pouvoir revivre tous nos meilleurs souvenirs", "🔮", "Découvrir dès maintenant tous les beaux moments qui nous attendent"],
+    [4, "🎀", "Me faire une surprise", "💝", "Que je te fasse une surprise"]
+  ];
+  const N = D.length;
+  const FINAL = "Et voilà, tu as fait tous tes choix ! ❤️ Il y a des réponses auxquelles je m'attendais et d'autres qui m'ont peut-être surprise. L'essentiel, c'est qu'on puisse partager encore plein de choses ensemble !";
+
+  const HEART_D = "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z";
+  const HEART = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${HEART_D}"/></svg>`;
+  const STAR = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z"/></svg>`;
+  const reduce = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+  let run = 0, root;
+  const h = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
+  const toTop = () => { const m = document.getElementById("modal-content"); if (m) m.scrollTop = 0; };
+
+  function burst(x, y, n) {
+    if (reduce) return;
+    const cols = ["#B5313F", "#E58C99", "#F4C6CC", "#D6B46A", "#D9A58F"];
+    for (let i = 0; i < n; i++) {
+      const kind = i % 3, p = h("span", "tp-fx", kind === 0 ? HEART : kind === 1 ? STAR : "");
+      if (kind === 2) { p.style.width = "9px"; p.style.height = "14px"; p.style.background = cols[i % cols.length]; p.style.borderRadius = "2px"; }
+      else { const s = 16 + Math.random() * 14; p.style.width = p.style.height = s + "px"; }
+      p.style.left = x + "px"; p.style.top = y + "px"; p.style.color = cols[i % cols.length];
+      document.body.appendChild(p);
+      const a = Math.random() * 6.283, d = 60 + Math.random() * 150;
+      p.animate([
+        { transform: "translate(-50%,-50%) scale(.3) rotate(0deg)", opacity: 1 },
+        { transform: `translate(calc(-50% + ${Math.cos(a) * d}px), calc(-50% + ${Math.sin(a) * d - 50}px)) scale(1) rotate(${(Math.random() - 0.5) * 540}deg)`, opacity: 1, offset: 0.65 },
+        { transform: `translate(calc(-50% + ${Math.cos(a) * d * 1.1}px), calc(-50% + ${Math.sin(a) * d + 40}px)) scale(.8) rotate(${(Math.random() - 0.5) * 700}deg)`, opacity: 0 }
+      ], { duration: 1200 + Math.random() * 800, easing: "cubic-bezier(.2,.7,.3,1)" }).onfinish = () => p.remove();
+    }
+  }
+
+  function viewWelcome() {
+    root.innerHTML = "";
+    toTop();
+    root.appendChild(h("p", "tp-kick", "Case 15"));
+    root.appendChild(h("div", "tp-icons", "<span aria-hidden='true'>🤔</span><span aria-hidden='true'>❤️</span><span aria-hidden='true'>🤔</span>"));
+    const t = h("h3", "tp-title"); t.textContent = "Tu préfères ?"; root.appendChild(t);
+    const p = h("p", "tp-text"); p.textContent = "30 petits dilemmes, parfois romantiques, parfois complètement fous. À chaque fois, choisis la proposition qui te ressemble le plus. Il n'y a pas de mauvaise réponse !"; root.appendChild(p);
+    const go = h("button", "tp-btn main", "C'est parti !"); go.type = "button";
+    go.addEventListener("click", start);
+    const acts = h("div", "tp-acts"); acts.appendChild(go); root.appendChild(acts);
+  }
+
+  function start() {
+    const order = D.map((_, i) => i);
+    for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
+    viewQuestion({ order, ans: new Array(N).fill(null), pos: 0 });
+  }
+
+  function viewQuestion(g) {
+    root.innerHTML = "";
+    toTop();
+    const qi = g.order[g.pos], q = D[qi];
+    const wrap = h("div", "tp-card-wrap");
+    const cnt = h("div", "tp-count"); const left = N - g.pos - 1;
+    cnt.textContent = "Dilemme " + (g.pos + 1) + " sur " + N + (left ? " · encore " + left : " · le dernier !");
+    const bar = h("div", "tp-bar", "<i></i>");
+    const cat = h("span", "tp-cat"); cat.textContent = CATS[q[0]];
+    const qt = h("h3", "tp-q", "Tu préfères…");
+    const duo = h("div", "tp-duo"); duo.setAttribute("role", "group"); duo.setAttribute("aria-label", "Choisis une proposition");
+    const next = h("button", "tp-btn main", g.pos === N - 1 ? "Voir mes choix" : "Question suivante →"); next.type = "button"; next.disabled = g.ans[qi] === null;
+    const prev = h("button", "tp-btn ghost", "← Précédente"); prev.type = "button"; prev.disabled = g.pos === 0;
+    const opts = [0, 1].map(k => {
+      const b = h("button", "tp-opt" + (k ? " b" : ""), `<span class="tp-emo" aria-hidden="true">${q[1 + k * 2]}</span><span class="tp-lab"></span>`);
+      b.type = "button"; b.querySelector(".tp-lab").textContent = q[2 + k * 2];
+      const paint = () => {
+        const on = g.ans[qi] === k, other = g.ans[qi] !== null && !on;
+        b.classList.toggle("sel", on); b.classList.toggle("off", other); b.setAttribute("aria-pressed", on ? "true" : "false");
+      };
+      b._paint = paint; paint();
+      b.addEventListener("click", () => {
+        g.ans[qi] = k; next.disabled = false; opts.forEach(o => o._paint());
+        const r = b.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, 9);
+      });
+      duo.appendChild(b); return b;
+    });
+    duo.appendChild(h("span", "tp-ou", "OU"));
+    prev.addEventListener("click", () => { if (g.pos > 0) { g.pos--; viewQuestion(g); } });
+    next.addEventListener("click", () => { if (g.ans[qi] === null) return; if (g.pos === N - 1) viewFinal(g); else { g.pos++; viewQuestion(g); } });
+    const bt = h("div", "tp-bt"); bt.append(prev, next);
+    wrap.append(cnt, bar, cat, qt, duo, bt);
+    root.appendChild(wrap);
+    requestAnimationFrame(() => requestAnimationFrame(() => { bar.firstChild.style.width = ((g.pos + (g.ans[qi] !== null ? 1 : 0)) / N * 100) + "%"; }));
+  }
+
+  function viewFinal(g) {
+    const id = run;
+    root.innerHTML = "";
+    toTop();
+    root.appendChild(h("p", "tp-kick", "Tous tes choix"));
+    const t = h("h3", "tp-title"); t.textContent = "Voilà tes préférences ❤️"; root.appendChild(t);
+    const msg = h("p", "tp-final"); msg.textContent = FINAL; root.appendChild(msg);
+    const recap = h("div", "tp-recap");
+    CATS.forEach((c, ci) => {
+      const h3 = h("div", "tp-rcat"); h3.textContent = c; recap.appendChild(h3);
+      D.forEach((q, i) => {
+        if (q[0] !== ci) return;
+        const k = g.ans[i], it = h("div", "tp-ritem");
+        const b = h("b"); b.textContent = q[1 + k * 2] + " " + q[2 + k * 2];
+        const s = h("small"); s.textContent = "Plutôt que : " + q[2 + (1 - k) * 2];
+        it.append(b, s); recap.appendChild(it);
+      });
+    });
+    root.appendChild(recap);
+    const again = h("button", "tp-btn main", "Recommencer le jeu"); again.type = "button";
+    again.addEventListener("click", start);
+    const acts = h("div", "tp-acts"); acts.appendChild(again); root.appendChild(acts);
+    setTimeout(() => {
+      if (id !== run) return;
+      const r = msg.getBoundingClientRect();
+      burst(r.left + r.width * 0.2, r.top + 10, 22); burst(r.left + r.width * 0.8, r.top + 10, 22);
+    }, 250);
+  }
+
+  /* ---------- Point d'entrée (appelé par la case 15) ---------- */
+  window.showTuPreferes = function () {
+    run++;
+    const body = document.getElementById("modal-body");
+    body.innerHTML = "";
+    root = h("div", "tp");
     body.appendChild(root);
     viewWelcome();
   };
