@@ -930,6 +930,108 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
 .tp-fx svg { width: 100%; height: 100%; fill: currentColor; }
 @media (max-width: 560px) { .tp-duo { grid-template-columns: 1fr; gap: 22px; } .tp-opt { min-height: 130px; grid-template-columns: auto 1fr; justify-items: start; text-align: left; padding: 16px; } .tp-emo { font-size: 42px; } .tp-lab { font-size: 16px; } .tp-title { font-size: 34px; } .tp-q { font-size: 34px; } }
 @media (prefers-reduced-motion: reduce) { .tp * { animation: none !important; transition: none !important; } }
+
+/* ---------- Case 16 : Les 10 raisons ---------- */
+.rs { --pk:#FBE4E7; --pk2:#F4C6CC; --paper:#FFFCF9; --sand:#F3E6D8; --rd:#B5313F; --rd2:#8E2230; --ink:#45272D; --soft:#80626A; --ln:#EBD3CF; text-align: center; color: var(--ink); }
+.rs [hidden] { display: none !important; }
+.rs-kick { font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--rd); font-weight: 800; margin: 4px 0 2px; }
+.rs-title { font-family: 'Great Vibes', cursive; font-weight: normal; font-size: 38px; line-height: 1.12; color: var(--rd); margin: 2px 0 6px; text-wrap: balance; }
+.rs-text { font-size: 15px; line-height: 1.6; color: var(--soft); margin: 0 auto 12px; max-width: 440px; }
+.rs-flowers { font-size: 26px; letter-spacing: 8px; margin: 2px 0 6px; }
+.rs-count { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--soft); font-weight: 800; }
+.rs-bar { height: 8px; background: var(--pk); border-radius: 8px; overflow: hidden; margin: 6px 0 14px; }
+.rs-bar i { display: block; height: 100%; width: 0; background: var(--rd); border-radius: 8px; transition: width .7s cubic-bezier(.3,.9,.3,1); }
+.rs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 12px; margin: 0 0 14px; padding: 0; list-style: none; }
+.rs-env { position: relative; width: 100%; aspect-ratio: 3 / 2; border: 0; padding: 0; background: none; cursor: default; font: inherit; touch-action: manipulation; perspective: 500px; }
+.rs-back { position: absolute; inset: 0; background: #EBD9C6; border-radius: 6px; box-shadow: 0 8px 14px -8px rgba(69,39,45,.5); transition: background .3s; }
+.rs-paper { position: absolute; left: 8%; right: 8%; top: 10%; bottom: 10%; background: var(--paper); border-radius: 3px; z-index: 1; display: grid; place-items: center; font-weight: 800; color: var(--rd); font-size: 18px; transition: transform .7s .35s cubic-bezier(.3,1.1,.5,1); }
+.rs-front { position: absolute; inset: 0; z-index: 2; border-radius: 6px; clip-path: polygon(0 0, 50% 58%, 100% 0, 100% 100%, 0 100%); background: linear-gradient(160deg, #F8DDE0, #F2C9CE); }
+.rs-flap { position: absolute; left: 0; right: 0; top: 0; height: 58%; z-index: 3; clip-path: polygon(0 0, 100% 0, 50% 100%); background: linear-gradient(#F3D0D4, #EDB9C0); transform-origin: top; transition: transform .6s ease, z-index 0s .3s; }
+.rs-seal { position: absolute; left: 50%; top: 58%; width: 30px; height: 30px; margin: -15px 0 0 -15px; z-index: 4; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #D2495A, var(--rd2)); color: #fff; display: grid; place-items: center; font-size: 14px; font-weight: 800; box-shadow: 0 3px 6px -2px rgba(69,39,45,.6); transition: opacity .3s; }
+.rs-seal svg { width: 14px; height: 14px; fill: currentColor; }
+.rs-env.locked { opacity: .55; filter: saturate(.7); }
+.rs-env.now { cursor: pointer; animation: rsBob 1.8s ease-in-out infinite; }
+.rs-env.now .rs-seal { animation: rsPulse 1.8s ease-in-out infinite; }
+.rs-env.open { cursor: pointer; }
+.rs-env.open .rs-flap { transform: rotateX(180deg); z-index: 1; }
+.rs-env.open .rs-paper { transform: translateY(-34%); }
+.rs-env.open .rs-seal { opacity: 0; }
+.rs-env.sel .rs-back { background: var(--pk2); }
+.rs-env:not(:disabled):hover { transform: translateY(-2px); }
+.rs-env:focus-visible { outline: 3px solid var(--pk2); outline-offset: 4px; border-radius: 8px; }
+@keyframes rsBob { 50% { transform: translateY(-4px); } }
+@keyframes rsPulse { 50% { box-shadow: 0 3px 6px -2px rgba(69,39,45,.6), 0 0 0 7px rgba(181,49,63,.18); } }
+.rs-panel { position: relative; background: var(--paper); border: 1px solid var(--ln); border-radius: 8px; padding: 24px 20px 20px; margin: 4px auto 14px; max-width: 480px; box-shadow: 0 14px 26px -18px rgba(69,39,45,.55); animation: rsIn .6s cubic-bezier(.3,1.2,.5,1) both; }
+@keyframes rsIn { from { opacity: 0; transform: translateY(24px) scale(.95); } to { opacity: 1; transform: none; } }
+.rs-panel .rs-num { font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--rd); font-weight: 800; margin: 0 0 8px; }
+.rs-panel .rs-msg { font-size: 18px; line-height: 1.7; margin: 0; text-wrap: pretty; white-space: pre-line; }
+.rs-panel .rs-msg.ph { color: #9a8a8e; font-style: italic; font-size: 16px; }
+.rs-panel .rs-flw { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); font-size: 24px; background: var(--cream); padding: 0 8px; }
+.rs-btn { font: inherit; font-weight: 800; font-size: 15px; border-radius: 999px; padding: 12px 22px; min-height: 48px; border: 2px solid transparent; cursor: pointer; touch-action: manipulation; background: var(--rd); color: #fff; box-shadow: 0 6px 14px -6px rgba(181,49,63,.7); transition: transform .15s, background .2s; }
+.rs-btn:hover:not(:disabled) { background: var(--rd2); }
+.rs-btn:active:not(:disabled) { transform: scale(.97); }
+.rs-btn:disabled { opacity: .4; cursor: default; box-shadow: none; }
+.rs-btn:focus-visible, .rs-link:focus-visible { outline: 3px solid var(--pk2); outline-offset: 2px; }
+.rs-link { background: none; border: 0; font: inherit; font-size: 12px; color: var(--soft); text-decoration: underline; cursor: pointer; padding: 10px; margin-top: 8px; }
+.rs-final { background: linear-gradient(#FFFCF9, #FBE4E7); border: 2px solid var(--pk2); border-radius: 22px; padding: 22px 16px; margin: 6px auto 8px; max-width: 500px; animation: rsIn .9s cubic-bezier(.3,1.2,.5,1) both; }
+.rs-final p { font-size: 17px; line-height: 1.7; font-style: italic; margin: 0; text-wrap: pretty; }
+.rs-fx { position: fixed; pointer-events: none; z-index: 80; }
+.rs-fx svg { width: 100%; height: 100%; fill: currentColor; }
+@media (prefers-reduced-motion: reduce) { .rs *, .rs-panel, .rs-final { animation: none !important; transition: none !important; } }
+
+/* ---------- Case 17 : Notre histoire en mots croisés ---------- */
+.cw { --pk:#FBE4E7; --pk2:#F4C6CC; --paper:#FFFCF9; --sand:#F3E6D8; --rd:#B5313F; --rd2:#8E2230; --ink:#45272D; --soft:#80626A; --ln:#EBD3CF; --ok:#2F7D4F; --okbg:#DDF1E3; --bad:#C0392B; --badbg:#FBD9D5; text-align: center; color: var(--ink); }
+.cw [hidden] { display: none !important; }
+.cw-kick { font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--rd); font-weight: 800; margin: 4px 0 2px; }
+.cw-title { font-family: 'Great Vibes', cursive; font-weight: normal; font-size: 38px; line-height: 1.12; color: var(--rd); margin: 2px 0 6px; text-wrap: balance; }
+.cw-text { font-size: 15px; line-height: 1.55; color: var(--soft); margin: 0 auto 12px; max-width: 520px; }
+.cw-count { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--soft); font-weight: 800; }
+.cw-bar { height: 8px; background: var(--pk); border-radius: 8px; overflow: hidden; margin: 6px 0 14px; }
+.cw-bar i { display: block; height: 100%; width: 0; background: var(--rd); border-radius: 8px; transition: width .6s cubic-bezier(.3,.9,.3,1); }
+.cw-main { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 18px; align-items: start; text-align: left; }
+.cw-board { max-width: 100%; overflow-x: auto; padding: 4px; margin: 0 auto; }
+.cw-grid { position: relative; --cell: clamp(22px, calc((100vw - 96px) / var(--cols)), 38px); display: grid; grid-template-columns: repeat(var(--cols), var(--cell)); grid-auto-rows: var(--cell); gap: 2px; background: #3a2328; padding: 2px; border-radius: 8px; width: max-content; max-width: none; }
+.cw-c { position: relative; display: grid; place-items: center; background: #3a2328; border-radius: 2px; }
+.cw-c.u { background: #fff; cursor: pointer; font-weight: 800; font-size: calc(var(--cell) * .55); color: var(--ink); text-transform: uppercase; user-select: none; -webkit-user-select: none; }
+.cw-c.u.w { background: var(--pk); }
+.cw-c.u.cur { background: #F8B9C2; box-shadow: inset 0 0 0 2px var(--rd); }
+.cw-c.u.ok { background: var(--okbg); color: var(--ok); }
+.cw-c.u.bad { background: var(--badbg); color: var(--bad); }
+.cw-c.u.hint { color: var(--rd2); background: #FFF3D6; }
+.cw-c.u.pop { animation: cwPop .5s; }
+@keyframes cwPop { 40% { transform: scale(1.18); } }
+.cw-n { position: absolute; top: 1px; left: 2px; font-size: calc(var(--cell) * .28); font-weight: 800; color: var(--rd2); line-height: 1; pointer-events: none; }
+.cw-in { pointer-events: none; position: absolute; width: var(--cell); height: var(--cell); opacity: 0; font-size: 16px; border: 0; padding: 0; background: transparent; color: transparent; caret-color: transparent; z-index: 3; }
+.cw-side { min-width: 0; }
+.cw-sel { background: var(--pk); border-radius: 14px; padding: 10px 12px; font-size: 14px; line-height: 1.45; margin: 0 0 10px; min-height: 52px; }
+.cw-sel b { color: var(--rd2); }
+.cw-clues h4 { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--rd); margin: 10px 0 6px; }
+.cw-clues ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.cw-clue { width: 100%; text-align: left; font: inherit; font-size: 14px; line-height: 1.4; color: var(--ink); background: var(--paper); border: 2px solid var(--ln); border-radius: 12px; padding: 8px 10px; cursor: pointer; display: grid; grid-template-columns: 34px 1fr; gap: 6px; touch-action: manipulation; }
+.cw-clue b { color: var(--rd); }
+.cw-clue.on { border-color: var(--rd); background: var(--pk); }
+.cw-clue.done { border-color: #9BD0AE; background: var(--okbg); }
+.cw-clue.done b::after { content: " ✓"; color: var(--ok); }
+.cw-acts { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 16px; }
+.cw-btn { font: inherit; font-weight: 800; font-size: 14px; border-radius: 999px; padding: 11px 20px; min-height: 46px; border: 2px solid transparent; cursor: pointer; touch-action: manipulation; transition: transform .15s, background .2s; }
+.cw-btn:active:not(:disabled) { transform: scale(.97); }
+.cw-btn.main { background: var(--rd); color: #fff; box-shadow: 0 6px 14px -6px rgba(181,49,63,.7); }
+.cw-btn.main:hover:not(:disabled) { background: var(--rd2); }
+.cw-btn.ghost { background: transparent; color: var(--soft); border-color: var(--ln); }
+.cw-btn.ghost:hover:not(:disabled) { border-color: var(--pk2); color: var(--ink); }
+.cw-btn:disabled { opacity: .4; cursor: default; }
+.cw button:focus-visible, .cw-c:focus-visible { outline: 3px solid var(--pk2); outline-offset: 2px; }
+.cw-msg { min-height: 24px; margin: 10px 0 0; font-weight: 800; color: var(--rd); font-size: 14px; text-align: center; }
+.cw-final { background: linear-gradient(#FFFCF9, #FBE4E7); border: 2px solid var(--pk2); border-radius: 22px; padding: 20px 16px; margin: 16px auto 6px; max-width: 520px; animation: cwIn .9s cubic-bezier(.3,1.2,.5,1) both; text-align: center; }
+.cw-final p { font-size: 16px; line-height: 1.65; font-style: italic; margin: 0 0 14px; text-wrap: pretty; }
+@keyframes cwIn { from { opacity: 0; transform: translateY(24px) scale(.95); } to { opacity: 1; transform: none; } }
+.cw-fx { position: fixed; pointer-events: none; z-index: 80; }
+.cw-fx svg { width: 100%; height: 100%; fill: currentColor; }
+@media (max-width: 760px) { .cw-main { grid-template-columns: 1fr; } .cw-title { font-size: 34px; } }
+@media (prefers-reduced-motion: reduce) { .cw * { animation: none !important; transition: none !important; } .cw-final { animation: none; } }
+
+/* titre de la fenêtre masqué visuellement pour les cases 14 à 17 (le jeu a son propre titre) */
+.modal-content.notitle > h2 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; margin: 0; padding: 0; }
 </style>
 </head>
 <body>
@@ -994,8 +1096,8 @@ const activities = [
   "", // case 13 : ticket à gratter
   "", // case 14 : qui de nous deux ?
   "", // case 15 : tu préfères ?
-  "Quel est ton souvenir préféré de nous deux ?",
-  "Petit jeu : tu préfères quoi ?",
+  "", // case 16 : les 10 raisons
+  "", // case 17 : mots croisés
   "Surprise : une petite vidéo rien que pour toi !",
   "Voyons si tu me connais aussi bien que tu le penses !",
   "Défi cuisine : préparons la même recette à distance.",
@@ -1086,7 +1188,7 @@ function openDay(day) {
   const title = document.getElementById("modal-title");
   const body = document.getElementById("modal-body");
 
-  modalContent.classList.remove("wide", "xwide");
+  modalContent.classList.remove("wide", "xwide", "notitle");
 
   if (day > getToday()) {
     title.textContent = `Case n° ${day} 🎁`;
@@ -1111,13 +1213,21 @@ function openDay(day) {
     title.textContent = "Le labyrinthe de notre amour ❤️";
     modalContent.classList.add("wide");
     showMaze();
+  } else if (day === 17) {
+    title.textContent = "Notre histoire en mots croisés ❤️";
+    modalContent.classList.add("xwide", "notitle");
+    showMotsCroises();
+  } else if (day === 16) {
+    title.textContent = "Les 10 raisons pour lesquelles je t'aime ❤️";
+    modalContent.classList.add("wide", "notitle");
+    showRaisons();
   } else if (day === 15) {
     title.textContent = "Tu préfères ? ❤️";
-    modalContent.classList.add("wide");
+    modalContent.classList.add("wide", "notitle");
     showTuPreferes();
   } else if (day === 14) {
     title.textContent = "Qui de nous deux ? ❤️";
-    modalContent.classList.add("wide");
+    modalContent.classList.add("wide", "notitle");
     showQuiDeNous();
   } else if (day === 13) {
     title.textContent = "Gratte et découvre ta surprise ! ❤️";
@@ -4985,6 +5095,421 @@ const PM_EMBEDDED = {
     root = h("div", "tp");
     body.appendChild(root);
     viewWelcome();
+  };
+})();
+
+
+/* =====================================================
+   CASE 16 : LES 10 RAISONS POUR LESQUELLES JE T'AIME ❤️
+   -> Remplace chaque [À COMPLÉTER] par ta raison (entre les guillemets).
+   Tant qu'un texte contient « [À COMPLÉTER] », il s'affiche en gris italique.
+   Pour aller à la ligne dans une raison, écris \n dans le texte.
+===================================================== */
+(function () {
+  "use strict";
+
+  const RAISONS = [
+    "[À COMPLÉTER]",   // Raison 1
+    "[À COMPLÉTER]",   // Raison 2
+    "[À COMPLÉTER]",   // Raison 3
+    "[À COMPLÉTER]",   // Raison 4
+    "[À COMPLÉTER]",   // Raison 5
+    "[À COMPLÉTER]",   // Raison 6
+    "[À COMPLÉTER]",   // Raison 7
+    "[À COMPLÉTER]",   // Raison 8
+    "[À COMPLÉTER]",   // Raison 9
+    "[À COMPLÉTER]"    // Raison 10
+  ];
+
+  /* Message final, affiché après la dixième raison (personnalisable) */
+  const MESSAGE_FINAL = "Dix petites raisons parmi des milliers d'autres… Et même si je pourrais en trouver encore beaucoup, je voulais simplement te rappeler à quel point tu comptes pour moi. Je t'aime. ❤️";
+
+  const KEY = "raisons-decouvertes";
+  const N = RAISONS.length;
+  const HEART_D = "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z";
+  const HEART = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${HEART_D}"/></svg>`;
+  const reduce = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+  let run = 0, root, opened, sel, els = {};
+  const h = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
+
+  function burst(x, y, n, flowers) {
+    if (reduce) return;
+    const cols = ["#B5313F", "#E58C99", "#F4C6CC", "#D9A58F"], fl = ["🌸", "🌷", "🌹", "💮"];
+    for (let i = 0; i < n; i++) {
+      const asFlower = flowers && i % 2 === 0, p = h("span", "rs-fx", asFlower ? fl[i % fl.length] : HEART);
+      const s = 16 + Math.random() * 14;
+      p.style.width = p.style.height = s + "px"; p.style.fontSize = s + "px"; p.style.lineHeight = "1";
+      p.style.left = x + "px"; p.style.top = y + "px"; p.style.color = cols[i % cols.length];
+      document.body.appendChild(p);
+      const a = Math.random() * 6.283, d = 70 + Math.random() * 160;
+      p.animate([
+        { transform: "translate(-50%,-50%) scale(.3) rotate(0deg)", opacity: 1 },
+        { transform: `translate(calc(-50% + ${Math.cos(a) * d}px), calc(-50% + ${Math.sin(a) * d - 60}px)) scale(1) rotate(${(Math.random() - 0.5) * 360}deg)`, opacity: 1, offset: 0.6 },
+        { transform: `translate(calc(-50% + ${Math.cos(a) * d * 1.1}px), calc(-50% + ${Math.sin(a) * d + 60}px)) scale(.8) rotate(${(Math.random() - 0.5) * 540}deg)`, opacity: 0 }
+      ], { duration: 1500 + Math.random() * 900, easing: "cubic-bezier(.2,.7,.3,1)" }).onfinish = () => p.remove();
+    }
+  }
+
+  function build() {
+    const id = run;
+    root.innerHTML = "";
+    root.appendChild(h("p", "rs-kick", "Case 16"));
+    root.appendChild(h("div", "rs-flowers", "<span aria-hidden='true'>🌷 🌸 🌹 🌸 🌷</span>"));
+    const t = h("h3", "rs-title"); t.textContent = "Les 10 raisons pour lesquelles je t'aime ❤️"; root.appendChild(t);
+    const p = h("p", "rs-text", "Dix enveloppes, dix petites raisons. Ouvre-les une par une, dans l'ordre. Celles que tu as déjà ouvertes restent accessibles."); root.appendChild(p);
+    const cnt = h("div", "rs-count"), bar = h("div", "rs-bar", "<i></i>");
+    const grid = h("ul", "rs-grid"); grid.setAttribute("aria-label", "Les dix enveloppes");
+    const panel = h("div"), final = h("div"), nextBtn = h("button", "rs-btn", "Découvrir la prochaine raison"); nextBtn.type = "button";
+    const acts = h("div"); acts.appendChild(nextBtn);
+    const reset = h("button", "rs-link", "Refermer toutes les enveloppes"); reset.type = "button";
+    root.append(cnt, bar, grid, panel, acts, final, reset);
+    els = { cnt, bar, grid, panel, final, nextBtn, reset, items: [] };
+
+    for (let i = 0; i < N; i++) {
+      const li = h("li");
+      const b = h("button", "rs-env", `<span class="rs-back"></span><span class="rs-paper" aria-hidden="true">${i + 1}</span><span class="rs-front"></span><span class="rs-flap"></span><span class="rs-seal" aria-hidden="true">${HEART}</span>`);
+      b.type = "button";
+      b.addEventListener("click", () => onEnv(i));
+      li.appendChild(b); grid.appendChild(li); els.items.push(b);
+    }
+    nextBtn.addEventListener("click", () => { if (opened < N) openEnv(opened, true); });
+    reset.addEventListener("click", () => { opened = 0; sel = -1; store(KEY, 0); paint(); });
+    paint();
+  }
+
+  function onEnv(i) {
+    if (i < opened) { sel = i; showReason(i, false); paint(); }
+    else if (i === opened) openEnv(i, true);
+  }
+
+  function openEnv(i, scroll) {
+    if (i !== opened || i >= N) return;
+    opened = i + 1; sel = i; store(KEY, opened);
+    const b = els.items[i];
+    paint();
+    const r = b.getBoundingClientRect();
+    burst(r.left + r.width / 2, r.top + r.height / 2, 10, false);
+    const id = run;
+    setTimeout(() => {
+      if (id !== run) return;
+      showReason(i, true);
+      if (scroll && els.panel.scrollIntoView) els.panel.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "nearest" });
+      if (opened === N) finish();
+    }, reduce ? 0 : 750);
+  }
+
+  function showReason(i, fresh) {
+    const txt = String(RAISONS[i]);
+    const box = h("div", "rs-panel"); box.setAttribute("role", "status");
+    box.appendChild(h("span", "rs-flw", "🌸"));
+    box.appendChild(h("p", "rs-num", "Raison n° " + (i + 1)));
+    const m = h("p", "rs-msg" + (txt.indexOf("[À COMPLÉTER]") >= 0 ? " ph" : "")); m.textContent = txt;
+    box.appendChild(m);
+    els.panel.innerHTML = ""; els.panel.appendChild(box);
+    if (!fresh) box.style.animationDuration = ".3s";
+  }
+
+  function finish() {
+    const f = h("div", "rs-final");
+    f.appendChild(h("div", "rs-flowers", "<span aria-hidden='true'>🌸 ❤️ 🌸</span>"));
+    const p = h("p"); p.textContent = MESSAGE_FINAL; f.appendChild(p);
+    els.final.innerHTML = ""; els.final.appendChild(f);
+    const id = run;
+    setTimeout(() => {
+      if (id !== run) return;
+      const r = f.getBoundingClientRect();
+      burst(r.left + r.width * 0.2, r.top + 30, 16, true); burst(r.left + r.width * 0.8, r.top + 30, 16, true); burst(r.left + r.width * 0.5, r.top, 14, true);
+      f.scrollIntoView && f.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "nearest" });
+    }, 250);
+  }
+
+  function paint() {
+    els.cnt.textContent = opened + " raison" + (opened > 1 ? "s" : "") + " découverte" + (opened > 1 ? "s" : "") + " sur " + N;
+    els.bar.firstChild.style.width = (opened / N * 100) + "%";
+    els.items.forEach((b, i) => {
+      b.classList.toggle("open", i < opened);
+      b.classList.toggle("now", i === opened);
+      b.classList.toggle("locked", i > opened);
+      b.classList.toggle("sel", i === sel && i < opened);
+      b.disabled = i > opened;
+      b.setAttribute("aria-label", i < opened ? "Raison " + (i + 1) + ", ouverte. Relire" : i === opened ? "Enveloppe " + (i + 1) + ", à ouvrir" : "Enveloppe " + (i + 1) + ", pas encore disponible");
+    });
+    els.nextBtn.disabled = opened >= N;
+    els.nextBtn.textContent = opened === 0 ? "Découvrir la première raison" : opened >= N ? "Les dix raisons sont découvertes ❤️" : "Découvrir la prochaine raison";
+    if (opened < N) els.final.innerHTML = "";
+    if (sel < 0 || sel >= opened) els.panel.innerHTML = "";
+    els.reset.hidden = opened === 0;
+  }
+
+  /* ---------- Point d'entrée (appelé par la case 16) ---------- */
+  window.showRaisons = function () {
+    run++;
+    const body = document.getElementById("modal-body");
+    body.innerHTML = "";
+    root = h("div", "rs");
+    body.appendChild(root);
+    const saved = Number(load(KEY, 0)) || 0;
+    opened = Math.max(0, Math.min(N, Math.floor(saved)));
+    sel = opened > 0 ? opened - 1 : -1;
+    build();
+    if (sel >= 0) showReason(sel, false);
+    if (opened === N) finish();
+  };
+})();
+
+
+/* =====================================================
+   CASE 17 : NOTRE HISTOIRE EN MOTS CROISÉS ❤️
+   La grille est fixe et vérifiée : les dix mots se croisent.
+   Chaque mot = { w: mot sans accent, r: ligne, c: colonne, d: 0 horizontal / 1 vertical, clue: définition }.
+   Tu peux modifier les définitions ici (mais pas les positions, sinon la grille ne tient plus).
+===================================================== */
+(function () {
+  "use strict";
+
+  const WORDS = [
+    { w: "CALIN",      r: 0,  c: 6,  d: 0, clue: "Ce que l'on aime se faire quand on est ensemble." },
+    { w: "COEURROUGE", r: 0,  c: 6,  d: 1, clue: "Le symbole rouge que nous utilisons souvent dans nos messages. ❤️" },
+    { w: "PHOTO",      r: 1,  c: 2,  d: 0, clue: "Ce que nous prenons pour garder des souvenirs." },
+    { w: "VACANCES",   r: 3,  c: 1,  d: 1, clue: "Les moments que nous attendons avec impatience pour pouvoir nous retrouver et profiter de nos moments ensemble." },
+    { w: "SURNOM",     r: 4,  c: 4,  d: 0, clue: "Le petit nom que tu me donnes." },
+    { w: "MANQUE",     r: 4,  c: 9,  d: 1, clue: "Ce que l'on ressent lorsque l'autre n'est pas là." },
+    { w: "APPEL",      r: 4,  c: 11, d: 1, clue: "Ce que nous faisons pour entendre la voix de l'autre." },
+    { w: "JAPON",      r: 6,  c: 0,  d: 0, clue: "Le pays que nous rêvons de visiter ensemble." },
+    { w: "MUSIQUE",    r: 7,  c: 5,  d: 0, clue: "Ce que nous pouvons écouter ensemble." },
+    { w: "MESSAGE",    r: 9,  c: 0,  d: 0, clue: "Ce que nous nous envoyons régulièrement." }
+  ];
+  const FINAL = "Bravo ! Tu as retrouvé tous les mots qui représentent notre couple. ❤️ Chaque mot évoque une petite partie de notre complicité, de nos habitudes, de nos goûts et de nos projets. J'ai hâte de continuer à partager tous ces moments avec toi et de créer encore plein de souvenirs ensemble.";
+
+  /*CORE*/
+  function buildGrid(words) {
+    const rows = Math.max(...words.map(x => x.d === 1 ? x.r + x.w.length : x.r + 1));
+    const cols = Math.max(...words.map(x => x.d === 0 ? x.c + x.w.length : x.c + 1));
+    const cells = Array.from({ length: rows }, () => new Array(cols).fill(null));
+    const entries = words.map((x, id) => ({ id, w: x.w, d: x.d, r: x.r, c: x.c, clue: x.clue, cells: [], n: 0 }));
+    entries.forEach(e => {
+      for (let i = 0; i < e.w.length; i++) {
+        const r = e.d === 0 ? e.r : e.r + i, c = e.d === 0 ? e.c + i : e.c;
+        if (cells[r][c] === null) cells[r][c] = { r, c, ch: e.w[i], num: 0, e: {} };
+        else if (cells[r][c].ch !== e.w[i]) throw new Error("Conflit en " + r + "," + c);
+        cells[r][c].e[e.d] = e; e.cells.push(cells[r][c]);
+      }
+    });
+    let n = 0;
+    for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+      const cell = cells[r][c]; if (!cell) continue;
+      const starts = entries.filter(e => e.r === r && e.c === c);
+      if (starts.length) { n++; cell.num = n; starts.forEach(e => { e.n = n; }); }
+    }
+    return { rows, cols, cells, entries };
+  }
+  /*ENDCORE*/
+
+  const HEART_D = "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z";
+  const HEART = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${HEART_D}"/></svg>`;
+  const STAR = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z"/></svg>`;
+  const reduce = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+  let run = 0;
+  const h = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
+
+  function burst(x, y, n) {
+    if (reduce) return;
+    const cols = ["#B5313F", "#E58C99", "#F4C6CC", "#D6B46A", "#D9A58F"];
+    for (let i = 0; i < n; i++) {
+      const kind = i % 3, p = h("span", "cw-fx", kind === 0 ? HEART : kind === 1 ? STAR : "");
+      if (kind === 2) { p.style.width = "9px"; p.style.height = "14px"; p.style.background = cols[i % cols.length]; p.style.borderRadius = "2px"; }
+      else { const s = 14 + Math.random() * 14; p.style.width = p.style.height = s + "px"; }
+      p.style.left = x + "px"; p.style.top = y + "px"; p.style.color = cols[i % cols.length];
+      document.body.appendChild(p);
+      const a = Math.random() * 6.283, d = 70 + Math.random() * 170;
+      p.animate([
+        { transform: "translate(-50%,-50%) scale(.3) rotate(0deg)", opacity: 1 },
+        { transform: `translate(calc(-50% + ${Math.cos(a) * d}px), calc(-50% + ${Math.sin(a) * d - 60}px)) scale(1) rotate(${(Math.random() - 0.5) * 540}deg)`, opacity: 1, offset: 0.65 },
+        { transform: `translate(calc(-50% + ${Math.cos(a) * d * 1.1}px), calc(-50% + ${Math.sin(a) * d + 40}px)) scale(.8) rotate(${(Math.random() - 0.5) * 700}deg)`, opacity: 0 }
+      ], { duration: 1300 + Math.random() * 800, easing: "cubic-bezier(.2,.7,.3,1)" }).onfinish = () => p.remove();
+    }
+  }
+
+  function start(root) {
+    const id = run, G = buildGrid(WORDS), { rows, cols, cells, entries } = G;
+    const val = Array.from({ length: rows }, () => new Array(cols).fill(""));
+    const st = Array.from({ length: rows }, () => new Array(cols).fill(""));
+    let cur = { r: 0, c: 6, d: 1 }, hints = 0, won = false;
+    const el = Array.from({ length: rows }, () => new Array(cols).fill(null));
+    const across = entries.filter(e => e.d === 0).sort((a, b) => a.n - b.n), down = entries.filter(e => e.d === 1).sort((a, b) => a.n - b.n);
+    const order = entries.slice().sort((a, b) => a.n - b.n || a.d - b.d);
+
+    root.innerHTML = "";
+    root.appendChild(h("p", "cw-kick", "Case 17"));
+    const t = h("h3", "cw-title"); t.textContent = "Notre histoire en mots croisés"; root.appendChild(t);
+    root.appendChild(h("p", "cw-text", "Dix mots qui nous ressemblent, à retrouver grâce aux définitions. Touche une case ou une définition, puis écris les lettres."));
+    const cnt = h("div", "cw-count"), bar = h("div", "cw-bar", "<i></i>");
+    const main = h("div", "cw-main");
+    const board = h("div", "cw-board"), grid = h("div", "cw-grid"); grid.style.setProperty("--cols", cols);
+    grid.setAttribute("role", "grid"); grid.setAttribute("aria-label", "Grille de mots croisés");
+    const inp = h("input", "cw-in"); inp.type = "text"; inp.autocomplete = "off"; inp.autocapitalize = "off"; inp.spellcheck = false; inp.setAttribute("aria-label", "Saisir une lettre"); inp.setAttribute("autocorrect", "off");
+    grid.appendChild(inp);
+    for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+      const cell = cells[r][c], d = h("div", "cw-c" + (cell ? " u" : ""));
+      if (cell) {
+        d.setAttribute("role", "gridcell"); d.dataset.r = r; d.dataset.c = c;
+        if (cell.num) d.appendChild(h("span", "cw-n", String(cell.num)));
+        d.appendChild(h("span", "cw-l"));
+        d.addEventListener("click", () => pick(r, c, true));
+      }
+      grid.appendChild(d); el[r][c] = d;
+    }
+    board.appendChild(grid);
+    const side = h("div", "cw-side"), sel = h("div", "cw-sel"); sel.setAttribute("aria-live", "polite");
+    const clues = h("div", "cw-clues"), clueBtns = {};
+    const mkList = (title, list) => {
+      clues.appendChild(h("h4", "", title));
+      const ol = h("ol");
+      list.forEach(e => {
+        const li = h("li"), b = h("button", "cw-clue", "<b></b><span></span>"); b.type = "button";
+        b.querySelector("b").textContent = e.n + "."; b.querySelector("span").textContent = e.clue;
+        b.addEventListener("click", () => { const c0 = e.cells.find(x => !val[x.r][x.c]) || e.cells[0]; cur = { r: c0.r, c: c0.c, d: e.d }; focusInput(); paint(); });
+        li.appendChild(b); ol.appendChild(li); clueBtns[e.id] = b;
+      });
+      clues.appendChild(ol);
+    };
+    mkList("Horizontalement", across); mkList("Verticalement", down);
+    side.append(sel, clues);
+    main.append(board, side);
+    const acts = h("div", "cw-acts");
+    const bCheck = h("button", "cw-btn main", "Vérifier mes réponses"), bHint = h("button", "cw-btn ghost", "Révéler un indice"), bClear = h("button", "cw-btn ghost", "Tout effacer");
+    bCheck.type = bHint.type = bClear.type = "button"; acts.append(bCheck, bHint, bClear);
+    const msg = h("p", "cw-msg"); msg.setAttribute("role", "status"); msg.setAttribute("aria-live", "polite");
+    const final = h("div"); final.hidden = true;
+    root.append(cnt, bar, main, acts, msg, final);
+
+    const entryAt = (r, c, d) => cells[r][c] && cells[r][c].e[d];
+    const curEntry = () => entryAt(cur.r, cur.c, cur.d) || entryAt(cur.r, cur.c, 1 - cur.d);
+    const solved = e => e.cells.every(x => val[x.r][x.c] === x.ch);
+    function focusInput() { const e = el[cur.r][cur.c]; if (e) { inp.style.left = e.offsetLeft + "px"; inp.style.top = e.offsetTop + "px"; } inp.value = "."; try { inp.focus({ preventScroll: true }); inp.setSelectionRange(1, 1); } catch (x) {} }
+
+    function pick(r, c, user) {
+      if (!cells[r][c]) return;
+      if (user && cur.r === r && cur.c === c && cells[r][c].e[0] && cells[r][c].e[1]) cur.d = 1 - cur.d;
+      else if (!cells[r][c].e[cur.d]) cur.d = 1 - cur.d;
+      cur.r = r; cur.c = c;
+      if (user) focusInput();
+      paint();
+    }
+    function move(step) {
+      const e = curEntry(); if (!e) return;
+      const i = e.cells.findIndex(x => x.r === cur.r && x.c === cur.c), j = i + step;
+      if (j >= 0 && j < e.cells.length) { cur.r = e.cells[j].r; cur.c = e.cells[j].c; cur.d = e.d; }
+      focusInput(); paint();
+    }
+    function setLetter(ch) {
+      const r = cur.r, c = cur.c;
+      val[r][c] = ch; st[r][c] = "";
+      const e = curEntry();
+      if (ch && e) { const was = solved(e); if (was) { e.cells.forEach(x => { el[x.r][x.c].classList.remove("pop"); void el[x.r][x.c].offsetWidth; el[x.r][x.c].classList.add("pop"); }); } }
+      paint();
+      if (ch) move(1);
+      checkWin();
+    }
+    function onInput(ev) {
+      const type = ev.inputType || "";
+      if (type.indexOf("delete") === 0 || inp.value === "") {
+        const r = cur.r, c = cur.c;
+        if (val[r][c]) { val[r][c] = ""; st[r][c] = ""; paint(); } else { move(-1); const r2 = cur.r, c2 = cur.c; val[r2][c2] = ""; st[r2][c2] = ""; paint(); }
+        inp.value = "."; try { inp.setSelectionRange(1, 1); } catch (x) {}
+        return;
+      }
+      const raw = inp.value.replace(/\./g, "").normalize("NFD").replace(/[̀-ͯ]/g, "").toUpperCase().replace(/[^A-Z]/g, "");
+      inp.value = "."; try { inp.setSelectionRange(1, 1); } catch (x) {}
+      if (raw) setLetter(raw[raw.length - 1]);
+    }
+    inp.addEventListener("input", onInput);
+    inp.addEventListener("keydown", ev => {
+      const k = ev.key;
+      if (k === "ArrowRight" || k === "ArrowLeft" || k === "ArrowDown" || k === "ArrowUp") {
+        ev.preventDefault();
+        const dr = k === "ArrowDown" ? 1 : k === "ArrowUp" ? -1 : 0, dc = k === "ArrowRight" ? 1 : k === "ArrowLeft" ? -1 : 0, nd = dr ? 1 : 0;
+        const nr = cur.r + dr, nc = cur.c + dc;
+        if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && cells[nr][nc]) { cur.d = cells[nr][nc].e[nd] ? nd : cur.d; cur.r = nr; cur.c = nc; focusInput(); paint(); }
+        else if (cells[cur.r][cur.c].e[nd] && cur.d !== nd) { cur.d = nd; paint(); }
+      } else if (k === "Tab") {
+        ev.preventDefault();
+        const e = curEntry(), i = order.indexOf(e), n = order[(i + (ev.shiftKey ? order.length - 1 : 1)) % order.length], c0 = n.cells.find(x => !val[x.r][x.c]) || n.cells[0];
+        cur = { r: c0.r, c: c0.c, d: n.d }; focusInput(); paint();
+      } else if (k === " ") { ev.preventDefault(); const c = cells[cur.r][cur.c]; if (c.e[0] && c.e[1]) { cur.d = 1 - cur.d; paint(); } }
+      else if (k === "Delete") { ev.preventDefault(); val[cur.r][cur.c] = ""; st[cur.r][cur.c] = ""; paint(); }
+    });
+
+    function paint() {
+      const e = curEntry(), wset = new Set(e ? e.cells : []);
+      let found = 0;
+      entries.forEach(x => { const s = solved(x); if (s) found++; clueBtns[x.id].classList.toggle("done", s); clueBtns[x.id].classList.toggle("on", x === e); });
+      for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+        const cell = cells[r][c]; if (!cell) continue;
+        const d = el[r][c], l = d.querySelector(".cw-l");
+        l.textContent = val[r][c];
+        d.className = "cw-c u" + (wset.has(cell) ? " w" : "") + (cur.r === r && cur.c === c ? " cur" : "") + (st[r][c] ? " " + st[r][c] : "") + (d.classList.contains("pop") ? " pop" : "");
+        d.setAttribute("aria-label", "Ligne " + (r + 1) + ", colonne " + (c + 1) + (val[r][c] ? ", lettre " + val[r][c] : ", vide"));
+      }
+      cnt.textContent = found + " mot" + (found > 1 ? "s" : "") + " trouvé" + (found > 1 ? "s" : "") + " sur " + entries.length;
+      bar.firstChild.style.width = (found / entries.length * 100) + "%";
+      sel.innerHTML = e ? "<b>" + e.n + (e.d === 0 ? " horizontal" : " vertical") + " · " + e.w.length + " lettres</b><br>" : "Touche une case ou une définition pour commencer.";
+      if (e) sel.appendChild(document.createTextNode(e.clue));
+      bHint.textContent = "Révéler un indice" + (hints ? " (" + hints + ")" : "");
+    }
+
+    function checkWin() {
+      if (won || !entries.every(solved)) return;
+      won = true;
+      const f = h("div", "cw-final"), p = h("p"); p.textContent = FINAL; f.appendChild(p);
+      const again = h("button", "cw-btn main", "Recommencer"); again.type = "button";
+      again.addEventListener("click", () => start(root));
+      f.appendChild(again); final.innerHTML = ""; final.appendChild(f); final.hidden = false;
+      msg.textContent = "Tous les mots sont trouvés ! ❤️";
+      setTimeout(() => {
+        if (id !== run) return;
+        const r = f.getBoundingClientRect();
+        burst(r.left + r.width * 0.2, r.top + 20, 22); burst(r.left + r.width * 0.8, r.top + 20, 22); burst(r.left + r.width / 2, r.top, 18);
+        f.scrollIntoView && f.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "nearest" });
+      }, 250);
+    }
+
+    bCheck.addEventListener("click", () => {
+      let ok = 0, bad = 0, empty = 0;
+      for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+        const cell = cells[r][c]; if (!cell) continue;
+        if (!val[r][c]) { empty++; if (st[r][c] !== "hint") st[r][c] = ""; }
+        else if (val[r][c] === cell.ch) { ok++; if (st[r][c] !== "hint") st[r][c] = "ok"; }
+        else { bad++; st[r][c] = "bad"; }
+      }
+      paint();
+      msg.textContent = bad ? ok + " lettre" + (ok > 1 ? "s" : "") + " juste" + (ok > 1 ? "s" : "") + ", " + bad + " à corriger (en rouge)." : empty ? "Tout ce que tu as écrit est juste ! Il reste " + empty + " case" + (empty > 1 ? "s" : "") + " à remplir." : "Tout est juste !";
+      const e = curEntry(); if (e && !bad) focusInput();
+    });
+    bHint.addEventListener("click", () => {
+      let e = curEntry(); if (!e || solved(e)) e = order.find(x => !solved(x));
+      if (!e) { msg.textContent = "Tous les mots sont déjà trouvés !"; return; }
+      const todo = e.cells.filter(x => val[x.r][x.c] !== x.ch), x = todo[Math.floor(Math.random() * todo.length)];
+      val[x.r][x.c] = x.ch; st[x.r][x.c] = "hint"; hints++;
+      cur = { r: x.r, c: x.c, d: e.d };
+      msg.textContent = "Une lettre révélée dans le mot n° " + e.n + (e.d === 0 ? " (horizontal)" : " (vertical)") + ".";
+      paint(); focusInput(); checkWin();
+    });
+    bClear.addEventListener("click", () => {
+      for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) { val[r][c] = ""; st[r][c] = ""; }
+      hints = 0; won = false; final.hidden = true; final.innerHTML = ""; msg.textContent = "Grille vidée. On recommence !"; paint();
+    });
+    paint();
+  }
+
+  /* ---------- Point d'entrée (appelé par la case 17) ---------- */
+  window.showMotsCroises = function () {
+    run++;
+    const body = document.getElementById("modal-body");
+    body.innerHTML = "";
+    const root = h("div", "cw");
+    body.appendChild(root);
+    start(root);
   };
 })();
 
