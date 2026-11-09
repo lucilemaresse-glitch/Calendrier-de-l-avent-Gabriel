@@ -1185,6 +1185,35 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
 .qc-row .t { height: 8px; background: var(--pk); border-radius: 8px; overflow: hidden; }
 .qc-row .t i { display: block; height: 100%; background: var(--rd); border-radius: 8px; transition: width .9s cubic-bezier(.3,.9,.3,1); }
 @media (max-width: 560px) { .qc-ans { grid-template-columns: 1fr; } .qc-a { min-height: 70px; } .qc-q { font-size: 19px; } .qc-pt { font-size: 34px; } .qc-row { grid-template-columns: 110px minmax(0, 1fr) 22px; font-size: 12px; } }
+
+/* ---------- Case 22 : Le défi des 5 secondes ---------- */
+.ch-wheelwrap { position: relative; width: 210px; height: 210px; margin: 14px auto; }
+.ch-wheel { width: 100%; height: 100%; border-radius: 50%; border: 6px solid var(--rd); box-shadow: 0 14px 26px -14px rgba(142,34,48,.7), inset 0 0 0 4px #fff; background: conic-gradient(#F4C6CC 0 25%, #FBE4E7 0 50%, #F6D9B8 0 75%, #E9C2E6 0 100%); position: relative; transition: transform 2.2s cubic-bezier(.15,.7,.1,1); }
+.ch-wheel span { position: absolute; left: 50%; top: 50%; font-size: 34px; transform: translate(-50%,-50%) rotate(var(--a)) translateY(-66px) rotate(calc(var(--a) * -1)); }
+.ch-pin { position: absolute; left: 50%; top: -8px; transform: translateX(-50%); width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 22px solid var(--rd2); z-index: 2; }
+.ch-hub { position: absolute; left: 50%; top: 50%; width: 46px; height: 46px; transform: translate(-50%,-50%); background: var(--rd); color: #fff; border-radius: 50%; display: grid; place-items: center; font-size: 20px; z-index: 1; border: 3px solid #fff; }
+.ch-score { display: inline-block; background: var(--pk); color: var(--rd2); font-weight: 800; font-size: 13px; border-radius: 999px; padding: 5px 14px; margin: 4px 0; }
+.ch-lvl { display: inline-block; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 800; color: #fff; background: var(--rd); padding: 4px 12px; border-radius: 999px; margin: 8px 0 4px; }
+.ch-card { background: linear-gradient(160deg, #FFFCF9, #FBE4E7); border: 3px solid var(--pk2); border-radius: 24px; padding: 22px 18px; margin: 10px auto; max-width: 480px; animation: avIn .6s cubic-bezier(.3,1.2,.5,1) both; }
+.ch-q { font-family: 'Great Vibes', cursive; font-size: 34px; line-height: 1.2; color: var(--rd2); margin: 4px 0; text-wrap: balance; }
+.ch-three { display: flex; justify-content: center; gap: 8px; font-size: 22px; margin-top: 8px; }
+.ch-clock { position: relative; width: 190px; height: 190px; margin: 14px auto; }
+.ch-clock svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.ch-clock circle { fill: #FFFCF9; stroke-width: 12; }
+.ch-clock .tr { stroke: var(--pk); }
+.ch-clock .pr { stroke: var(--rd); stroke-linecap: round; stroke-dasharray: 534; stroke-dashoffset: 0; transition: stroke-dashoffset 1s linear; }
+.ch-num { position: absolute; inset: 0; display: grid; place-items: center; font-size: 84px; font-weight: 800; color: var(--rd); }
+.ch-num.pop { animation: chPop .9s ease-out both; }
+@keyframes chPop { 0% { transform: scale(1.7); opacity: 0; } 25% { opacity: 1; } 100% { transform: scale(1); } }
+.ch-clock.end .pr { stroke: var(--bad); }
+.ch-clock.end { animation: chShake .5s ease 2; }
+@keyframes chShake { 25% { transform: rotate(-6deg); } 75% { transform: rotate(6deg); } }
+.ch-time { font-size: 22px; font-weight: 800; color: var(--bad); margin: 6px 0; animation: avPop .4s both; }
+.ch-res { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 12px; }
+.ch-btn-ok { background: var(--good); color: #fff; }
+.ch-btn-ko { background: var(--bad); color: #fff; }
+.ch-btn-ok, .ch-btn-ko { box-shadow: 0 6px 14px -8px rgba(0,0,0,.5); }
+@media (max-width: 420px) { .ch-q { font-size: 30px; } .ch-clock { width: 160px; height: 160px; } .ch-num { font-size: 70px; } }
 </style>
 </head>
 <body>
@@ -1255,7 +1284,7 @@ const activities = [
   "", // case 19 : questions sans filtre
   "", // case 20 : quiz du couple
   "", // case 21 : devine mes réponses
-  "Bon pour une soirée rien que tous les deux !",
+  "", // case 22 : défi des 5 secondes
   "Un dernier petit mot pour te rappeler combien tu comptes pour moi.",
   "C'est la veille de Noël ! Ferme les yeux une seconde et pense à tout ce qu'on a déjà vécu ensemble. Demain, la dernière case t'attend. ❤️",
   "Joyeux Noël mon amour ! ❤️ Voici ta dernière surprise."
@@ -1366,6 +1395,10 @@ function openDay(day) {
     title.textContent = "Le labyrinthe de notre amour ❤️";
     modalContent.classList.add("wide");
     showMaze();
+  } else if (day === 22) {
+    title.textContent = "Le défi des 5 secondes ⏱️❤️";
+    modalContent.classList.add("wide", "notitle");
+    showDefi5s();
   } else if (day === 21) {
     title.textContent = "Devine mes réponses ❤️";
     modalContent.classList.add("wide", "notitle");
@@ -6267,6 +6300,161 @@ const PM_EMBEDDED = {
     const t = h("h3", "av-title"); t.textContent = "Quel genre de couple sommes-nous ? ❤️"; root.appendChild(t);
     root.appendChild(h("p", "av-text", "15 questions sur nous, nos habitudes et nos envies. À la fin, tes réponses révèlent quel type de couple nous sommes. Il n'y a pas de mauvaise réponse, juste notre façon d'être ensemble !"));
     const go = h("button", "av-btn main", "Commencer le quiz"); go.type = "button"; go.addEventListener("click", start);
+    const acts = h("div", "av-acts"); acts.appendChild(go); root.appendChild(acts);
+  };
+})();
+
+
+/* =====================================================
+   CASE 22 : LE DÉFI DES 5 SECONDES ⏱️❤️
+   Modifie les défis ci-dessous. Les manches suivent l'ordre des niveaux (de plus en plus amusant).
+===================================================== */
+(function () {
+  "use strict";
+  const { h, toTop, shuffle, burst, burstAt, reduce, sel } = window.AV;
+  const LEVELS = [
+    { ico: "💕", name: "Sur notre couple", n: 3, list: [
+      "Cite 3 qualités chez moi.", "Cite 3 choses que tu aimes chez moi.", "Cite 3 souvenirs que nous avons ensemble.", "Cite 3 endroits où nous sommes déjà allés ensemble.",
+      "Cite 3 choses que tu aimerais faire avec moi.", "Cite 3 raisons pour lesquelles tu es heureux avec moi.", "Cite 3 petits gestes qui te font penser à moi."] },
+    { ico: "😂", name: "Sur moi", n: 3, list: [
+      "Cite 3 choses qui me font rire.", "Cite 3 de mes habitudes.", "Cite 3 choses que j'aime.", "Cite 3 choses qui peuvent m'énerver.",
+      "Cite 3 mots qui me décrivent.", "Cite 3 choses que je pourrais faire pendant des heures."] },
+    { ico: "🌍", name: "Sur nos projets", n: 2, list: [
+      "Cite 3 destinations où tu aimerais voyager avec moi.", "Cite 3 activités à tester ensemble.", "Cite 3 choses à faire lors de nos prochaines vacances.",
+      "Cite 3 idées pour un rendez-vous romantique.", "Cite 3 expériences que tu aimerais vivre avec moi."] },
+    { ico: "🤪", name: "Défis insolites", n: 2, list: [
+      "Cite 3 surnoms que tu pourrais me donner.", "Cite 3 façons de me faire sourire.", "Cite 3 choses que tu emporterais sur une île déserte avec moi.",
+      "Cite 3 raisons de ne pas me quitter.", "Cite 3 choses que nous ferions si nous gagnions au loto."] }
+  ];
+  const FINAL = "Alors, champion, tu as réussi à relever mes défis ? 😂 J'espère que tu ne t'es pas trop emmêlé les pinceaux ! Mais attention, même avec seulement 5 secondes, tu devrais quand même réussir à trouver au moins trois raisons de m'aimer… ❤️";
+  const TIERS = [
+    [9, "Incroyable ! Tu es plus rapide qu'un éclair. Je crois que tu me connais vraiment par cœur ! 🏆"],
+    [6, "Très beau score ! Quelques hésitations, mais tu as du répondant. 😄"],
+    [3, "Pas mal ! On va dire que la pression du chrono t'a un peu joué des tours… 😅"],
+    [0, "Aïe… Cinq secondes, c'est très court quand on est amoureux et un peu stressé. On rejoue ? 😂"]
+  ];
+  let run = 0, root, timer = null, ctx = null;
+
+  function beep(f, d) {
+    try {
+      ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.frequency.value = f; o.type = "sine"; g.gain.value = .12; o.connect(g); g.connect(ctx.destination);
+      o.start(); g.gain.exponentialRampToValueAtTime(.001, ctx.currentTime + d); o.stop(ctx.currentTime + d);
+    } catch (e) {}
+  }
+  const stop = () => { if (timer) { clearTimeout(timer); timer = null; } };
+
+  function start() {
+    const rounds = [];
+    LEVELS.forEach((lv, li) => shuffle(lv.list).slice(0, lv.n).forEach(q => rounds.push({ li, q })));
+    round({ rounds, pos: 0, ok: 0 });
+  }
+
+  function head(g) {
+    const d = h("div");
+    d.innerHTML = `<p class="av-kick">Case 22</p><div class="av-count"></div><div class="av-bar"><i></i></div><span class="ch-score"></span>`;
+    d.querySelector(".av-count").textContent = "Défi " + (g.pos + 1) + " sur " + g.rounds.length;
+    d.querySelector(".ch-score").textContent = "✅ " + sel(g.ok, "défi réussi", "défis réussis");
+    const b = d.querySelector(".av-bar i");
+    requestAnimationFrame(() => requestAnimationFrame(() => { b.style.width = (g.pos / g.rounds.length * 100) + "%"; }));
+    return d;
+  }
+
+  function round(g) {
+    stop(); const id = run;
+    root.innerHTML = ""; toTop();
+    const r = g.rounds[g.pos], lv = LEVELS[r.li];
+    root.appendChild(head(g));
+    const wrap = h("div", "ch-wheelwrap");
+    const wheel = h("div", "ch-wheel");
+    LEVELS.forEach((l, i) => { const s = h("span", "", l.ico); s.style.setProperty("--a", (i * 90 + 45) + "deg"); wheel.appendChild(s); });
+    wrap.append(h("div", "ch-pin"), wheel, h("div", "ch-hub", "❤️"));
+    root.appendChild(wrap);
+    root.appendChild(h("p", "av-note", "Tire ton prochain défi : de plus en plus amusant !"));
+    const go = h("button", "av-btn main", "🎡 Tirer mon défi"); go.type = "button";
+    const acts = h("div", "av-acts"); acts.appendChild(go); root.appendChild(acts);
+    go.addEventListener("click", () => {
+      go.disabled = true;
+      const target = 360 * 4 + (360 - (r.li * 90 + 45));
+      wheel.style.transform = "rotate(" + target + "deg)";
+      setTimeout(() => { if (id === run) challenge(g); }, reduce ? 300 : 2400);
+    });
+  }
+
+  function challenge(g) {
+    stop(); const id = run;
+    root.innerHTML = ""; toTop();
+    const r = g.rounds[g.pos], lv = LEVELS[r.li];
+    root.appendChild(head(g));
+    root.appendChild(h("div", "ch-lvl", lv.ico + " " + lv.name));
+    const card = h("div", "ch-card");
+    const q = h("p", "ch-q"); q.textContent = r.q;
+    card.append(q, h("div", "ch-three", "<span>1️⃣</span><span>2️⃣</span><span>3️⃣</span>"));
+    root.appendChild(card);
+    root.appendChild(h("p", "av-note", "Tu as 5 secondes pour donner tes 3 réponses à voix haute. Joue honnêtement ! 😉"));
+    const go = h("button", "av-btn main", "C'est parti ! ⏱️"); go.type = "button";
+    const acts = h("div", "av-acts"); acts.appendChild(go); root.appendChild(acts);
+    go.addEventListener("click", () => countdown(g, id, acts, go));
+  }
+
+  function countdown(g, id, acts, go) {
+    go.remove();
+    const clock = h("div", "ch-clock");
+    clock.innerHTML = `<svg viewBox="0 0 190 190" aria-hidden="true"><circle class="tr" cx="95" cy="95" r="85"/><circle class="pr" cx="95" cy="95" r="85"/></svg><div class="ch-num" aria-live="assertive"></div>`;
+    acts.parentNode.insertBefore(clock, acts);
+    const num = clock.querySelector(".ch-num"), pr = clock.querySelector(".pr");
+    let n = 5;
+    const tick = () => {
+      if (id !== run || !root.isConnected) return;
+      if (n === 0) return end();
+      num.textContent = n; num.classList.remove("pop"); void num.offsetWidth; if (!reduce) num.classList.add("pop");
+      pr.style.strokeDashoffset = String(534 * (5 - n + 1) / 5);
+      beep(n === 1 ? 880 : 520, .18);
+      n--; timer = setTimeout(tick, 1000);
+    };
+    const end = () => {
+      num.textContent = "0"; clock.classList.add("end"); beep(220, .7);
+      const t = h("p", "ch-time", "⏰ Temps écoulé !");
+      const box = h("div", "ch-res");
+      const ok = h("button", "av-btn ch-btn-ok", "✅ Défi réussi"), ko = h("button", "av-btn ch-btn-ko", "❌ Raté !");
+      ok.type = ko.type = "button";
+      box.append(ok, ko);
+      acts.parentNode.insertBefore(t, acts); acts.appendChild(box);
+      const next = good => {
+        if (good) { g.ok++; burstAt(ok, 16); }
+        ok.disabled = ko.disabled = true;
+        setTimeout(() => { if (id !== run) return; g.pos++; if (g.pos >= g.rounds.length) final(g); else round(g); }, reduce ? 100 : (good ? 700 : 300));
+      };
+      ok.addEventListener("click", () => next(true)); ko.addEventListener("click", () => next(false));
+    };
+    tick();
+  }
+
+  function final(g) {
+    stop(); const id = run;
+    root.innerHTML = ""; toTop();
+    const N = g.rounds.length;
+    root.appendChild(h("p", "av-kick", "Résultat"));
+    const t = h("h3", "av-title"); t.textContent = "Le défi des 5 secondes ⏱️❤️"; root.appendChild(t);
+    const sc = h("div", "ch-card"); sc.innerHTML = `<p class="ch-q"></p><p class="av-text" style="margin:6px auto 0"></p>`;
+    sc.querySelector(".ch-q").textContent = g.ok + " / " + N + " défis réussis";
+    sc.querySelector(".av-text").textContent = TIERS.find(x => g.ok >= x[0])[1];
+    root.appendChild(sc);
+    const f = h("div", "av-final"); f.appendChild(h("p")); f.firstChild.textContent = FINAL; root.appendChild(f);
+    const acts = h("div", "av-acts"), again = h("button", "av-btn main", "Recommencer le jeu"); again.type = "button";
+    again.addEventListener("click", start); acts.appendChild(again); root.appendChild(acts);
+    setTimeout(() => { if (id !== run) return; const r = f.getBoundingClientRect(); burst(r.left + r.width * .3, r.top + 20, 18); burst(r.left + r.width * .7, r.top + 20, 18); }, 250);
+  }
+
+  window.showDefi5s = function () {
+    run++; stop();
+    root = window.avMount("ch");
+    root.appendChild(h("p", "av-kick", "Case 22"));
+    root.appendChild(h("div", "av-icons", "<span aria-hidden='true'>⏱️</span><span aria-hidden='true'>❤️</span><span aria-hidden='true'>🎡</span>"));
+    const t = h("h3", "av-title"); t.textContent = "Le défi des 5 secondes ⏱️❤️"; root.appendChild(t);
+    root.appendChild(h("p", "av-text", "10 défis, de plus en plus amusants. Pour chacun, tu dois citer 3 éléments en seulement 5 secondes, à voix haute. Le jeu ne peut pas vérifier tes réponses : à toi de jouer honnêtement !"));
+    const go = h("button", "av-btn main", "Commencer"); go.type = "button"; go.addEventListener("click", start);
     const acts = h("div", "av-acts"); acts.appendChild(go); root.appendChild(acts);
   };
 })();
