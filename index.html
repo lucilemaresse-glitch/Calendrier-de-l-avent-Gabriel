@@ -1343,6 +1343,75 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
 .sv-missing { overflow: auto; }
 .sv-missing { padding: 12px; font-size: 13.5px; }
 .sv-missing b { font-size: 26px; }
+
+/* ---------- Case 25 : Le laboratoire de notre couple ---------- */
+.lb { --lab: #B04A8E; --lab2: #7C3270; --mint: #CDEBDD; }
+.lb .av-title { color: var(--lab2); }
+.lb .av-kick { color: var(--lab); }
+.lb-bar { position: sticky; top: -1px; z-index: 6; background: rgba(255,252,249,.96); border-radius: 0 0 18px 18px; padding: 8px 10px; display: flex; align-items: center; gap: 12px; box-shadow: 0 8px 14px -12px rgba(124,50,112,.6); margin: 0 -4px 8px; backdrop-filter: blur(4px); }
+.lb-mini { position: relative; flex: none; width: 34px; height: 46px; }
+.lb-fl { position: relative; width: 100%; height: 100%; }
+.lb-fl::before { content: ""; position: absolute; left: 34%; right: 34%; top: 0; height: 30%; border: 3px solid var(--lab2); border-bottom: 0; border-radius: 4px 4px 0 0; background: #fff; }
+.lb-fl .gl { position: absolute; left: 0; right: 0; bottom: 0; height: 74%; border: 3px solid var(--lab2); border-radius: 8px 8px 16px 16px; background: #fff; overflow: hidden; }
+.lb-fl .lq { position: absolute; left: 0; right: 0; bottom: 0; height: var(--h, 0%); background: linear-gradient(180deg, #F08CB8, #B04A8E); transition: height .6s cubic-bezier(.3,1.3,.5,1); }
+.lb-info { flex: 1; text-align: left; font-size: 13px; font-weight: 800; color: var(--lab2); }
+.lb-info .av-bar { margin: 4px 0 0; }
+.lb-list { display: grid; gap: 10px; margin: 10px auto; max-width: 520px; }
+.lb-card { background: var(--paper); border: 2px solid var(--ln); border-radius: 18px; padding: 12px 12px 10px; text-align: left; transition: border-color .25s, background .25s; }
+.lb-card.done { border-color: var(--pk2); background: #FFF4F6; }
+.lb-hd { display: flex; align-items: center; gap: 10px; }
+.lb-ico { font-size: 30px; flex: none; }
+.lb-hd b { display: block; color: var(--lab2); font-size: 16px; }
+.lb-hd small { color: var(--soft); font-size: 12.5px; }
+.lb-doses { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin: 10px 0 4px; }
+.lb-d { font: inherit; height: 44px; border-radius: 10px; border: 2px solid var(--ln); background: #fff; cursor: pointer; padding: 5px 0; display: flex; align-items: flex-end; justify-content: center; touch-action: manipulation; transition: transform .15s, border-color .2s, background .2s; }
+.lb-d i { display: block; width: 46%; background: var(--pk2); border-radius: 3px; }
+.lb-d:hover { border-color: var(--lab); }
+.lb-d.on { background: var(--lab); border-color: var(--lab2); transform: scale(1.06); }
+.lb-d.on i { background: #fff; }
+.lb-dl { min-height: 20px; font-size: 13px; font-weight: 800; color: var(--lab); text-align: center; }
+.lb-mix { position: relative; height: 270px; margin: 10px auto; max-width: 320px; }
+.lb-big { position: absolute; left: 50%; bottom: 10px; width: 120px; height: 170px; transform: translateX(-50%); }
+.lb-big .lb-fl::before { border-width: 5px; }
+.lb-big .lb-fl .gl { border-width: 5px; border-radius: 12px 12px 36px 36px; }
+.lb-big.shake { animation: lbShake .5s ease-in-out infinite; }
+@keyframes lbShake { 25% { transform: translateX(-50%) rotate(-7deg); } 75% { transform: translateX(-50%) rotate(7deg); } }
+.lb-fly { position: absolute; font-size: 30px; z-index: 2; }
+.lb-row { display: grid; grid-template-columns: 1fr; gap: 4px; background: var(--paper); border: 2px solid var(--ln); border-radius: 16px; padding: 10px 12px; text-align: left; animation: avIn .6s cubic-bezier(.3,1.2,.5,1) both; }
+.lb-row.same { border-color: #86C9A2; background: #EEF9F2; }
+.lb-row.diff { border-color: #E9BE85; background: #FFF6E8; }
+.lb-row .t { display: flex; align-items: center; gap: 8px; font-weight: 800; color: var(--lab2); }
+.lb-row .t span.b { margin-left: auto; font-size: 12px; padding: 3px 10px; border-radius: 999px; background: #fff; border: 2px solid currentColor; }
+.lb-row.same .b { color: var(--good); } .lb-row.diff .b { color: #B7702A; } .lb-row.na .b { color: var(--soft); }
+.lb-row .d { font-size: 13.5px; display: flex; gap: 6px; flex-wrap: wrap; }
+.lb-row .d em { font-style: normal; color: var(--soft); font-weight: 700; }
+.lb-sum { max-width: 520px; margin: 14px auto 6px; text-align: left; display: grid; gap: 10px; }
+.lb-box { background: #FFF8FB; border: 2px solid var(--pk2); border-radius: 18px; padding: 12px 14px; font-size: 14.5px; line-height: 1.5; }
+.lb-box h4 { margin: 0 0 6px; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--lab); }
+.lb-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.lb-chips span { background: #fff; border: 2px solid var(--pk2); border-radius: 999px; padding: 3px 10px; font-size: 13px; font-weight: 700; }
+.lb-sheet { max-width: 520px; margin: 14px auto; background: #FFFDF8; border: 3px double var(--gold, #C9A25B); border-radius: 18px; padding: 16px 14px; text-align: left; }
+.lb-sheet h4 { font-family: 'Great Vibes', cursive; font-weight: normal; font-size: 30px; text-align: center; color: var(--lab2); margin: 0 0 8px; }
+.lb-sr { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2px 10px; align-items: center; padding: 6px 0; border-top: 1px dashed var(--ln); font-size: 13px; }
+.lb-sr b { color: var(--lab2); }
+.lb-sr .bars { display: grid; gap: 3px; }
+.lb-sr .bars i { display: block; height: 7px; border-radius: 6px; }
+.lb-sr .bars .a { background: var(--lab); } .lb-sr .bars .m { background: #D9A441; }
+.lb-sr small { grid-column: 1 / -1; color: var(--soft); }
+.lb-leg { display: flex; gap: 12px; justify-content: center; font-size: 12px; color: var(--soft); font-weight: 700; margin-top: 6px; }
+.lb-leg span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; background: var(--lab); } .lb-leg span + span::before { background: #D9A441; }
+.lb-myst { max-width: 520px; margin: 18px auto 6px; border-radius: 24px; padding: 22px 16px; background: radial-gradient(circle at 50% 0, #6B3A8C, #2D1747); color: #FFF3E4; animation: avIn 1s cubic-bezier(.3,1.2,.5,1) both; box-shadow: 0 0 0 3px #E8C873 inset, 0 0 30px 4px rgba(232,200,115,.45); }
+.lb-myst .fi { font-size: 62px; display: block; animation: lbGlow 2s ease-in-out infinite; }
+@keyframes lbGlow { 50% { transform: scale(1.12) rotate(4deg); filter: drop-shadow(0 0 14px #FFD97A); } }
+.lb-myst h4 { margin: 6px 0 10px; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: #FFD97A; }
+.lb-myst p { margin: 0; font-size: 17px; line-height: 1.7; font-style: italic; text-wrap: pretty; }
+.lb-noprint-note { font-size: 12px; color: var(--soft); }
+@media (max-width: 420px) { .lb-doses { gap: 4px; } .lb-d { height: 40px; } }
+@media print {
+  .lb-noprint, .lb-bar { display: none !important; }
+  .lb-sheet { margin: 8mm auto; break-inside: avoid; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .lb-myst { box-shadow: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
 </style>
 </head>
 <body>
@@ -1416,7 +1485,7 @@ const activities = [
   "", // case 22 : défi des 5 secondes
   "", // case 23 : petite surprise vidéo
   "", // case 24 : mission spéciale Noël
-  "Joyeux Noël mon amour ! ❤️ Voici ta dernière surprise."
+  "" // case 25 : le laboratoire de notre couple
 ];
 
 /* =====================================================
@@ -1528,6 +1597,10 @@ function openDay(day) {
     title.textContent = "Une petite surprise rien que pour toi ❤️";
     modalContent.classList.add("wide", "notitle");
     showSurprise();
+  } else if (day === 25) {
+    title.textContent = "Le laboratoire de notre couple ❤️";
+    modalContent.classList.add("wide", "notitle");
+    showLaboratoire();
   } else if (day === 24) {
     title.textContent = "Mission spéciale : Noël approche ! 🎅";
     modalContent.classList.add("wide", "notitle");
@@ -6910,6 +6983,210 @@ const PM_EMBEDDED = {
     root = window.avMount("sv");
     root.innerHTML = '<div class="sv-bg" data-id="bg" aria-hidden="true"></div>' + HTML;
     init(run);
+  };
+})();
+
+
+/* =====================================================
+   CASE 25 : LE LABORATOIRE DE NOTRE COUPLE ❤️
+===================================================== */
+(function () {
+  "use strict";
+  const { h, toTop, burst, burstAt, reduce, sel } = window.AV;
+
+  const DOSES = ["Une petite goutte", "Une cuillère à café", "Une cuillère à soupe", "Un grand verre", "Une louche", "Un flacon entier", "Une quantité illimitée"];
+  const INGREDIENTS = [
+    ["❤️", "Amour", "Le sentiment qui nous unit"], ["😂", "Rires", "Nos fous rires"], ["🤝", "Complicité", "Notre connexion"],
+    ["🤪", "Folie", "Notre grain de folie"], ["🔐", "Confiance", "Pouvoir compter l'un sur l'autre"], ["🫂", "Tendresse", "Les gestes doux"],
+    ["🌍", "Aventure", "Les expériences à partager"], ["💬", "Communication", "Se parler et s'écouter"], ["🌟", "Respect", "Accepter l'autre"],
+    ["🕊️", "Liberté", "Rester soi-même"], ["🌱", "Soutien", "Grandir ensemble"], ["🍓", "Douceur", "Les petits plaisirs partagés"]
+  ];
+  /* ======================================================================
+     MES DOSAGES À COMPLÉTER  (ma propre recette, cachée jusqu'à la fin)
+     Pour chaque ingrédient, remplace null par le numéro de ma dose :
+       0 = Une petite goutte      1 = Une cuillère à café   2 = Une cuillère à soupe
+       3 = Un grand verre         4 = Une louche            5 = Un flacon entier
+       6 = Une quantité illimitée
+     Exemple :  "Amour": 6,
+     Tant qu'un dosage est null, il est affiché « à compléter » et n'est pas comparé.
+     ====================================================================== */
+  const MES_DOSAGES = {
+    "Amour": null, "Rires": null, "Complicité": null, "Folie": null, "Confiance": null, "Tendresse": null,
+    "Aventure": null, "Communication": null, "Respect": null, "Liberté": null, "Soutien": null, "Douceur": null
+  };
+  const MYST_TITLE = "L'ingrédient mystère : toi et moi ❤️";
+  const MYST = "Il y a un ingrédient que nous ne pouvons pas mesurer, ni remplacer, ni fabriquer séparément. C'est simplement toi et moi. Parce qu'au fond, même avec toutes les meilleures doses du monde, c'est notre rencontre qui rend cette recette unique.";
+  const her = i => { const v = MES_DOSAGES[INGREDIENTS[i][1]]; return Number.isInteger(v) && v >= 0 && v < DOSES.length ? v : null; };
+  const N = INGREDIENTS.length;
+  let run = 0, root, timers = [];
+  const later = (fn, ms) => { const id = run; const t = setTimeout(() => { if (id === run && root.isConnected) fn(); }, reduce ? Math.min(ms, 60) : ms); timers.push(t); };
+  const clear = () => { timers.forEach(clearTimeout); timers = []; };
+
+  const flask = () => h("div", "lb-fl", '<div class="gl"><div class="lq"></div></div>');
+
+  function start() { clear(); run++; dosing(new Array(N).fill(null)); }
+
+  function dosing(mine) {
+    root.innerHTML = ""; toTop();
+    const bar = h("div", "lb-bar");
+    const mini = h("div", "lb-mini"); const fl = flask(); mini.appendChild(fl);
+    const info = h("div", "lb-info", '<span></span><div class="av-bar"><i></i></div>');
+    bar.append(mini, info); root.appendChild(bar);
+    const head = h("div");
+    head.innerHTML = `<p class="av-kick">Case 25 · Étape 1</p><h3 class="av-title" style="font-size:32px;margin-bottom:4px">Dose ta potion ❤️</h3>`;
+    head.appendChild(h("p", "av-note", "Pour chaque ingrédient, choisis la quantité que tu ajouterais. Il n'y a ni bonne ni mauvaise réponse : dose selon ce qui représente notre couple pour toi."));
+    root.appendChild(head);
+    const list = h("div", "lb-list"); root.appendChild(list);
+    const acts = h("div", "av-acts"); const go = h("button", "av-btn main", "Valider ma recette ⚗️"); go.type = "button"; go.disabled = true; acts.appendChild(go); root.appendChild(acts);
+    const upd = () => {
+      const n = mine.filter(x => x !== null).length;
+      info.querySelector("span").textContent = n + " / " + N + " ingrédients dosés";
+      info.querySelector(".av-bar i").style.width = (n / N * 100) + "%";
+      const vals = mine.filter(x => x !== null); const avg = vals.length ? vals.reduce((a, b) => a + b + 1, 0) / vals.length / DOSES.length : 0;
+      fl.style.setProperty("--h", Math.round(avg * 100) + "%");
+      go.disabled = n < N;
+    };
+    INGREDIENTS.forEach((ing, i) => {
+      const c = h("div", "lb-card");
+      const hd = h("div", "lb-hd"); hd.innerHTML = `<span class="lb-ico" aria-hidden="true"></span><div><b></b><small></small></div>`;
+      hd.querySelector(".lb-ico").textContent = ing[0]; hd.querySelector("b").textContent = ing[1]; hd.querySelector("small").textContent = ing[2];
+      const row = h("div", "lb-doses"); row.setAttribute("role", "radiogroup"); row.setAttribute("aria-label", "Dose de " + ing[1]);
+      const lab = h("div", "lb-dl", "Choisis une dose");
+      const bs = DOSES.map((d, k) => {
+        const b = h("button", "lb-d", `<i style="height:${18 + k * 13}%"></i>`); b.type = "button"; b.setAttribute("role", "radio"); b.setAttribute("aria-label", d); b.setAttribute("aria-checked", "false"); b.title = d;
+        b.addEventListener("click", () => {
+          mine[i] = k; bs.forEach((x, j) => { x.classList.toggle("on", j === k); x.setAttribute("aria-checked", String(j === k)); });
+          lab.textContent = d; c.classList.add("done"); burstAt(b, 3); upd();
+        });
+        row.appendChild(b); return b;
+      });
+      c.append(hd, row, lab); list.appendChild(c);
+    });
+    go.addEventListener("click", () => mixing(mine));
+    upd();
+  }
+
+  function mixing(mine) {
+    const id = run;
+    root.innerHTML = ""; toTop();
+    root.appendChild(h("p", "av-kick", "Étape 2"));
+    const t = h("h3", "av-title"); t.textContent = "On mélange tous les ingrédients… ⚗️"; root.appendChild(t);
+    const stage = h("div", "lb-mix"); const big = h("div", "lb-big"); const fl = flask(); big.appendChild(fl); stage.appendChild(big); root.appendChild(stage);
+    root.appendChild(h("p", "av-note", "Ta recette est en train de se préparer…"));
+    const vals = mine.map(x => x + 1), avg = vals.reduce((a, b) => a + b, 0) / N / DOSES.length;
+    setTimeout(() => fl.style.setProperty("--h", Math.round(Math.max(.25, avg) * 100) + "%"), 100);
+    if (!reduce) {
+      INGREDIENTS.forEach((ing, i) => {
+        const s = h("span", "lb-fly", ing[0]); s.setAttribute("aria-hidden", "true"); stage.appendChild(s);
+        const a = i / N * Math.PI * 2, x0 = 160 + Math.cos(a) * 130, y0 = 120 + Math.sin(a) * 90;
+        s.animate([{ left: x0 + "px", top: y0 + "px", opacity: 0, transform: "scale(.5)" }, { left: x0 + "px", top: y0 + "px", opacity: 1, transform: "scale(1)", offset: .2 }, { left: "150px", top: "170px", opacity: 0, transform: "scale(.3)" }], { duration: 1500, delay: i * 130, easing: "ease-in", fill: "both" });
+      });
+      later(() => big.classList.add("shake"), 1700);
+    }
+    later(() => { const r = big.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + 40, 26); }, reduce ? 50 : 3000);
+    later(() => compare(mine), reduce ? 100 : 3400);
+  }
+
+  function compare(mine) {
+    const id = run;
+    root.innerHTML = ""; toTop();
+    root.appendChild(h("p", "av-kick", "Étape 3"));
+    const t = h("h3", "av-title"); t.textContent = "Nos deux recettes ❤️"; root.appendChild(t);
+    const hn = INGREDIENTS.map((_, i) => her(i));
+    const filled = hn.filter(x => x !== null).length;
+    root.appendChild(h("p", "av-note", filled ? "Voici ma recette, dévoilée ingrédient par ingrédient. Même dose ou doses différentes ?" : "Mes dosages ne sont pas encore renseignés : voici ta recette en attendant la mienne. 😉"));
+    const list = h("div", "lb-list"); root.appendChild(list);
+    const same = [], diff = [];
+    const per = reduce ? 40 : 420;
+    INGREDIENTS.forEach((ing, i) => {
+      later(() => {
+        const r = h("div", "lb-row");
+        const m = hn[i], y = mine[i];
+        let badge;
+        if (m === null) { r.classList.add("na"); badge = "À compléter"; }
+        else if (m === y) { r.classList.add("same"); badge = "✅ Même dose"; same.push(i); }
+        else { r.classList.add("diff"); badge = "💬 Doses différentes"; diff.push(i); }
+        r.innerHTML = `<div class="t"><span></span><span class="n"></span><span class="b"></span></div><div class="d"><span class="y"></span><span class="m"></span></div>`;
+        r.querySelector(".t span").textContent = ing[0]; r.querySelector(".n").textContent = ing[1]; r.querySelector(".b").textContent = badge;
+        r.querySelector(".y").innerHTML = "<em>Toi :</em> "; r.querySelector(".y").appendChild(document.createTextNode(DOSES[y]));
+        r.querySelector(".m").innerHTML = "<em>Moi :</em> "; r.querySelector(".m").appendChild(document.createTextNode(m === null ? "ma dose reste à compléter 😉" : DOSES[m]));
+        list.appendChild(r); if (!reduce) r.scrollIntoView({ block: "nearest", behavior: "smooth" });
+        if (m !== null && m === y) burstAt(r, 3);
+      }, 500 + i * per);
+    });
+    later(() => summary(mine, hn, same, diff), 500 + N * per + 300);
+  }
+
+  function chips(ids) { const d = h("div", "lb-chips"); ids.forEach(i => { const s = h("span"); s.textContent = INGREDIENTS[i][0] + " " + INGREDIENTS[i][1]; d.appendChild(s); }); return d; }
+
+  function summary(mine, hn, same, diff) {
+    const filled = hn.filter(x => x !== null).length;
+    const sum = h("div", "lb-sum lb-noprint");
+    if (filled) {
+      const a = h("div", "lb-box"); a.appendChild(h("h4", "", "✅ Là où nous sommes d'accord (" + same.length + ")")); a.appendChild(same.length ? chips(same) : h("p", "", "Aucun ingrédient dosé de la même façon cette fois… et c'est ce qui rend la discussion intéressante !"));
+      const b = h("div", "lb-box"); b.appendChild(h("h4", "", "💬 Là où nos dosages diffèrent (" + diff.length + ")")); b.appendChild(diff.length ? chips(diff) : h("p", "", "Aucune différence : nos recettes sont identiques !"));
+      sum.append(a, b);
+      let best, label;
+      if (same.length) { const mx = Math.max(...same.map(i => mine[i])); best = same.filter(i => mine[i] === mx); label = "Notre ingrédient le plus important en commun"; }
+      else { const sc = INGREDIENTS.map((_, i) => (hn[i] === null ? -1 : Math.min(hn[i], mine[i]))); const mx = Math.max(...sc); best = sc.map((s, i) => (s === mx ? i : -1)).filter(i => i >= 0); label = "Le plus fort des deux côtés"; }
+      const c = h("div", "lb-box"); c.appendChild(h("h4", "", "⭐ " + label)); c.appendChild(chips(best));
+      if (same.length) c.appendChild(h("p", "av-note", "Dose choisie par nous deux : " + DOSES[mine[best[0]]].toLowerCase() + "."));
+      sum.appendChild(c);
+    }
+    if (filled && filled < N) sum.appendChild(h("p", "av-note", (N - filled) + " ingrédient" + (N - filled > 1 ? "s" : "") + " non comparé" + (N - filled > 1 ? "s" : "") + " : mes dosages sont encore à compléter."));
+    root.appendChild(sum);
+    /* recette finale comparée */
+    const sheet = h("div", "lb-sheet"); sheet.id = "lb-sheet";
+    sheet.appendChild(h("h4", "", "Notre recette comparée ⚗️"));
+    INGREDIENTS.forEach((ing, i) => {
+      const r = h("div", "lb-sr");
+      const nm = h("b"); nm.textContent = ing[0] + " " + ing[1];
+      const bars = h("div", "bars"); bars.innerHTML = `<i class="a" style="width:${(mine[i] + 1) / DOSES.length * 100}%"></i>` + (hn[i] === null ? "" : `<i class="m" style="width:${(hn[i] + 1) / DOSES.length * 100}%"></i>`);
+      const sm = h("small"); sm.textContent = "Toi : " + DOSES[mine[i]] + (hn[i] === null ? "" : " · Moi : " + DOSES[hn[i]]);
+      r.append(nm, bars, sm); sheet.appendChild(r);
+    });
+    sheet.appendChild(h("div", "lb-leg", "<span>Ta dose</span><span>Ma dose</span>"));
+    root.appendChild(sheet);
+    const acts = h("div", "av-acts lb-noprint"); const go = h("button", "av-btn main", "Découvrir l'ingrédient mystère ✨"); go.type = "button"; acts.appendChild(go); root.appendChild(acts);
+    sheet.scrollIntoView && !reduce && sum.scrollIntoView({ block: "start", behavior: "smooth" });
+    go.addEventListener("click", () => { acts.remove(); mystery(mine, hn, sheet); });
+  }
+
+  function mystery(mine, hn, sheet) {
+    const box = h("div", "lb-myst");
+    box.innerHTML = `<span class="fi" aria-hidden="true">🧪</span><h4></h4><p></p>`;
+    box.querySelector("h4").textContent = MYST_TITLE; box.querySelector("p").textContent = MYST;
+    root.appendChild(box);
+    const foot = h("div"); foot.style.cssText = "text-align:center;font-size:12.5px;font-style:italic;color:#80626A;border-top:1px dashed #EBD3CF;margin-top:8px;padding-top:8px";
+    foot.textContent = "Ingrédient mystère : toi et moi ❤️"; sheet.appendChild(foot);
+    box.scrollIntoView({ block: "center", behavior: reduce ? "auto" : "smooth" });
+    later(() => { const r = box.getBoundingClientRect(); burst(r.left + r.width * .3, r.top + 40, 22); burst(r.left + r.width * .7, r.top + 40, 22); }, 400);
+    const acts = h("div", "av-acts lb-noprint");
+    const pr = h("button", "av-btn ghost", "🖨️ Imprimer notre recette"), dl = h("button", "av-btn ghost", "⬇️ Télécharger (.txt)"), again = h("button", "av-btn main", "Refaire une potion"); pr.type = dl.type = again.type = "button";
+    const note = h("p", "av-note lb-noprint"); note.setAttribute("role", "status");
+    pr.addEventListener("click", () => { note.textContent = "Impression en cours… si rien ne s'ouvre, utilise Ctrl/Cmd + P dans ton navigateur."; try { window.print(); } catch (e) {} });
+    dl.addEventListener("click", () => {
+      const lines = ["LE LABORATOIRE DE NOTRE COUPLE ❤️", ""];
+      INGREDIENTS.forEach((ing, i) => lines.push(ing[0] + " " + ing[1] + " — Toi : " + DOSES[mine[i]] + (hn[i] === null ? "" : " | Moi : " + DOSES[hn[i]])));
+      lines.push("", MYST_TITLE, MYST);
+      try {
+        const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8" })); a.download = "notre-recette.txt";
+        document.body.appendChild(a); a.click(); a.remove(); note.textContent = "Recette téléchargée ❤️";
+      } catch (e) { note.textContent = "Le téléchargement n'a pas fonctionné : utilise plutôt l'impression."; }
+    });
+    again.addEventListener("click", start);
+    acts.append(pr, dl, again); root.append(acts, note);
+  }
+
+  window.showLaboratoire = function () {
+    clear(); run++;
+    root = window.avMount("lb");
+    root.appendChild(h("p", "av-kick", "Case 25"));
+    root.appendChild(h("div", "av-icons", "<span aria-hidden='true'>⚗️</span><span aria-hidden='true'>❤️</span><span aria-hidden='true'>🧪</span>"));
+    const t = h("h3", "av-title"); t.textContent = "Le laboratoire de notre couple ❤️"; root.appendChild(t);
+    root.appendChild(h("p", "av-text", N + " ingrédients représentent ce qui fait une belle relation. Dose chacun comme tu le ressens, puis nous comparerons nos deux recettes… et un dernier ingrédient, mystérieux, t'attend à la fin."));
+    const go = h("button", "av-btn main", "Entrer dans le laboratoire"); go.type = "button"; go.addEventListener("click", start);
+    const acts = h("div", "av-acts"); acts.appendChild(go); root.appendChild(acts);
   };
 })();
 
