@@ -1032,6 +1032,76 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
 
 /* titre de la fenêtre masqué visuellement pour les cases 14 à 17 (le jeu a son propre titre) */
 .modal-content.notitle > h2 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; margin: 0; padding: 0; }
+
+/* ---------- Base commune des cases 18 à 21 ---------- */
+.av { --pk:#FBE4E7; --pk2:#F4C6CC; --paper:#FFFCF9; --sand:#F3E6D8; --rd:#B5313F; --rd2:#8E2230; --ink:#45272D; --soft:#80626A; --ln:#EBD3CF; --good:#2F8F5B; --goodbg:#DDF3E5; --bad:#C0392B; --badbg:#FBDAD5; text-align: center; color: var(--ink); }
+.av [hidden] { display: none !important; }
+.av-kick { font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--rd); font-weight: 800; margin: 4px 0 2px; }
+.av-title { font-family: 'Great Vibes', cursive; font-weight: normal; font-size: 38px; line-height: 1.12; color: var(--rd); margin: 2px 0 8px; text-wrap: balance; }
+.av-text { font-size: 16px; line-height: 1.6; margin: 0 auto 16px; max-width: 480px; text-wrap: pretty; }
+.av-note { font-size: 13px; line-height: 1.5; color: var(--soft); margin: 0 auto 10px; max-width: 480px; }
+.av-icons { display: flex; justify-content: center; gap: 12px; font-size: 34px; margin: 4px 0 8px; }
+.av-btn { font: inherit; font-weight: 800; font-size: 15px; border-radius: 999px; padding: 12px 22px; min-height: 48px; border: 2px solid transparent; cursor: pointer; touch-action: manipulation; transition: transform .15s, background .2s, opacity .2s, border-color .2s; }
+.av-btn:active:not(:disabled) { transform: scale(.97); }
+.av-btn.main { background: var(--rd); color: #fff; box-shadow: 0 6px 14px -6px rgba(181,49,63,.7); }
+.av-btn.main:hover:not(:disabled) { background: var(--rd2); }
+.av-btn.ghost { background: transparent; color: var(--soft); border-color: var(--ln); }
+.av-btn.ghost:hover:not(:disabled) { border-color: var(--pk2); color: var(--ink); }
+.av-btn:disabled { opacity: .4; cursor: default; }
+.av button:focus-visible, .av input:focus-visible { outline: 3px solid var(--pk2); outline-offset: 2px; }
+.av-acts { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 16px; }
+.av-count { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--soft); font-weight: 800; }
+.av-bar { height: 8px; background: var(--pk); border-radius: 8px; overflow: hidden; margin: 6px 0 6px; }
+.av-bar i { display: block; height: 100%; width: 0; background: var(--rd); border-radius: 8px; transition: width .6s cubic-bezier(.3,.9,.3,1); }
+.av-cat { display: inline-block; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 800; color: var(--rd2); background: var(--pk); padding: 4px 12px; border-radius: 999px; margin: 12px 0 8px; }
+.av-msg { min-height: 24px; margin: 8px 0 0; font-weight: 800; color: var(--rd); font-size: 14px; }
+.av-final { max-width: 520px; margin: 14px auto 8px; background: linear-gradient(#FFFCF9, #FBE4E7); border: 2px solid var(--pk2); border-radius: 22px; padding: 20px 18px; animation: avIn .9s cubic-bezier(.3,1.2,.5,1) both; }
+.av-final p { font-size: 17px; line-height: 1.65; font-style: italic; margin: 6px 0 0; text-wrap: pretty; }
+.av-link { background: none; border: 0; font: inherit; font-size: 12px; color: var(--soft); text-decoration: underline; cursor: pointer; padding: 10px; }
+@keyframes avIn { from { opacity: 0; transform: translateY(20px) scale(.95); } to { opacity: 1; transform: none; } }
+@keyframes avPop { from { opacity: 0; transform: scale(.6) translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes avSlide { from { opacity: 0; transform: translateX(18px); } to { opacity: 1; transform: none; } }
+.av-fx { position: fixed; pointer-events: none; z-index: 80; }
+.av-fx svg { width: 100%; height: 100%; fill: currentColor; }
+@media (max-width: 420px) { .av-title { font-size: 34px; } }
+@media (prefers-reduced-motion: reduce) { .av * { animation: none !important; transition: none !important; } }
+
+/* ---------- Case 18 : Notre Bucket List ---------- */
+.bl-top { position: sticky; top: -26px; z-index: 4; background: var(--cream); padding: 8px 0 4px; margin-bottom: 6px; }
+.bl-banner { background: var(--rd); color: #fff; border-radius: 14px; padding: 10px 14px; font-weight: 800; line-height: 1.45; margin: 8px 0; animation: avPop .5s both; }
+.bl-filters { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 8px 0 4px; }
+.bl-chip { font: inherit; font-weight: 800; font-size: 13px; border-radius: 999px; border: 2px solid var(--pk2); background: var(--paper); color: var(--ink); padding: 7px 14px; min-height: 40px; cursor: pointer; touch-action: manipulation; }
+.bl-chip.on { background: var(--rd); border-color: var(--rd); color: #fff; }
+.bl-sec { margin: 18px 0 0; text-align: left; }
+.bl-sechead { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 0 0 8px; }
+.bl-sechead h4 { margin: 0; font-size: 17px; color: var(--rd2); }
+.bl-secprog { margin-left: auto; font-size: 12px; font-weight: 800; letter-spacing: 1px; color: var(--soft); }
+.bl-mini { flex-basis: 100%; height: 6px; background: var(--pk); border-radius: 6px; overflow: hidden; }
+.bl-mini i { display: block; height: 100%; width: 0; background: var(--rd); transition: width .5s; }
+.bl-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px; }
+.bl-card { position: relative; background: var(--paper); border: 2px solid var(--ln); border-radius: 18px; padding: 14px 12px 12px; display: grid; gap: 8px; align-content: start; transition: border-color .25s, background .25s, transform .2s; }
+.bl-card.done { background: #fff; border-color: var(--rd); }
+.bl-card.pulse { animation: blPulse .6s; }
+@keyframes blPulse { 40% { transform: scale(1.04) rotate(-.6deg); } }
+.bl-emo { font-size: 30px; line-height: 1; }
+.bl-txt { font-weight: 700; font-size: 15px; line-height: 1.4; min-height: 42px; }
+.bl-card.done .bl-txt { color: var(--rd2); }
+.bl-check { position: absolute; top: 10px; right: 46px; width: 26px; height: 26px; border-radius: 50%; background: var(--rd); color: #fff; display: grid; place-items: center; font-size: 14px; font-weight: 800; opacity: 0; transform: scale(.4); transition: .3s; }
+.bl-card.done .bl-check { opacity: 1; transform: none; }
+.bl-star { position: absolute; top: 6px; right: 6px; width: 38px; height: 38px; border: 0; background: none; font-size: 22px; line-height: 1; color: #CDB9BD; cursor: pointer; touch-action: manipulation; transition: transform .2s, color .2s; }
+.bl-star.on { color: #E0A21B; transform: scale(1.1); }
+.bl-seg { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.bl-seg button { font: inherit; font-weight: 800; font-size: 12px; min-height: 42px; border-radius: 12px; border: 2px solid var(--ln); background: var(--paper); color: var(--soft); cursor: pointer; padding: 4px 6px; touch-action: manipulation; line-height: 1.2; }
+.bl-seg button.on { background: var(--pk); border-color: var(--rd); color: var(--rd2); }
+.bl-seg button.on.dn { background: var(--rd); color: #fff; }
+.bl-tools { display: flex; gap: 6px; }
+.bl-tools button { flex: 1; font: inherit; font-weight: 700; font-size: 12px; min-height: 38px; border-radius: 10px; border: 2px solid var(--ln); background: transparent; color: var(--soft); cursor: pointer; }
+.bl-tools button.warn { border-color: var(--bad); color: var(--bad); }
+.bl-form { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 10px; }
+.bl-in { flex: 1 1 200px; min-width: 0; font: inherit; font-size: 16px; padding: 11px 14px; border: 2px solid var(--ln); border-radius: 14px; background: #fff; color: var(--ink); }
+.bl-edit { display: grid; gap: 6px; }
+.bl-empty { font-size: 14px; color: var(--soft); background: var(--paper); border: 2px dashed var(--ln); border-radius: 14px; padding: 14px; text-align: center; }
+@media (max-width: 420px) { .bl-top { top: -20px; } .bl-cards { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -1098,7 +1168,7 @@ const activities = [
   "", // case 15 : tu préfères ?
   "", // case 16 : les 10 raisons
   "", // case 17 : mots croisés
-  "Surprise : une petite vidéo rien que pour toi !",
+  "", // case 18 : bucket list
   "Voyons si tu me connais aussi bien que tu le penses !",
   "Défi cuisine : préparons la même recette à distance.",
   "Remets les mots dans le bon ordre pour découvrir mon message secret.",
@@ -1213,6 +1283,10 @@ function openDay(day) {
     title.textContent = "Le labyrinthe de notre amour ❤️";
     modalContent.classList.add("wide");
     showMaze();
+  } else if (day === 18) {
+    title.textContent = "Notre Bucket List ❤️";
+    modalContent.classList.add("wide", "notitle");
+    showBucketList();
   } else if (day === 17) {
     title.textContent = "Notre histoire en mots croisés ❤️";
     modalContent.classList.add("xwide", "notitle");
@@ -5510,6 +5584,224 @@ const PM_EMBEDDED = {
     const root = h("div", "cw");
     body.appendChild(root);
     start(root);
+  };
+})();
+
+
+(function () {
+  "use strict";
+  const HEART_D = "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z";
+  const HEART = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${HEART_D}"/></svg>`;
+  const STAR = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z"/></svg>`;
+  const reduce = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+  const h = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
+  const toTop = () => { const m = document.getElementById("modal-content"); if (m) m.scrollTop = 0; };
+  const shuffle = a => { const o = a.slice(); for (let i = o.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [o[i], o[j]] = [o[j], o[i]]; } return o; };
+  const sel = (n, one, many) => n + " " + (n > 1 ? many : one);
+  function burst(x, y, n) {
+    if (reduce) return;
+    const cols = ["#B5313F", "#E58C99", "#F4C6CC", "#D6B46A", "#D9A58F"];
+    for (let i = 0; i < n; i++) {
+      const kind = i % 3, p = h("span", "av-fx", kind === 0 ? HEART : kind === 1 ? STAR : "");
+      if (kind === 2) { p.style.width = "9px"; p.style.height = "14px"; p.style.background = cols[i % cols.length]; p.style.borderRadius = "2px"; }
+      else { const s = 14 + Math.random() * 16; p.style.width = p.style.height = s + "px"; }
+      p.style.left = x + "px"; p.style.top = y + "px"; p.style.color = cols[i % cols.length];
+      document.body.appendChild(p);
+      const a = Math.random() * 6.283, d = 60 + Math.random() * 160;
+      p.animate([
+        { transform: "translate(-50%,-50%) scale(.3) rotate(0deg)", opacity: 1 },
+        { transform: `translate(calc(-50% + ${Math.cos(a) * d}px), calc(-50% + ${Math.sin(a) * d - 60}px)) scale(1) rotate(${(Math.random() - 0.5) * 540}deg)`, opacity: 1, offset: 0.65 },
+        { transform: `translate(calc(-50% + ${Math.cos(a) * d * 1.1}px), calc(-50% + ${Math.sin(a) * d + 40}px)) scale(.8) rotate(${(Math.random() - 0.5) * 700}deg)`, opacity: 0 }
+      ], { duration: 1300 + Math.random() * 800, easing: "cubic-bezier(.2,.7,.3,1)" }).onfinish = () => p.remove();
+    }
+  }
+  const burstAt = (el, n) => { if (!el) return; const r = el.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + Math.min(r.height / 2, 60), n); };
+  window.AV = { h, toTop, shuffle, burst, burstAt, reduce, HEART, STAR, HEART_D, sel };
+  window.avMount = function (cls) {
+    const body = document.getElementById("modal-body");
+    body.innerHTML = "";
+    const root = h("div", "av " + cls);
+    body.appendChild(root);
+    return root;
+  };
+})();
+
+
+/* =====================================================
+   CASE 18 : NOTRE BUCKET LIST ❤️
+   Modifie les idées ci-dessous : [emoji, texte]. Les idées ajoutées en jeu sont gardées dans le navigateur.
+===================================================== */
+(function () {
+  "use strict";
+  const { h, toTop, burstAt, sel } = window.AV;
+  const CATS = [
+    ["✈️", "Voyages et découvertes", [
+      ["🇯🇵", "Visiter le Japon ensemble 🇯🇵"], ["🏙️", "Découvrir une nouvelle ville"], ["🧳", "Partir en week-end à deux"], ["🚗", "Faire un road trip"],
+      ["🌍", "Partir en vacances à l'étranger"], ["🏕️", "Dormir dans un hôtel insolite"], ["🏞️", "Découvrir un endroit magnifique"], ["🗺️", "Visiter un pays que nous ne connaissons pas"]]],
+    ["💕", "Moments romantiques", [
+      ["🌅", "Regarder un coucher de soleil sur la plage"], ["✨", "Observer les étoiles ensemble"], ["🧺", "Faire un pique-nique romantique"], ["🫶", "Passer une journée entière rien que tous les deux"],
+      ["🎆", "Fêter le Nouvel An ensemble"], ["📸", "Prendre une photo au même endroit chaque année"], ["🕯️", "Créer une tradition rien qu'à nous"], ["💌", "Écrire une lettre à ouvrir dans quelques années"]]],
+    ["🎢", "Activités et aventures", [
+      ["🎡", "Faire un parc d'attractions ensemble"], ["🎤", "Assister à un concert"], ["🎯", "Tester une activité que nous n'avons jamais faite"], ["📵", "Faire une journée sans téléphone"],
+      ["🎪", "Aller à un festival"], ["🎲", "Faire une sortie improvisée"], ["😱", "Faire une activité qui nous fait un peu peur"], ["🎨", "Découvrir un nouveau loisir ensemble"]]],
+    ["🍿", "Petits plaisirs à deux", [
+      ["👩‍🍳", "Cuisiner un repas entièrement ensemble"], ["🃏", "Faire une soirée jeux"], ["🎬", "Organiser une soirée cinéma à la maison"], ["🍣", "Goûter plein de spécialités japonaises"],
+      ["🛍️", "Faire une journée shopping"], ["📖", "Créer un album photo de notre couple"], ["🍕", "Faire une bataille de nourriture"], ["🛋️", "Passer une journée à ne rien prévoir"]]],
+    ["🏡", "Nos rêves pour plus tard", [
+      ["🏠", "Avoir notre petit chez-nous"], ["🐾", "Adopter un animal ensemble"], ["🪴", "Décorer notre intérieur à deux"], ["🏖️", "Partir en vacances chaque année"],
+      ["🔁", "Créer nos propres habitudes"], ["🧸", "Construire un endroit où nous nous sentons bien"], ["🎂", "Célébrer plusieurs anniversaires de couple ensemble"], ["🌟", "Réaliser un grand projet à deux"]]]
+  ];
+  const FINAL = "Ce ne sont que quelques idées parmi toutes les aventures qui nous attendent. J'ai hâte de réaliser tous ces projets avec toi, de découvrir de nouveaux endroits et surtout de continuer à construire notre histoire. ❤️";
+  const KEY = "bucket-state";
+  let run = 0, root, S;
+
+  const save = () => store(KEY, S);
+  const baseTotal = () => CATS.reduce((n, c) => n + c[2].length, 0);
+  const allIds = () => { const a = []; CATS.forEach((c, ci) => c[2].forEach((_, i) => a.push("s" + ci + "-" + i))); S.custom.forEach(c => a.push("u" + c.id)); return a; };
+
+  function banner(n, total) {
+    if (n === 0) return "";
+    if (total > 0 && n === total) return "Tout est coché, quelle équipe de rêve ! ❤️";
+    if (n >= 10) return "Déjà " + n + " projets réalisés ensemble : on forme vraiment une belle équipe ! ❤️";
+    if (n >= 3) return "Déjà " + n + " projets réalisés ensemble, bravo à nous deux ! ❤️";
+    return "";
+  }
+
+  function build() {
+    const id = run;
+    root.innerHTML = "";
+    const els = {};   // id -> { card, done, star }
+    let filter = "all";
+
+    const top = h("div", "bl-top");
+    top.innerHTML = `<p class="av-kick">Case 18</p><h3 class="av-title" style="font-size:34px;margin-bottom:4px">Notre Bucket List ❤️</h3><div class="av-count"></div><div class="av-bar"><i></i></div>`;
+    const gcount = top.querySelector(".av-count"), gbar = top.querySelector(".av-bar i");
+    const intro = h("p", "av-note", "Toutes les aventures que nous aimerions vivre ensemble. Garde « J'aimerais le faire » pour nos envies, passe sur « Déjà réalisé » quand c'est fait, et mets une étoile ⭐ sur tes préférées.");
+    const ban = h("div", "bl-banner"); ban.hidden = true; ban.setAttribute("role", "status");
+    const filters = h("div", "bl-filters");
+    [["all", "Tout"], ["wish", "J'aimerais le faire"], ["done", "Déjà réalisé"], ["fav", "⭐ Favoris"]].forEach(([k, t]) => {
+      const b = h("button", "bl-chip" + (k === "all" ? " on" : ""), t); b.type = "button";
+      b.addEventListener("click", () => { filter = k; filters.querySelectorAll(".bl-chip").forEach(x => x.classList.toggle("on", x === b)); apply(); });
+      filters.appendChild(b);
+    });
+    const secs = h("div");
+    const fin = h("div", "av-final"); fin.innerHTML = "<p></p>"; fin.firstChild.textContent = FINAL;
+    root.append(top, intro, ban, filters, secs, fin);
+
+    function card(cid, emo, text, custom) {
+      const c = h("div", "bl-card");
+      c.innerHTML = `<span class="bl-emo" aria-hidden="true"></span><span class="bl-check" aria-hidden="true">✓</span><button type="button" class="bl-star" aria-label="Favori">★</button><p class="bl-txt"></p><div class="bl-seg" role="group"><button type="button" class="w">J'aimerais le faire</button><button type="button" class="d">Déjà réalisé</button></div>`;
+      c.querySelector(".bl-emo").textContent = emo; c.querySelector(".bl-txt").textContent = text;
+      const star = c.querySelector(".bl-star"), w = c.querySelector(".w"), d = c.querySelector(".d");
+      const setDone = v => {
+        const was = !!S.done[cid]; if (was === v) return;
+        if (v) S.done[cid] = true; else delete S.done[cid];
+        save(); refresh();
+        if (v) { c.classList.remove("pulse"); void c.offsetWidth; c.classList.add("pulse"); burstAt(c, 12); }
+      };
+      w.addEventListener("click", () => setDone(false)); d.addEventListener("click", () => setDone(true));
+      star.addEventListener("click", () => { if (S.fav[cid]) delete S.fav[cid]; else S.fav[cid] = true; save(); refresh(); });
+      els[cid] = { card: c, star, w, d };
+      if (custom) {
+        const tools = h("div", "bl-tools"), ed = h("button", "", "✎ Modifier"), del = h("button", "", "🗑 Supprimer"); ed.type = del.type = "button";
+        let t;
+        del.addEventListener("click", () => {
+          if (del.classList.contains("warn")) { clearTimeout(t); S.custom = S.custom.filter(x => "u" + x.id !== cid); delete S.done[cid]; delete S.fav[cid]; save(); renderCustom(); refresh(); return; }
+          del.classList.add("warn"); del.textContent = "Confirmer ?"; t = setTimeout(() => { del.classList.remove("warn"); del.textContent = "🗑 Supprimer"; }, 3000);
+        });
+        ed.addEventListener("click", () => {
+          const p = c.querySelector(".bl-txt"), cur = S.custom.find(x => "u" + x.id === cid);
+          const box = h("div", "bl-edit"), inp = h("input", "bl-in"); inp.value = cur.t; inp.maxLength = 120; inp.setAttribute("aria-label", "Modifier l'idée");
+          const ok = h("button", "av-btn main", "Enregistrer"); ok.type = "button"; ok.style.minHeight = "42px"; ok.style.padding = "8px 14px";
+          const go = () => { const v = inp.value.trim(); if (!v) return; cur.t = v; save(); renderCustom(); refresh(); };
+          ok.addEventListener("click", go); inp.addEventListener("keydown", e => { if (e.key === "Enter") go(); });
+          box.append(inp, ok); p.replaceWith(box); inp.focus(); ed.disabled = true;
+        });
+        tools.append(ed, del); c.appendChild(tools);
+      }
+      return c;
+    }
+
+    function section(emo, title, key) {
+      const s = h("section", "bl-sec"), head = h("div", "bl-sechead");
+      head.innerHTML = `<span aria-hidden="true" style="font-size:24px"></span><h4></h4><span class="bl-secprog"></span><div class="bl-mini"><i></i></div>`;
+      head.firstChild.textContent = emo; head.querySelector("h4").textContent = title;
+      const grid = h("div", "bl-cards"); s.append(head, grid); s._k = key; s._head = head; s._grid = grid;
+      return s;
+    }
+
+    const sections = [];
+    CATS.forEach((c, ci) => {
+      const s = section(c[0], c[1], "c" + ci); const ids = [];
+      c[2].forEach((it, i) => { const cid = "s" + ci + "-" + i; ids.push(cid); s._grid.appendChild(card(cid, it[0], it[1], false)); });
+      s._ids = () => ids; secs.appendChild(s); sections.push(s);
+    });
+
+    /* catégorie personnalisée */
+    const cs = section("💫", "Nos propres idées", "u");
+    cs._ids = () => S.custom.map(x => "u" + x.id);
+    const form = h("form", "bl-form"); form.setAttribute("aria-label", "Ajouter une idée");
+    const inp = h("input", "bl-in"); inp.placeholder = "Une nouvelle idée à ajouter…"; inp.maxLength = 120; inp.setAttribute("aria-label", "Nouvelle idée");
+    const add = h("button", "av-btn main", "Ajouter"); add.type = "submit"; add.style.minHeight = "46px";
+    form.append(inp, add);
+    form.addEventListener("submit", e => {
+      e.preventDefault(); const v = inp.value.trim(); if (!v) return;
+      S.custom.push({ id: Date.now().toString(36) + Math.floor(Math.random() * 99), t: v }); inp.value = ""; save(); renderCustom(); refresh();
+    });
+    cs.insertBefore(form, cs._grid); secs.appendChild(cs); sections.push(cs);
+    const empty = h("p", "bl-empty", "Aucune idée ajoutée pour l'instant. Écris la tienne juste au-dessus !");
+    cs.appendChild(empty);
+
+    function renderCustom() {
+      cs._grid.innerHTML = "";
+      S.custom.forEach(x => { const cid = "u" + x.id; cs._grid.appendChild(card(cid, "💫", x.t, true)); });
+      empty.hidden = S.custom.length > 0;
+    }
+
+    function refresh() {
+      const ids = allIds(), total = ids.length, n = ids.filter(i => S.done[i]).length;
+      gcount.textContent = sel(n, "projet réalisé", "projets réalisés") + " sur " + total;
+      gbar.style.width = (total ? n / total * 100 : 0) + "%";
+      const msg = banner(n, total); ban.hidden = !msg; ban.textContent = msg;
+      Object.keys(els).forEach(cid => {
+        const e = els[cid], dn = !!S.done[cid];
+        e.card.classList.toggle("done", dn);
+        e.w.classList.toggle("on", !dn); e.d.classList.toggle("on", dn); e.d.classList.toggle("dn", dn);
+        e.w.setAttribute("aria-pressed", String(!dn)); e.d.setAttribute("aria-pressed", String(dn));
+        e.star.classList.toggle("on", !!S.fav[cid]); e.star.setAttribute("aria-pressed", String(!!S.fav[cid]));
+        e.star.setAttribute("aria-label", S.fav[cid] ? "Retirer des favoris" : "Mettre en favori");
+      });
+      sections.forEach(s => {
+        const sid = s._ids(), k = sid.filter(i => S.done[i]).length;
+        s._head.querySelector(".bl-secprog").textContent = k + " / " + sid.length;
+        s._head.querySelector(".bl-mini i").style.width = (sid.length ? k / sid.length * 100 : 0) + "%";
+      });
+      apply();
+    }
+    function apply() {
+      Object.keys(els).forEach(cid => {
+        const dn = !!S.done[cid], fv = !!S.fav[cid];
+        els[cid].card.hidden = !(filter === "all" || (filter === "wish" && !dn) || (filter === "done" && dn) || (filter === "fav" && fv));
+      });
+      sections.forEach(s => {
+        if (s === cs) { empty.hidden = S.custom.length > 0 || filter !== "all"; form.hidden = filter !== "all"; s.hidden = filter !== "all" && !s._ids().some(i => !els[i].card.hidden); return; }
+        s.hidden = !s._ids().some(i => !els[i].card.hidden);
+      });
+    }
+    renderCustom(); refresh();
+  }
+
+  window.showBucketList = function () {
+    run++;
+    root = window.avMount("bl");
+    const saved = load(KEY, null);
+    S = { done: {}, fav: {}, custom: [] };
+    if (saved && typeof saved === "object") {
+      S.done = saved.done && typeof saved.done === "object" ? saved.done : {};
+      S.fav = saved.fav && typeof saved.fav === "object" ? saved.fav : {};
+      S.custom = Array.isArray(saved.custom) ? saved.custom.filter(x => x && typeof x.t === "string" && x.id != null) : [];
+    }
+    toTop(); build();
   };
 })();
 
