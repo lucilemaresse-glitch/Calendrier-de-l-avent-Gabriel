@@ -1160,6 +1160,31 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
 .dr-item.ko { border-color: var(--bad); }
 .dr-item small { display: block; color: var(--soft); margin-top: 3px; }
 @media (max-width: 480px) { .dr-ans { grid-template-columns: 1fr; } .dr-a { min-height: 60px; } .dr-q { font-size: 19px; } }
+
+/* ---------- Case 20 : Quel genre de couple sommes-nous ? ---------- */
+.qc-q { font-size: 21px; font-weight: 800; line-height: 1.35; margin: 6px auto 16px; max-width: 480px; text-wrap: balance; }
+.qc-wrap { animation: avSlide .35s both; }
+.qc-ans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; max-width: 560px; margin: 0 auto; }
+.qc-a { position: relative; font: inherit; color: var(--ink); text-align: left; cursor: pointer; background: var(--paper); border: 3px solid var(--ln); border-radius: 18px; padding: 16px 14px 14px 52px; min-height: 92px; font-weight: 700; font-size: 15px; line-height: 1.4; touch-action: manipulation; transition: transform .2s, border-color .2s, background .2s, opacity .3s; display: grid; align-items: center; }
+.qc-a:hover { border-color: var(--pk2); transform: translateY(-2px); }
+.qc-a i { position: absolute; left: 12px; top: 50%; margin-top: -16px; width: 32px; height: 32px; border-radius: 50%; background: var(--pk); color: var(--rd2); font-style: normal; font-weight: 800; display: grid; place-items: center; transition: .25s; }
+.qc-a.sel { border-color: var(--rd); background: #fff; transform: scale(1.03); box-shadow: 0 0 0 4px var(--pk2); }
+.qc-a.sel i { background: var(--rd); color: #fff; }
+.qc-a.sel::after { content: "♥"; position: absolute; right: 12px; top: 8px; color: var(--rd); animation: avPop .4s both; }
+.qc-a.off { opacity: .5; }
+.qc-prof { border-radius: 26px; padding: 26px 18px 22px; margin: 10px auto 12px; max-width: 520px; color: #fff; position: relative; overflow: hidden; animation: avIn .9s cubic-bezier(.3,1.2,.5,1) both; }
+.qc-prof::before { content: "♥ ✦ ♥ ✦ ♥"; position: absolute; left: 0; right: 0; top: 8px; font-size: 13px; letter-spacing: 12px; color: rgba(255,255,255,.35); }
+.qc-ill { width: 120px; height: 120px; border-radius: 50%; margin: 6px auto 8px; background: rgba(255,255,255,.22); display: grid; place-items: center; font-size: 64px; box-shadow: inset 0 0 0 4px rgba(255,255,255,.35); animation: qcBob 3s ease-in-out infinite; }
+@keyframes qcBob { 50% { transform: translateY(-6px) rotate(3deg); } }
+.qc-pt { font-family: 'Great Vibes', cursive; font-size: 40px; line-height: 1.15; margin: 4px 0 8px; text-wrap: balance; }
+.qc-pd { font-size: 15.5px; line-height: 1.6; margin: 0 0 10px; text-wrap: pretty; }
+.qc-traits { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 6px; text-align: left; }
+.qc-traits li { background: rgba(255,255,255,.2); border-radius: 12px; padding: 8px 12px; font-size: 14px; font-weight: 700; }
+.qc-more { margin: 10px auto; max-width: 520px; text-align: left; display: grid; gap: 6px; }
+.qc-row { display: grid; grid-template-columns: 150px minmax(0, 1fr) 24px; gap: 8px; align-items: center; font-size: 13px; font-weight: 700; }
+.qc-row .t { height: 8px; background: var(--pk); border-radius: 8px; overflow: hidden; }
+.qc-row .t i { display: block; height: 100%; background: var(--rd); border-radius: 8px; transition: width .9s cubic-bezier(.3,.9,.3,1); }
+@media (max-width: 560px) { .qc-ans { grid-template-columns: 1fr; } .qc-a { min-height: 70px; } .qc-q { font-size: 19px; } .qc-pt { font-size: 34px; } .qc-row { grid-template-columns: 110px minmax(0, 1fr) 22px; font-size: 12px; } }
 </style>
 </head>
 <body>
@@ -1228,8 +1253,8 @@ const activities = [
   "", // case 17 : mots croisés
   "", // case 18 : bucket list
   "", // case 19 : questions sans filtre
-  "", // case 20 : devine mes réponses
-  "Remets les mots dans le bon ordre pour découvrir mon message secret.",
+  "", // case 20 : quiz du couple
+  "", // case 21 : devine mes réponses
   "Bon pour une soirée rien que tous les deux !",
   "Un dernier petit mot pour te rappeler combien tu comptes pour moi.",
   "C'est la veille de Noël ! Ferme les yeux une seconde et pense à tout ce qu'on a déjà vécu ensemble. Demain, la dernière case t'attend. ❤️",
@@ -1341,10 +1366,14 @@ function openDay(day) {
     title.textContent = "Le labyrinthe de notre amour ❤️";
     modalContent.classList.add("wide");
     showMaze();
-  } else if (day === 20) {
+  } else if (day === 21) {
     title.textContent = "Devine mes réponses ❤️";
     modalContent.classList.add("wide", "notitle");
     showDevineReponses();
+  } else if (day === 20) {
+    title.textContent = "Quel genre de couple sommes-nous ? ❤️";
+    modalContent.classList.add("wide", "notitle");
+    showQuizCouple();
   } else if (day === 19) {
     title.textContent = "Nos questions sans filtre ❤️";
     modalContent.classList.add("wide", "notitle");
@@ -6121,6 +6150,123 @@ const PM_EMBEDDED = {
     const t = h("h3", "av-title"); t.textContent = "Devine mes réponses ❤️"; root.appendChild(t);
     root.appendChild(h("p", "av-text", "Pour chaque question, devine ce que ta copine aurait répondu. Choisis, valide, et découvre ma vraie réponse !"));
     const go = h("button", "av-btn main", "C'est parti !"); go.type = "button"; go.addEventListener("click", start);
+    const acts = h("div", "av-acts"); acts.appendChild(go); root.appendChild(acts);
+  };
+})();
+
+
+/* =====================================================
+   CASE 20 : QUEL GENRE DE COUPLE SOMMES-NOUS ? ❤️
+   Chaque réponse = [texte, profil, (deuxième profil facultatif)] et rapporte 1 point par profil.
+   Profils : A aventuriers, F fusionnels, R complices rigolos, M romantiques, G gourmands, V rêveurs ambitieux.
+===================================================== */
+(function () {
+  "use strict";
+  const { h, toTop, burst, reduce, sel } = window.AV;
+  const PROFILS = {
+    A: { e: "🌍", t: "Les aventuriers", bg: "linear-gradient(150deg,#D9704A,#B5313F)", d: "Vous aimez découvrir, bouger et vivre de nouvelles expériences.", p: "Avec vous, pas question de s'ennuyer : un nouvel endroit, une idée un peu folle, et c'est parti. Vous transformez chaque sortie en petite expédition, et vos plus beaux souvenirs sont ceux que personne n'avait prévus.", c: ["Toujours partants pour une nouvelle découverte", "Une belle énergie à deux", "Des souvenirs qui sortent de l'ordinaire"] },
+    F: { e: "💕", t: "Les amoureux fusionnels", bg: "linear-gradient(150deg,#E58C99,#B5313F)", d: "Vous adorez passer du temps ensemble et profiter de votre petite bulle.", p: "Quand vous êtes ensemble, le reste du monde peut attendre. Votre force : vous vous sentez bien, simplement côte à côte, dans votre cocon à vous où tout est doux et évident.", c: ["Une vraie bulle à deux", "Un confort et une tendresse du quotidien", "Des moments simples qui comptent énormément"] },
+    R: { e: "😂", t: "Les complices rigolos", bg: "linear-gradient(150deg,#E9A23B,#C9552F)", d: "Les taquineries, les fous rires et les délires font partie de votre quotidien.", p: "Chez vous, on se chambre avec amour et on rit pour un rien. Vos blagues que personne d'autre ne comprend sont votre petit langage secret, et votre complicité se voit dès que vous vous regardez.", c: ["Des fous rires à n'importe quel moment", "Des private jokes rien qu'à vous", "Une complicité qui rend tout plus léger"] },
+    M: { e: "🌹", t: "Les romantiques", bg: "linear-gradient(150deg,#C7506A,#8E2230)", d: "Vous aimez les petites attentions, les moments tendres et les surprises.", p: "Un petit mot, un geste, une surprise au bon moment : vous savez rendre les choses spéciales. Votre histoire est faite de tendresse et d'attentions qui se remarquent.", c: ["Des attentions qui font fondre", "Un goût pour les moments tendres", "L'art de faire des surprises"] },
+    G: { e: "🍓", t: "Les gourmands épicuriens", bg: "linear-gradient(150deg,#D6567A,#9B2B4F)", d: "Vous aimez partager des repas, découvrir de nouvelles saveurs et profiter des plaisirs simples.", p: "Pour vous, un bon repas à deux est un vrai rendez-vous. Vous aimez goûter, partager, cuisiner ensemble et savourer les petits plaisirs, et c'est souvent autour d'une table que naissent vos meilleurs moments.", c: ["Un bon repas vaut toutes les sorties", "La curiosité de goûter de nouvelles choses", "Le plaisir des petits bonheurs simples"] },
+    V: { e: "✨", t: "Les rêveurs ambitieux", bg: "linear-gradient(150deg,#8A6FB5,#B5313F)", d: "Vous aimez imaginer votre avenir et construire de beaux projets ensemble.", p: "Vous regardez loin, et vous le faites à deux. Un voyage à préparer, un chez-vous à imaginer, un grand projet : vous avez toujours une belle idée en tête pour la suite de votre histoire.", c: ["Plein de projets à vivre ensemble", "Une belle façon de regarder vers l'avenir", "L'envie de construire quelque chose de beau"] }
+  };
+  const KEYS = Object.keys(PROFILS);
+  const QS = [
+    ["Notre rendez-vous idéal serait plutôt :", [["Une aventure et une activité originale.", "A"], ["Une journée tranquille à deux.", "F"], ["Une sortie romantique.", "M"], ["Une activité amusante avec plein de surprises.", "R"]]],
+    ["Quand nous sommes ensemble, nous préférons :", [["Découvrir de nouveaux endroits.", "A"], ["Rester tranquillement dans notre bulle.", "F"], ["Faire plein d'activités.", "R", "A"], ["Alterner entre sorties et moments cocooning.", "V", "F"]]],
+    ["Notre plus grande qualité en tant que couple est :", [["Notre complicité.", "F", "V"], ["Notre humour.", "R"], ["Notre tendresse.", "M"], ["Notre spontanéité.", "A"]]],
+    ["Si nous avions un week-end libre, nous choisirions :", [["Partir quelque part sur un coup de tête.", "A"], ["Organiser un petit voyage.", "V"], ["Rester ensemble à la maison.", "F"], ["Prévoir plein d'activités.", "R", "V"]]],
+    ["Dans notre couple, nous sommes plutôt :", [["Très câlins.", "F", "M"], ["Très taquins.", "R"], ["Très romantiques.", "M"], ["Un mélange de tout cela.", "G", "V"]]],
+    ["Pour un dîner à deux, nous choisirions plutôt :", [["Tester un restaurant jamais essayé.", "G", "A"], ["Cuisiner ensemble à la maison.", "G", "F"], ["Un dîner aux chandelles.", "M"], ["Un repas où l'on rigole pour tout.", "R"]]],
+    ["Une petite attention qui nous ressemble :", [["Un petit mot glissé quelque part.", "M"], ["Son snack préféré rapporté sans prévenir.", "G"], ["Un mème ou une blague envoyée au bon moment.", "R"], ["Une idée de projet à réaliser ensemble.", "V"]]],
+    ["Un vendredi soir parfait, c'est :", [["Un film sous un plaid.", "F"], ["Un jeu où l'on se chambre sans pitié.", "R"], ["Un endroit que nous ne connaissons pas.", "A"], ["Une recette à tester à deux.", "G"]]],
+    ["En voyage, nous adorons :", [["Sortir des sentiers battus.", "A"], ["Goûter toutes les spécialités locales.", "G"], ["Se promener main dans la main.", "M"], ["Imaginer comment ce serait d'y vivre.", "V"]]],
+    ["Dans cinq ans, nous nous voyons :", [["Dans un petit nid rien qu'à nous.", "F"], ["En plein dans un beau projet commun.", "V"], ["Dans un pays que nous ne connaissons pas encore.", "A"], ["Avec plein de traditions et de souvenirs.", "M"]]],
+    ["Nos messages sont surtout remplis de :", [["Mèmes, vocaux et délires.", "R"], ["Mots doux et cœurs.", "M"], ["Photos de ce que nous mangeons.", "G"], ["Idées de projets et de voyages.", "V"]]],
+    ["Pour nous réconcilier après un petit désaccord :", [["Un long câlin sans rien dire.", "F"], ["Une blague pour détendre l'ambiance.", "R"], ["Un geste tendre ou un petit mot.", "M"], ["Un bon plat que l'autre adore.", "G"]]],
+    ["Notre galerie photo est surtout pleine de :", [["Captures d'écran d'idées et de projets.", "V"], ["Selfies tendres et moments à deux.", "M"], ["Grimaces et photos ratées.", "R"], ["Plats et desserts.", "G"]]],
+    ["Notre rêve commun serait de :", [["Avoir un chez-nous bien douillet.", "F"], ["Faire le tour du monde.", "A"], ["Réaliser un grand projet à deux.", "V"], ["Cuisiner pour toute notre famille et nos amis.", "G"]]],
+    ["Pour fêter un anniversaire de couple, nous voudrions :", [["Partir en voyage.", "A", "V"], ["Une surprise pleine d'attentions.", "M"], ["Un grand repas qui dure des heures.", "G"], ["Une soirée complètement délirante.", "R"]]]
+  ];
+  const N = QS.length;
+  const FINAL = "Peu importe le type de couple que nous sommes, le plus important reste que nous écrivons notre histoire à notre façon. Et j'espère qu'il nous reste encore plein de belles aventures à vivre ensemble. ❤️";
+  let run = 0, root;
+
+  function start() { view({ pos: 0, ans: new Array(N).fill(null), back: false }); }
+
+  function view(g) {
+    root.innerHTML = "";
+    toTop();
+    const q = QS[g.pos];
+    const head = h("div");
+    head.innerHTML = `<p class="av-kick">Case 20</p><div class="av-count"></div><div class="av-bar"><i></i></div>`;
+    head.querySelector(".av-count").textContent = "Question " + (g.pos + 1) + " sur " + N;
+    const bar = head.querySelector(".av-bar i");
+    const wrap = h("div", "qc-wrap");
+    const qt = h("h3", "qc-q"); qt.textContent = q[0];
+    const ans = h("div", "qc-ans"); ans.setAttribute("role", "group"); ans.setAttribute("aria-label", "Réponses possibles");
+    const prev = h("button", "av-btn ghost", "← Précédente"); prev.type = "button"; prev.disabled = g.pos === 0;
+    let locked = false;
+    const btns = q[1].map((a, i) => {
+      const b = h("button", "qc-a" + (g.ans[g.pos] === i ? " sel" : ""), `<i>${"ABCD"[i]}</i><span></span>`); b.type = "button";
+      b.querySelector("span").textContent = a[0]; b.setAttribute("aria-pressed", String(g.ans[g.pos] === i));
+      b.addEventListener("click", () => {
+        if (locked) return; locked = true; g.ans[g.pos] = i;
+        btns.forEach(x => { x.classList.toggle("sel", x === b); x.classList.toggle("off", x !== b); x.setAttribute("aria-pressed", String(x === b)); });
+        const r = b.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, 7);
+        setTimeout(() => { g.back = false; g.pos++; if (g.pos >= N) result(g); else view(g); }, reduce ? 150 : 750);
+      });
+      ans.appendChild(b); return b;
+    });
+    prev.addEventListener("click", () => { if (g.pos > 0) { g.pos--; view(g); } });
+    wrap.append(qt, ans);
+    const acts = h("div", "av-acts"); acts.appendChild(prev);
+    root.append(head, wrap, acts);
+    requestAnimationFrame(() => requestAnimationFrame(() => { bar.style.width = (g.pos / N * 100) + "%"; }));
+  }
+
+  function result(g) {
+    const id = run;
+    root.innerHTML = "";
+    toTop();
+    const pts = {}; KEYS.forEach(k => { pts[k] = 0; });
+    g.ans.forEach((ai, qi) => { const a = QS[qi][1][ai]; for (let i = 1; i < a.length; i++) pts[a[i]]++; });
+    const max = Math.max(...KEYS.map(k => pts[k])), top = KEYS.filter(k => pts[k] === max);
+    root.appendChild(h("p", "av-kick", "Notre résultat"));
+    const card = h("div", "qc-prof"); card.style.background = top.length === 1 ? PROFILS[top[0]].bg : `linear-gradient(150deg, ${top.slice(0, 3).map(k => PROFILS[k].bg.match(/#[0-9A-Fa-f]{6}/)[0]).join(",")})`;
+    const ill = h("div", "qc-ill"); ill.textContent = top.map(k => PROFILS[k].e).join(" "); ill.style.fontSize = top.length > 2 ? "34px" : top.length > 1 ? "46px" : "64px"; ill.setAttribute("aria-hidden", "true");
+    const t = h("h3", "qc-pt");
+    t.textContent = top.length === 1 ? PROFILS[top[0]].t : top.map(k => PROFILS[k].t.replace(/^Les /, "")).join(" & ");
+    if (top.length > 1) t.textContent = "Les " + t.textContent;
+    card.append(ill, t);
+    if (top.length > 1) card.appendChild(h("p", "qc-pd", "Un résultat combiné : vous êtes un peu de tout cela à la fois, et c'est ce qui vous rend uniques !"));
+    top.forEach(k => {
+      const d = h("p", "qc-pd"); d.textContent = (top.length > 1 ? PROFILS[k].e + " " : "") + PROFILS[k].d + " " + PROFILS[k].p; card.appendChild(d);
+    });
+    const ul = h("ul", "qc-traits"); top.forEach(k => PROFILS[k].c.slice(0, top.length > 1 ? 2 : 3).forEach(x => { const li = h("li"); li.textContent = x; ul.appendChild(li); })); card.appendChild(ul);
+    root.appendChild(card);
+    const more = h("div", "qc-more");
+    KEYS.slice().sort((a, b) => pts[b] - pts[a]).forEach(k => {
+      const r = h("div", "qc-row"); r.innerHTML = `<span></span><span class="t"><i style="width:0"></i></span><span></span>`;
+      r.children[0].textContent = PROFILS[k].e + " " + PROFILS[k].t; r.children[2].textContent = pts[k]; r.dataset.w = (pts[k] / max * 100); more.appendChild(r);
+    });
+    root.appendChild(more);
+    requestAnimationFrame(() => requestAnimationFrame(() => more.querySelectorAll(".qc-row").forEach(r => { r.querySelector("i").style.width = r.dataset.w + "%"; })));
+    const f = h("div", "av-final"); f.appendChild(h("p")); f.firstChild.textContent = FINAL; root.appendChild(f);
+    const acts = h("div", "av-acts"), again = h("button", "av-btn main", "Recommencer le quiz"); again.type = "button"; again.addEventListener("click", start);
+    acts.appendChild(again); root.appendChild(acts);
+    setTimeout(() => { if (id !== run) return; const r = card.getBoundingClientRect(); burst(r.left + r.width * 0.25, r.top + 40, 20); burst(r.left + r.width * 0.75, r.top + 40, 20); }, 300);
+  }
+
+  window.showQuizCouple = function () {
+    run++;
+    root = window.avMount("qc");
+    root.appendChild(h("p", "av-kick", "Case 20"));
+    root.appendChild(h("div", "av-icons", "<span aria-hidden='true'>🌍</span><span aria-hidden='true'>💕</span><span aria-hidden='true'>😂</span><span aria-hidden='true'>🍓</span>"));
+    const t = h("h3", "av-title"); t.textContent = "Quel genre de couple sommes-nous ? ❤️"; root.appendChild(t);
+    root.appendChild(h("p", "av-text", "15 questions sur nous, nos habitudes et nos envies. À la fin, tes réponses révèlent quel type de couple nous sommes. Il n'y a pas de mauvaise réponse, juste notre façon d'être ensemble !"));
+    const go = h("button", "av-btn main", "Commencer le quiz"); go.type = "button"; go.addEventListener("click", start);
     const acts = h("div", "av-acts"); acts.appendChild(go); root.appendChild(acts);
   };
 })();
