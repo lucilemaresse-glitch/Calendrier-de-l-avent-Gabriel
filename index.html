@@ -1102,6 +1102,30 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
 .bl-edit { display: grid; gap: 6px; }
 .bl-empty { font-size: 14px; color: var(--soft); background: var(--paper); border: 2px dashed var(--ln); border-radius: 14px; padding: 14px; text-align: center; }
 @media (max-width: 420px) { .bl-top { top: -20px; } .bl-cards { grid-template-columns: 1fr; } }
+
+/* ---------- Case 19 : Nos questions sans filtre ---------- */
+.qs { --night:#3A1620; }
+.qs-stage { position: relative; padding: 6px 0 4px; }
+.qs-stars { position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: 22px; }
+.qs-stars span { position: absolute; color: var(--pk2); opacity: .35; font-size: 12px; animation: qsTw 3.2s ease-in-out infinite; }
+@keyframes qsTw { 50% { opacity: .9; transform: scale(1.3); } }
+.qs-card { position: relative; background: linear-gradient(160deg, #6B2234 0%, #8E2230 55%, #A33A4C 100%); color: #FFF6F2; border-radius: 24px; padding: 26px 20px 24px; margin: 12px auto; max-width: 500px; min-height: 270px; display: grid; align-content: center; justify-items: center; gap: 12px; box-shadow: 0 22px 36px -22px rgba(58,22,32,.85), inset 0 0 0 2px rgba(255,255,255,.12); animation: qsIn .5s cubic-bezier(.3,1.2,.5,1) both; overflow: hidden; }
+.qs-card.back { animation-name: qsInBack; }
+@keyframes qsIn { from { opacity: 0; transform: translateX(40px) rotate(2deg); } to { opacity: 1; transform: none; } }
+@keyframes qsInBack { from { opacity: 0; transform: translateX(-40px) rotate(-2deg); } to { opacity: 1; transform: none; } }
+.qs-card::before { content: "♥"; position: absolute; right: -12px; top: -22px; font-size: 130px; color: rgba(255,255,255,.07); transform: rotate(14deg); }
+.qs-pill { font-size: 12px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; background: rgba(255,255,255,.16); border-radius: 999px; padding: 6px 14px; }
+.qs-q { font-family: 'Great Vibes', cursive; font-size: 33px; line-height: 1.25; margin: 0; text-wrap: balance; }
+.qs-q.long { font-size: 29px; }
+.qs-hint { font-size: 12.5px; color: #F4C6CC; margin: 0; }
+.qs-nav { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 14px; }
+.qs-sum { text-align: left; display: grid; gap: 8px; margin: 12px auto; max-width: 480px; }
+.qs-row { background: var(--paper); border: 2px solid var(--ln); border-radius: 14px; padding: 10px 14px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.qs-row b { flex: 1 1 160px; color: var(--rd2); font-size: 15px; }
+.qs-row span { font-size: 13px; color: var(--soft); font-weight: 700; }
+.qs-row .bar { flex-basis: 100%; height: 6px; background: var(--pk); border-radius: 6px; overflow: hidden; }
+.qs-row .bar i { display: block; height: 100%; background: var(--rd); }
+@media (max-width: 420px) { .qs-q { font-size: 29px; } .qs-q.long { font-size: 26px; } .qs-card { min-height: 250px; padding: 24px 16px; } }
 </style>
 </head>
 <body>
@@ -1169,7 +1193,7 @@ const activities = [
   "", // case 16 : les 10 raisons
   "", // case 17 : mots croisés
   "", // case 18 : bucket list
-  "Voyons si tu me connais aussi bien que tu le penses !",
+  "", // case 19 : questions sans filtre
   "Défi cuisine : préparons la même recette à distance.",
   "Remets les mots dans le bon ordre pour découvrir mon message secret.",
   "Bon pour une soirée rien que tous les deux !",
@@ -1283,6 +1307,10 @@ function openDay(day) {
     title.textContent = "Le labyrinthe de notre amour ❤️";
     modalContent.classList.add("wide");
     showMaze();
+  } else if (day === 19) {
+    title.textContent = "Nos questions sans filtre ❤️";
+    modalContent.classList.add("wide", "notitle");
+    showQuestions();
   } else if (day === 18) {
     title.textContent = "Notre Bucket List ❤️";
     modalContent.classList.add("wide", "notitle");
@@ -5802,6 +5830,111 @@ const PM_EMBEDDED = {
       S.custom = Array.isArray(saved.custom) ? saved.custom.filter(x => x && typeof x.t === "string" && x.id != null) : [];
     }
     toTop(); build();
+  };
+})();
+
+
+/* =====================================================
+   CASE 19 : NOS QUESTIONS SANS FILTRE ❤️
+   Modifie les questions ci-dessous (elles sont mélangées à chaque partie).
+===================================================== */
+(function () {
+  "use strict";
+  const { h, toTop, shuffle, burst, reduce, sel } = window.AV;
+  const CATS = [
+    ["😂", "Questions amusantes", [
+      "Quelle est la chose la plus ridicule que tu aies faite pour me plaire ?", "Quelle habitude chez moi te fait rire ?", "Si notre couple était une série, quel serait son titre ?",
+      "Quelle serait notre plus grosse dispute pour une raison complètement absurde ?", "Si nous étions coincés sur une île déserte, qui serait le plus utile ?", "Quelle est la chose que je fais et que tu pourrais reconnaître entre mille ?"]],
+    ["❤️", "Amour et sentiments", [
+      "À quel moment as-tu compris que tu avais vraiment des sentiments pour moi ?", "Qu'est-ce qui te plaît le plus dans notre relation ?", "Quel est ton souvenir préféré avec moi ?",
+      "Qu'est-ce qui te fait te sentir aimé ?", "Quelle petite attention de ma part te touche particulièrement ?", "Qu'est-ce que tu aimerais que nous fassions plus souvent ensemble ?"]],
+    ["🫣", "Questions un peu gênantes", [
+      "Quelle a été ta première impression de moi ?", "As-tu déjà été jaloux sans me le dire ?", "Quelle est la chose la plus embarrassante qui te soit arrivée devant moi ?",
+      "As-tu déjà préparé une phrase dans ta tête avant de m'envoyer un message ?", "Quelle est la chose que tu n'oses pas toujours me demander ?", "As-tu déjà fait semblant d'aimer quelque chose pour me faire plaisir ?"]],
+    ["🌙", "Questions profondes", [
+      "Qu'est-ce qui te fait le plus peur dans une relation ?", "Qu'est-ce que tu aimerais que je comprenne mieux chez toi ?", "Quelle est ta plus grande peur pour l'avenir ?",
+      "Qu'est-ce qui te rassure lorsque nous sommes loin l'un de l'autre ?", "Qu'est-ce que tu aimerais améliorer dans notre communication ?", "Pour toi, qu'est-ce qui fait durer un couple ?"]],
+    ["💍", "Notre avenir", [
+      "Où aimerais-tu partir avec moi ?", "Comment imagines-tu notre quotidien dans cinq ans ?", "Quelle tradition aimerais-tu créer ensemble ?",
+      "Quel projet aimerais-tu absolument réaliser avec moi ?", "Quel serait notre week-end idéal ?", "Quelle est une chose que tu aimerais absolument vivre avec moi au moins une fois ?"]]
+  ];
+  const FINAL = "J'espère que ces petites questions t'auront permis de réfléchir, de sourire et peut-être même de découvrir de nouvelles choses sur nous. Il y a encore tellement de choses à apprendre l'un sur l'autre. ❤️";
+  const QS = [];
+  CATS.forEach((c, ci) => c[2].forEach(q => QS.push({ ci, q })));
+  const N = QS.length;
+  let run = 0, root;
+
+  function start() {
+    const g = { order: shuffle(QS.map((_, i) => i)), pos: 0, st: new Array(N).fill(null), back: false };
+    view(g);
+  }
+
+  function view(g) {
+    root.innerHTML = "";
+    toTop();
+    const qi = g.order[g.pos], q = QS[qi], c = CATS[q.ci];
+    const head = h("div");
+    head.innerHTML = `<p class="av-kick">Case 19</p><h3 class="av-title" style="font-size:34px;margin-bottom:2px">Nos questions sans filtre ❤️</h3><div class="av-count"></div><div class="av-bar"><i></i></div>`;
+    head.querySelector(".av-count").textContent = "Question " + (g.pos + 1) + " sur " + N;
+    const bar = head.querySelector(".av-bar i");
+    const stage = h("div", "qs-stage");
+    const stars = h("div", "qs-stars"); stars.setAttribute("aria-hidden", "true");
+    for (let i = 0; i < 14; i++) { const s = h("span", "", i % 3 ? "✦" : "♥"); s.style.left = (Math.random() * 96) + "%"; s.style.top = (Math.random() * 96) + "%"; s.style.animationDelay = (Math.random() * 3) + "s"; stars.appendChild(s); }
+    const card = h("div", "qs-card" + (g.back ? " back" : ""));
+    const pill = h("span", "qs-pill"); pill.textContent = c[0] + " " + c[1];
+    const qt = h("p", "qs-q" + (q.q.length > 70 ? " long" : "")); qt.textContent = q.q;
+    const hint = h("p", "qs-hint", "Prends le temps d'y réfléchir, à voix haute ou dans ta tête. Il n'y a pas de bonne réponse.");
+    card.append(pill, qt, hint);
+    stage.append(stars, card);
+    const prev = h("button", "av-btn ghost", "← Précédente"); prev.type = "button"; prev.disabled = g.pos === 0;
+    const skip = h("button", "av-btn ghost", "Passer cette question"); skip.type = "button";
+    const next = h("button", "av-btn main", g.pos === N - 1 ? "Voir le bilan" : "Question suivante →"); next.type = "button";
+    const nav = h("div", "qs-nav"); nav.append(prev, skip, next);
+    root.append(head, stage, nav);
+    requestAnimationFrame(() => requestAnimationFrame(() => { bar.style.width = (g.pos / N * 100) + "%"; }));
+    const go = d => { g.back = d < 0; g.pos += d; if (g.pos >= N) final(g); else view(g); };
+    prev.addEventListener("click", () => go(-1));
+    next.addEventListener("click", () => { g.st[qi] = "seen"; go(1); });
+    skip.addEventListener("click", () => { if (g.st[qi] !== "seen") g.st[qi] = "skip"; go(1); });
+  }
+
+  function final(g) {
+    const id = run;
+    root.innerHTML = "";
+    toTop();
+    const seenN = g.st.filter(s => s === "seen").length, skipN = g.st.filter(s => s === "skip").length;
+    root.appendChild(h("p", "av-kick", "Bilan"));
+    const t = h("h3", "av-title"); t.textContent = "Nos questions sans filtre ❤️"; root.appendChild(t);
+    const sub = h("p", "av-note"); sub.textContent = sel(seenN, "question parcourue", "questions parcourues") + (skipN ? " · " + sel(skipN, "passée", "passées") : "") + " sur " + N + ". Tu peux en reparler tous les deux quand tu veux."; root.appendChild(sub);
+    const sum = h("div", "qs-sum");
+    CATS.forEach((c, ci) => {
+      const ids = QS.map((q, i) => (q.ci === ci ? i : -1)).filter(i => i >= 0);
+      const k = ids.filter(i => g.st[i] === "seen").length, s = ids.filter(i => g.st[i] === "skip").length;
+      const row = h("div", "qs-row");
+      row.innerHTML = `<b></b><span></span><div class="bar"><i style="width:${k / ids.length * 100}%"></i></div>`;
+      row.querySelector("b").textContent = c[0] + " " + c[1];
+      row.querySelector("span").textContent = k + "/" + ids.length + " parcourues" + (s ? " · " + s + " passée" + (s > 1 ? "s" : "") : "");
+      sum.appendChild(row);
+    });
+    root.appendChild(sum);
+    const f = h("div", "av-final"); f.appendChild(h("p")); f.firstChild.textContent = FINAL; root.appendChild(f);
+    const acts = h("div", "av-acts"), again = h("button", "av-btn main", "Recommencer"); again.type = "button";
+    const back = h("button", "av-btn ghost", "← Revoir les questions"); back.type = "button";
+    again.addEventListener("click", start);
+    back.addEventListener("click", () => { g.pos = N - 1; g.back = true; view(g); });
+    acts.append(back, again); root.appendChild(acts);
+    setTimeout(() => { if (id !== run) return; const r = f.getBoundingClientRect(); burst(r.left + r.width * 0.25, r.top + 20, 18); burst(r.left + r.width * 0.75, r.top + 20, 18); }, 250);
+  }
+
+  window.showQuestions = function () {
+    run++;
+    root = window.avMount("qs");
+    root.appendChild(h("p", "av-kick", "Case 19"));
+    root.appendChild(h("div", "av-icons", "<span aria-hidden='true'>🌙</span><span aria-hidden='true'>❤️</span><span aria-hidden='true'>✨</span>"));
+    const t = h("h3", "av-title"); t.textContent = "Nos questions sans filtre ❤️"; root.appendChild(t);
+    root.appendChild(h("p", "av-text", "30 questions pour mieux se connaître, rire un peu, parler de nous et peut-être se dire des choses qu'on ne s'est jamais dites. Joue à ton rythme : il n'y a ni bonne ni mauvaise réponse, et tu peux répondre à voix haute ou dans ta tête."));
+    const go = h("button", "av-btn main", "Commencer"); go.type = "button"; go.addEventListener("click", start);
+    const acts = h("div", "av-acts"); acts.appendChild(go); root.appendChild(acts);
   };
 })();
 
