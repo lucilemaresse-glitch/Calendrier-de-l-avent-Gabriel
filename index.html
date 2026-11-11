@@ -229,6 +229,8 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
   font: inherit; font-size: 16px; background: white; margin: 8px 0;
 }
 .modal-content p.quiz-feedback { font-weight: 800; min-height: 26px; margin: 8px 0; }
+.quiz-input.good { border-color: var(--green); background: #e6f3ea; }
+.quiz-input.bad { border-color: var(--red); background: #fbe9ec; }
 .quiz-feedback.good { color: var(--green); }
 .quiz-feedback.bad { color: var(--red); }
 .quiz-actions { display: flex; gap: 12px; justify-content: center; align-items: center; flex-wrap: wrap; margin-top: 4px; }
@@ -2021,54 +2023,74 @@ function setupGridDrag(grid) {
                    (sans accents, majuscules ignorées),
                    "display" = ce qui s'affiche comme correction
 ===================================================== */
-const QUIZ_KEY = "advent-quiz-v1";
+const QUIZ_KEY = "advent-quiz-v2";
 const YES_NO = ["Oui 😅", "Non"];
 
 const quizCategories = [
   {
-    id: "gouts", icon: "💛", title: "Mes goûts",
+    id: "gouts", icon: "💛", title: "Mes goûts et mes préférences",
     questions: [
       { q: "Quel est mon plat préféré ?", type: "text", answers: ["sushi"], display: "Les sushis 🍣" },
+      { q: "Quel est mon dessert préféré ?", type: "text", answers: ["tarte", "citron", "meringue", "mousse"], display: "La tarte citron meringuée ou la mousse au chocolat blanc 🍋" },
       { q: "Quelle est ma boisson préférée ?", type: "text", answers: ["cherry", "cerise"], display: "Le Coca cherry 🍒" },
       { q: "Suis-je plutôt sucré ou salé ?", type: "choice", options: ["Sucré", "Salé"], answer: "Sucré", display: "Sucré 🍬" },
+      { q: "Quel est mon parfum de glace préféré ?", type: "text", answers: ["nutella", "bueno"], display: "Nutella ou Kinder Bueno 🍦" },
       { q: "Quelle est ma couleur préférée ?", type: "text", answers: ["vert"], display: "Le vert 💚" },
-      { q: "Quel est mon groupe de musique préféré ?", type: "text", answers: ["ateez"], display: "ATEEZ" },
+      { q: "Quelle est ma saison préférée ?", type: "choice", options: ["Le printemps", "L'été", "L'automne", "L'hiver"], answer: "L'été", display: "L'été ☀️" },
+      { q: "Quelle est ma fleur préférée ?", type: "choice", options: ["La rose rouge ou blanche", "La tulipe", "Le tournesol", "La marguerite"], answer: "La rose rouge ou blanche", display: "La rose rouge ou blanche 🌹" },
+      { q: "Quel est mon groupe préféré ?", type: "text", answers: ["ateez"], display: "ATEEZ" },
       { q: "Quel genre de musique j'écoute le plus ?", type: "text", answers: ["kpop"], display: "La K-pop 🎤" },
       { q: "Quel est mon film préféré ?", type: "text", answers: ["showman"], display: "The Greatest Showman 🎪" },
-      { q: "Quel pays aimerais-je visiter ?", type: "text", answers: ["coree", "korea"], display: "La Corée du Sud 🇰🇷" }
+      { q: "Quel pays aimerais-je visiter ?", type: "text", answers: ["coree", "korea"], display: "La Corée du Sud 🇰🇷" },
+      { q: "Quel est mon genre de film / série préféré ?", type: "choice", options: ["L'action", "La romance", "L'horreur", "La comédie"], answer: "La romance", display: "La romance 💕" }
     ]
   },
   {
-    id: "habitudes", icon: "⏰", title: "Mes petites habitudes",
+    id: "habitudes", icon: "⏰", title: "Mes habitudes au quotidien",
     questions: [
-      { q: "Quelle est la première chose que je fais en me réveillant ?", type: "text", answers: ["telephone", "portable", "phone"], display: "Regarder mon téléphone 📱" },
-      { q: "Est-ce que je suis plutôt du matin ou du soir ?", type: "choice", options: ["Du matin", "Du soir"], answer: "Du matin", display: "Du matin ☀️" },
-      { q: "Est-ce que je préfère prendre une douche le matin ou le soir ?", type: "choice", options: ["Le matin", "Le soir"], answer: "Le soir", display: "Le soir 🚿" },
+      { q: "Quelle est la première chose que je fais en me réveillant ?", type: "text", answers: ["telephone", "portable", "phone"], display: "Je consulte mon téléphone 📱" },
+      { q: "Quelle est la dernière chose que je fais avant de dormir ?", type: "text", answers: ["tiktok"], display: "Je scrolle sur TikTok 📱" },
+      { q: "Je suis plutôt du matin ou du soir ?", type: "choice", options: ["Du matin", "Du soir"], answer: "Du matin", display: "Du matin ☀️" },
+      { q: "Est-ce que je me lève facilement ?", type: "choice", options: YES_NO, answer: YES_NO[0], display: "Oui" },
+      { q: "Est-ce que je suis souvent en retard ?", type: "choice", options: YES_NO, answer: YES_NO[1], display: "Non" },
+      { q: "Est-ce que je passe beaucoup de temps sur mon téléphone ?", type: "choice", options: YES_NO, answer: YES_NO[0], display: "Oui" },
+      { q: "Quelle application j'utilise le plus ?", type: "choice", options: ["TikTok", "Instagram", "Snapchat", "WhatsApp"], answer: "Instagram", display: "Instagram 📸" },
+      { q: "Est-ce que je préfère prendre ma douche le matin ou le soir ?", type: "choice", options: ["Le matin", "Le soir"], answer: "Le soir", display: "Le soir 🚿" },
       { q: "Est-ce que je suis plutôt organisée ou désorganisée ?", type: "choice", options: ["Organisée", "Désorganisée"], answer: "Organisée", display: "Organisée 📋" },
-      { q: "Quelle est ma petite habitude avant de dormir ?", type: "text", answers: ["tiktok"], display: "Scroller sur TikTok 📱" },
-      { q: "Est-ce que je préfère rester chez moi ou sortir ?", type: "choice", options: ["Rester chez moi", "Sortir"], answer: "Rester chez moi", display: "Rester chez moi 🏠" }
+      { q: "Est-ce que je mange rapidement ou lentement ?", type: "choice", options: ["Rapidement", "Lentement"], answer: "Rapidement", display: "Rapidement 🍽️" },
+      { q: "Est-ce que je fais souvent des siestes ?", type: "choice", options: YES_NO, answer: YES_NO[1], display: "Non" },
+      { q: "Est-ce que je préfère rester chez moi ou sortir ?", type: "choice", options: ["Rester chez moi", "Sortir"], answer: "Rester chez moi", display: "Rester chez moi 🏠" },
+      { q: "Est-ce que j'aime avoir mes petites habitudes ou changer régulièrement de routine ?", type: "choice", options: ["Avoir mes petites habitudes", "Changer de routine"], answer: "Changer de routine", display: "Changer de routine 🔄" }
     ]
   },
   {
-    id: "caractere", icon: "😂", title: "Mon caractère",
+    id: "caractere", icon: "😂", title: "Mon caractère et ma personnalité",
     questions: [
-      { q: "Est-ce que je suis facilement impatiente ?", type: "choice", options: YES_NO, answer: YES_NO[0], display: "Oui 😅" },
-      { q: "Est-ce que je réfléchis trop aux choses ?", type: "choice", options: YES_NO, answer: YES_NO[0], display: "Oui 😅" },
-      { q: "Est-ce que je suis du genre à changer d'avis souvent ?", type: "choice", options: YES_NO, answer: YES_NO[0], display: "Oui 😅" },
-      { q: "Est-ce que je boude facilement ?", type: "choice", options: YES_NO, answer: YES_NO[0], display: "Oui 😅" },
-      { q: "Est-ce que je suis mauvaise perdante ?", type: "choice", options: YES_NO, answer: YES_NO[0], display: "Oui 😅" }
+      { q: "Suis-je plutôt introvertie ou extravertie ?", type: "choice", options: ["Introvertie", "Extravertie"], answer: "Introvertie", display: "Introvertie" },
+      { q: "Suis-je plutôt timide ou sociable ?", type: "choice", options: ["Timide", "Sociable"], answer: "Timide", display: "Timide" },
+      { q: "Suis-je quelqu'un de patient ?", type: "choice", options: YES_NO, answer: YES_NO[1], display: "Non" },
+      { q: "Est-ce que je réfléchis beaucoup avant de prendre une décision ?", type: "choice", options: YES_NO, answer: YES_NO[0], display: "Oui" },
+      { q: "Est-ce que je suis facilement stressée ?", type: "choice", options: YES_NO, answer: YES_NO[0], display: "Oui" },
+      { q: "Est-ce que je montre facilement mes émotions ?", type: "choice", options: YES_NO, answer: YES_NO[0], display: "Oui" },
+      { q: "Est-ce que je pleure facilement ?", type: "choice", options: YES_NO, answer: YES_NO[0], display: "Oui" },
+      { q: "Est-ce que je suis plutôt rancunière ou je pardonne facilement ?", type: "choice", options: ["Rancunière", "Je pardonne facilement"], answer: "Rancunière", display: "Rancunière" },
+      { q: "Est-ce que je fais facilement confiance aux gens ?", type: "choice", options: YES_NO, answer: YES_NO[0], display: "Oui" },
+      { q: "Suis-je plutôt sensible ou détachée ?", type: "choice", options: ["Sensible", "Détachée"], answer: "Sensible", display: "Sensible" },
+      { q: "Est-ce que je suis perfectionniste ?", type: "choice", options: YES_NO, answer: YES_NO[1], display: "Non" },
+      { q: "Est-ce que je suis têtue ?", type: "choice", options: YES_NO, answer: YES_NO[0], display: "Oui" },
+      { q: "Est-ce que je suis plutôt optimiste ou pessimiste ?", type: "choice", options: ["Optimiste", "Pessimiste"], answer: "Pessimiste", display: "Pessimiste" }
     ]
   },
   {
     id: "couple", icon: "❤️", title: "Nous deux",
     questions: [
-      { q: "Quelle est ma façon préférée de recevoir de l'affection ?", type: "text", answers: ["contact", "message"], display: "Le contact et les messages 💌" },
+      { q: "Quelle est ma façon préférée de recevoir de l'affection ?", type: "text", answers: ["bisou", "calin"], display: "Les bisous et les câlins 😘" },
       { q: "Est-ce que je préfère les câlins ou les bisous ?", type: "choice", options: ["Les câlins", "Les bisous"], answer: "Les bisous", display: "Les bisous 😘" },
       { q: "Quel est mon souvenir préféré de nous deux ?", type: "text", answers: ["vacances"], display: "Nos premières vacances 🏖️" },
       { q: "Quelle est ma plus grande peur dans une relation ?", type: "text", answers: ["perdre", "perte"], display: "Te perdre 🥺" },
       { q: "Est-ce que je préfère les cadeaux ou les petites attentions ?", type: "choice", options: ["Les cadeaux", "Les petites attentions"], answer: "Les petites attentions", display: "Les petites attentions 🎁" },
       { q: "Est-ce que je préfère les sorties improvisées ou organisées ?", type: "choice", options: ["Improvisées", "Organisées", "Les deux"], answer: "Les deux", display: "Les deux ✨" },
-      { q: "Quelle est ma chose préférée chez toi ?", type: "text", answers: ["sourire"], display: "Ton sourire 😊" },
+      { q: "Quelle est ma chose préférée chez toi ?", type: "text", answers: ["toi", "entier", "tout"], display: "Toi, en entier 🥰" },
       { q: "Quelle est ma réaction quand tu me manques ?", type: "text", answers: ["triste"], display: "Je suis triste 🥺" },
       { q: "Quelle activité aimerais-je faire davantage avec toi ?", type: "text", answers: ["presentiel", "presence", "envrai"], display: "Passer du temps en présentiel 🤍" },
       { q: "Quelle serait ma destination idéale pour un voyage en amoureux ?", type: "text", answers: ["japon", "grece"], display: "Le Japon ou la Grèce ✈️" }
@@ -2125,7 +2147,7 @@ function showQuizMenu() {
   body.innerHTML = "";
   const scores = load(QUIZ_KEY, {});
 
-  body.appendChild(qEl("p", "", "Voyons si tu connais vraiment tous mes petits secrets ! Choisis une catégorie. ❤️"));
+  body.appendChild(qEl("p", "", "Voyons si tu connais vraiment tous nos petits secrets ! Choisis une catégorie. ❤️"));
 
   const list = qEl("div", "quiz-cats");
   let total = 0, max = 0;
@@ -2212,12 +2234,25 @@ function renderQuizQuestion() {
 
     const lock = () => { input.disabled = true; submit.disabled = true; skip.disabled = true; };
     const validate = () => {
-      if (normText(input.value).length < 2) return;
-      finish(isQuizCorrect(q, input.value), lock);
+      if (answered) return;
+      if (normText(input.value).length < 2) {
+        feedback.className = "quiz-feedback bad";
+        feedback.textContent = "Écris ta réponse avant de valider ✍️";
+        input.focus();
+        return;
+      }
+      const ok = isQuizCorrect(q, input.value);
+      finish(ok, () => {
+        lock();
+        input.classList.add(ok ? "good" : "bad");
+        submit.textContent = "Validé ✓";
+        input.blur();
+      });
+      feedback.scrollIntoView({ block: "nearest", behavior: "smooth" });
     };
     submit.addEventListener("click", validate);
     skip.addEventListener("click", () => finish(false, lock));
-    input.addEventListener("keydown", e => { if (e.key === "Enter") validate(); });
+    input.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); validate(); } });
 
     body.appendChild(input);
     const actions = qEl("div", "quiz-actions");
