@@ -2074,7 +2074,7 @@ const quizCategories = [
       { q: "Est-ce que je montre facilement mes émotions ?", type: "choice", options: YES_NO, answer: YES_NO[0], display: "Oui" },
       { q: "Est-ce que je pleure facilement ?", type: "choice", options: YES_NO, answer: YES_NO[0], display: "Oui" },
       { q: "Est-ce que je suis plutôt rancunière ou je pardonne facilement ?", type: "choice", options: ["Rancunière", "Je pardonne facilement"], answer: "Rancunière", display: "Rancunière" },
-      { q: "Est-ce que je fais facilement confiance aux gens ?", type: "choice", options: YES_NO, answer: YES_NO[0], display: "Oui" },
+      { q: "Est-ce que je fais facilement confiance aux gens ?", type: "choice", options: YES_NO, answer: YES_NO[1], display: "Non" },
       { q: "Suis-je plutôt sensible ou détachée ?", type: "choice", options: ["Sensible", "Détachée"], answer: "Sensible", display: "Sensible" },
       { q: "Est-ce que je suis perfectionniste ?", type: "choice", options: YES_NO, answer: YES_NO[1], display: "Non" },
       { q: "Est-ce que je suis têtue ?", type: "choice", options: YES_NO, answer: YES_NO[0], display: "Oui" },
@@ -2301,7 +2301,7 @@ function showQuizResult() {
    et / autorisés : seuls les lettres et chiffres sont à deviner)
    et "hint" (l'indice affiché).
 ===================================================== */
-const HANG_KEY = "advent-pendu-v1";
+const HANG_KEY = "advent-pendu-v2";
 const HANG_LIVES = 7;
 
 const hangCategories = [
@@ -2315,25 +2315,24 @@ const hangCategories = [
   {
     id: "souvenirs", icon: "🏖️", title: "Nos souvenirs à deux",
     words: [
-      { w: "PREMIÈRE VACANCE", hint: "Notre premier voyage ensemble" },
+      { w: "PARIS", hint: "Nos premières vacances ensemble" },
       { w: "CINÉMA", hint: "Une sortie qu'on aime partager" }
     ]
   },
   {
     id: "habitudes", icon: "📱", title: "Nos petites habitudes",
     words: [
-      { w: "MESSAGE", hint: "Ce qu'on s'envoie tous les jours" },
+      { w: "MESSAGES", hint: "Ce qu'on s'envoie tous les jours" },
       { w: "VISIO", hint: "Quand la distance nous sépare, on se retrouve comme ça" }
     ]
   },
   {
     id: "mysteres", icon: "🔮", title: "Les mots mystères",
     words: [
-      { w: "GABRIEL", hint: "Mon prénom" },
-      { w: "LUCILE", hint: "Ton prénom" },
-      { w: "07/05/2026", hint: "Le jour de notre rencontre (jj/mm/aaaa)" },
-      { w: "DUNKERQUE", hint: "La ville de notre rencontre" },
-      { w: "THOUSAND YEARS", hint: "Notre chanson" }
+      { w: "MANQUE", hint: "Ce que l'on ressent lorsque l'autre n'est pas près de nous" },
+      { w: "JOIE", hint: "Une émotion que l'on partage souvent ensemble" },
+      { w: "PROJETS", hint: "Les choses que l'on aimerait réaliser dans le futur" },
+      { w: "AVENIR", hint: "Ce qui nous attend et que l'on peut construire ensemble" }
     ]
   }
 ];
