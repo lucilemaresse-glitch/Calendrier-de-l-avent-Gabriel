@@ -273,6 +273,7 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
   border: 2px solid var(--gold); border-radius: 20px; padding: 6px 14px;
   background: white; font: inherit; font-weight: 700; color: var(--dark); cursor: pointer;
 }
+.puzzle-level { font-size: 13px; padding: 6px 11px; }
 .puzzle-level.active { background: var(--green); color: white; border-color: var(--green); }
 .puzzle-table {
   position: relative; width: 100%; max-width: 380px; margin: 10px auto;
@@ -295,11 +296,15 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
   border: 2px dashed #e3cf9f; border-radius: 12px; background: rgba(214,180,106,.1);
 }
 .puzzle-piece {
-  position: absolute; z-index: 10; touch-action: none; cursor: grab;
-  filter: drop-shadow(0 2px 3px rgba(0,0,0,.35));
+  position: absolute; left: 0; top: 0; z-index: 10; touch-action: none; cursor: grab;
+  will-change: transform; filter: drop-shadow(0 2px 3px rgba(0,0,0,.35));
 }
-.puzzle-piece.lift { cursor: grabbing; filter: drop-shadow(0 8px 10px rgba(0,0,0,.4)); }
+.puzzle-piece.lift { cursor: grabbing; filter: drop-shadow(0 10px 12px rgba(0,0,0,.4)); }
+.puzzle-piece.near { filter: drop-shadow(0 0 7px var(--gold)) drop-shadow(0 8px 10px rgba(0,0,0,.35)); }
 .puzzle-piece.placed { filter: none; pointer-events: none; }
+.puzzle-next { margin-top: 10px; }
+.puzzle-stars { font-size: 24px; margin: 6px 0 0; letter-spacing: 2px; }
+.puzzle-stars small { display: block; font-size: 12px; letter-spacing: 0; color: var(--dark); }
 .puzzle-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 6px; }
 
 /* ---------- Lettre de bienvenue ---------- */
@@ -2538,9 +2543,10 @@ const PUZZLE_KEY = "advent-puzzle-v2";
 
 // c = colonnes, r = lignes : plus il y a de pièces, plus c'est difficile.
 const PUZZLE_LEVELS = [
-  { c: 3, r: 2, label: "6 pièces" },
-  { c: 4, r: 3, label: "12 pièces" },
-  { c: 6, r: 4, label: "24 pièces" }
+  { c: 3, r: 2, label: "🌱 Facile · 6",       ghost: .35, snap: .45 },
+  { c: 4, r: 3, label: "🌿 Moyen · 12",       ghost: .22, snap: .38 },
+  { c: 6, r: 4, label: "🌳 Difficile · 24",   ghost: .12, snap: .33 },
+  { c: 8, r: 6, label: "🏆 Expert · 48",      ghost: 0,   snap: .30 }
 ];
 
 let puzzle = { lv: 1, token: 0, img: null, pieces: [] };
@@ -2608,7 +2614,8 @@ function showPuzzle(lv) {
 
   const levels = qEl("div", "puzzle-levels");
   PUZZLE_LEVELS.forEach((lvl, k) => {
-    const b = qEl("button", "puzzle-level" + (k === puzzle.lv ? " active" : ""), lvl.label);
+    const done = load(PUZZLE_KEY, {})[k];
+    const b = qEl("button", "puzzle-level" + (k === puzzle.lv ? " active" : ""), lvl.label + (done ? " ✓" : ""));
     b.addEventListener("click", () => showPuzzle(k));
     levels.appendChild(b);
   });
@@ -2619,6 +2626,14 @@ function showPuzzle(lv) {
 
   const victory = qEl("div", "victory-message");
   victory.innerHTML = "❤️ Bravo mon cœur ! ❤️<br>Notre photo est enfin reconstituée. J'adore ce souvenir de nous. Je t'aime ! ❤️";
+  const starsEl = qEl("div", "puzzle-stars");
+  victory.appendChild(starsEl);
+  if (puzzle.lv < PUZZLE_LEVELS.length - 1) {
+    const nxt = qEl("button", "quiz-submit puzzle-next", "Niveau suivant →");
+    nxt.addEventListener("click", () => showPuzzle(puzzle.lv + 1));
+    victory.appendChild(document.createElement("br"));
+    victory.appendChild(nxt);
+  }
   body.appendChild(victory);
 
   const table = qEl("div", "puzzle-table");
@@ -2628,6 +2643,7 @@ function showPuzzle(lv) {
   const bg = `url("${PUZZLE_PHOTO}")`;
   const ghost = qEl("div", "puzzle-ghost");
   ghost.style.backgroundImage = bg;
+  if (L.ghost) ghost.style.opacity = L.ghost; else ghost.style.display = "none";
   board.appendChild(ghost);
   const overlay = qEl("div", "puzzle-preview");
   overlay.style.backgroundImage = bg;
@@ -2636,23 +2652,30 @@ function showPuzzle(lv) {
   const actions = qEl("div", "puzzle-actions");
   const peek = qEl("button", "quiz-option", "👁️ Voir la photo");
   const hint = qEl("button", "quiz-option", "💡 Coup de pouce");
+  const tidy = qEl("button", "quiz-option", "🧹 Ranger");
   const again = qEl("button", "quiz-submit", "🔀 Mélanger");
   actions.appendChild(peek);
   actions.appendChild(hint);
+  actions.appendChild(tidy);
   actions.appendChild(again);
   body.appendChild(actions);
 
-  let placed = 0, startTime = null, finished = null;
+  let placed = 0, startTime = null, finished = null, hintsUsed = 0;
   const pieces = puzzle.pieces;
 
   function updateInfo() {
     const best = load(PUZZLE_KEY, {})[puzzle.lv];
     let txt = `${placed} / ${N} pièces placées`;
     if (finished !== null) txt += ` · Temps : ${fmtTime(finished)}`;
+    else if (startTime) txt += ` · ⏱ ${fmtTime(Date.now() - startTime)}`;
     if (best) txt += ` · Record : ${fmtTime(best)}`;
     info.textContent = txt;
   }
   updateInfo();
+  const clock = setInterval(() => {
+    if (puzzle.token !== token || !info.isConnected || finished !== null) { clearInterval(clock); return; }
+    if (startTime) updateInfo();
+  }, 1000);
 
   peek.addEventListener("click", () => {
     if (finished !== null) return;
@@ -2671,8 +2694,9 @@ function showPuzzle(lv) {
     const { h, v } = jigsawEdges(C, R);
 
     // Zone d'éparpillement sous le cadre
-    const sy = ph * 0.72;
-    const cols = Math.max(1, Math.floor((W - cw) / (pw * 0.7)) + 1);
+    const big = N > 30;
+    const sy = ph * (big ? 1.05 : 0.72);
+    const cols = Math.max(1, Math.floor((W - cw) / (pw * (big ? 0.95 : 0.7))) + 1);
     const rows = Math.ceil(N / cols);
     const trayTop = H + 14;
     const tableH = trayTop + (rows - 1) * sy + ch;
@@ -2691,6 +2715,9 @@ function showPuzzle(lv) {
     }
     const stepX = cols > 1 ? (W - cw) / (cols - 1) : 0;
     let z = 10;
+    const setPos = p => {
+      p.el.style.transform = `translate3d(${p.x}px,${p.y}px,0)` + (p.lift ? " scale(1.06)" : "");
+    };
 
     for (let j = 0; j < R; j++) {
       for (let i = 0; i < C; i++) {
@@ -2725,8 +2752,7 @@ function showPuzzle(lv) {
           x: Math.max(-m, Math.min(W - cw + m, col * stepX + jitter())),
           y: trayTop + row * sy + (Math.random() - 0.5) * sy * 0.2
         };
-        canvas.style.left = p.x + "px";
-        canvas.style.top = p.y + "px";
+        setPos(p);
         canvas.style.zIndex = p.z;
         table.appendChild(canvas);
         pieces.push(p);
@@ -2745,20 +2771,24 @@ function showPuzzle(lv) {
         } catch (e) { /* canvas "tainted" : on accepte tout le rectangle */ }
         if (opaque) return p;
       }
-      return null;
+      // Tolérance pour les doigts : on accepte le cœur de la pièce, 8 px autour.
+      return list.find(p => px >= p.x + m - 8 && px <= p.x + m + pw + 8 && py >= p.y + m - 8 && py <= p.y + m + ph + 8) || null;
     }
+
+    const snapDist = Math.max(14, base * L.snap);
 
     function lock(p) {
       p.locked = true;
+      p.lift = false;
       p.x = p.tx;
       p.y = p.ty;
-      p.el.style.transition = "left .15s ease, top .15s ease";
-      p.el.style.left = p.x + "px";
-      p.el.style.top = p.y + "px";
+      p.el.style.transition = "transform .18s ease-out";
+      setPos(p);
       p.el.style.zIndex = 1;
-      p.el.classList.remove("lift");
+      p.el.classList.remove("lift", "near");
       p.el.classList.add("placed");
       placed++;
+      if (navigator.vibrate) try { navigator.vibrate(12); } catch (e) { /* ignoré */ }
       if (placed === N) win(); else updateInfo();
     }
 
@@ -2768,9 +2798,16 @@ function showPuzzle(lv) {
       victory.style.display = "block";
       tray.style.display = "none";
       table.style.height = H + "px";
+      const stars = hintsUsed === 0 ? 3 : hintsUsed <= Math.ceil(N / 6) ? 2 : 1;
+      starsEl.textContent = "⭐".repeat(stars) + "☆".repeat(3 - stars);
+      const sm = document.createElement("small");
+      sm.textContent = hintsUsed ? `${hintsUsed} coup${hintsUsed > 1 ? "s" : ""} de pouce utilisé${hintsUsed > 1 ? "s" : ""}` : "Sans aucun coup de pouce !";
+      starsEl.appendChild(sm);
       const scores = load(PUZZLE_KEY, {});
       if (!scores[puzzle.lv] || finished < scores[puzzle.lv]) scores[puzzle.lv] = finished;
       store(PUZZLE_KEY, scores);
+      const lb = levels.children[puzzle.lv];
+      if (lb && !lb.textContent.endsWith("✓")) lb.textContent += " ✓";
       updateInfo();
     }
 
@@ -2779,20 +2816,64 @@ function showPuzzle(lv) {
       const free = pieces.filter(p => !p.locked);
       if (!free.length) return;
       if (!startTime) startTime = Date.now();
+      hintsUsed++;
       lock(free[Math.floor(Math.random() * free.length)]);
     });
 
-    // --- Glisser-déposer ---
+    // Range les pièces restantes proprement dans la zone du bas.
+    tidy.addEventListener("click", () => {
+      if (finished !== null) return;
+      const free = pieces.filter(q => !q.locked);
+      const n2 = free.length;
+      const cols2 = Math.max(1, Math.min(cols, n2));
+      const step2 = cols2 > 1 ? (W - cw) / (cols2 - 1) : 0;
+      free.forEach((q, k) => {
+        q.x = Math.max(-m, Math.min(W - cw + m, (k % cols2) * step2));
+        q.y = trayTop + Math.floor(k / cols2) * sy;
+        q.z = ++z;
+        q.el.style.zIndex = q.z;
+        q.el.style.transition = "transform .35s ease-out";
+        setPos(q);
+        setTimeout(() => { if (!q.locked) q.el.style.transition = "none"; }, 400);
+      });
+    });
+
+    // --- Glisser-déposer fluide (transform + défilement automatique près des bords) ---
     let drag = null;
-    const pos = e => {
+    const pos = (cx, cy) => {
       const r = table.getBoundingClientRect();
-      return [e.clientX - r.left, e.clientY - r.top];
+      return [cx - r.left, cy - r.top];
     };
+    const scroller = (() => {
+      for (let n = table.parentElement; n; n = n.parentElement) {
+        const o = getComputedStyle(n).overflowY;
+        if ((o === "auto" || o === "scroll") && n.scrollHeight > n.clientHeight) return n;
+      }
+      return document.scrollingElement || document.documentElement;
+    })();
+
+    function frame() {
+      if (!drag) return;
+      const isDoc = scroller === document.scrollingElement || scroller === document.documentElement;
+      const r = isDoc ? { top: 0, bottom: window.innerHeight } : scroller.getBoundingClientRect();
+      const edge = 70;
+      let v = 0;
+      if (drag.cy < r.top + edge) v = -Math.ceil((r.top + edge - drag.cy) / 5);
+      else if (drag.cy > r.bottom - edge) v = Math.ceil((drag.cy - (r.bottom - edge)) / 5);
+      if (v) scroller.scrollTop += v;
+      const [px, py] = pos(drag.cx, drag.cy);
+      const p = drag.p;
+      p.x = Math.max(-m, Math.min(W - cw + m, px - drag.dx));
+      p.y = Math.max(-m, Math.min(tableH - ch + m, py - drag.dy));
+      setPos(p);
+      p.el.classList.toggle("near", Math.hypot(p.x - p.tx, p.y - p.ty) < snapDist);
+      drag.raf = requestAnimationFrame(frame);
+    }
 
     table.addEventListener("pointerdown", e => {
-      if (puzzle.token !== token || finished !== null || overlay.classList.contains("show")) return;
+      if (puzzle.token !== token || finished !== null || overlay.classList.contains("show") || drag) return;
       if (e.button > 0) return;
-      const [px, py] = pos(e);
+      const [px, py] = pos(e.clientX, e.clientY);
       const p = pick(px, py);
       if (!p) return;
       e.preventDefault();
@@ -2802,25 +2883,31 @@ function showPuzzle(lv) {
       p.el.style.zIndex = p.z;
       p.el.style.transition = "none";
       p.el.classList.add("lift");
-      drag = { p, dx: px - p.x, dy: py - p.y, id: e.pointerId };
+      p.lift = true;
+      setPos(p);
+      drag = { p, dx: px - p.x, dy: py - p.y, id: e.pointerId, cx: e.clientX, cy: e.clientY, raf: 0 };
+      drag.raf = requestAnimationFrame(frame);
     });
 
     table.addEventListener("pointermove", e => {
       if (!drag || e.pointerId !== drag.id) return;
-      const [px, py] = pos(e);
-      const p = drag.p;
-      p.x = Math.max(-m, Math.min(W - cw + m, px - drag.dx));
-      p.y = Math.max(-m, Math.min(tableH - ch + m, py - drag.dy));
-      p.el.style.left = p.x + "px";
-      p.el.style.top = p.y + "px";
+      drag.cx = e.clientX;
+      drag.cy = e.clientY;
     });
 
     const release = e => {
       if (!drag || e.pointerId !== drag.id) return;
       const p = drag.p;
+      cancelAnimationFrame(drag.raf);
+      if (e.type === "pointerup") { drag.cx = e.clientX; drag.cy = e.clientY; }
+      const [px, py] = pos(drag.cx, drag.cy);
+      p.x = Math.max(-m, Math.min(W - cw + m, px - drag.dx));
+      p.y = Math.max(-m, Math.min(tableH - ch + m, py - drag.dy));
       drag = null;
-      p.el.classList.remove("lift");
-      if (Math.hypot(p.x - p.tx, p.y - p.ty) < Math.max(14, base * 0.3)) lock(p);
+      p.lift = false;
+      p.el.classList.remove("lift", "near");
+      setPos(p);
+      if (Math.hypot(p.x - p.tx, p.y - p.ty) < snapDist) lock(p);
     };
     table.addEventListener("pointerup", release);
     table.addEventListener("pointercancel", release);
