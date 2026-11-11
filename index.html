@@ -2925,63 +2925,115 @@ function showPuzzle(lv) {
 
 /* =====================================================
    BINGO DE COUPLE ❤️ (ouvert par la case BINGO_DAY)
-   118 situations ; une grille est tirée au sort (3x3, 4x4 ou 5x5).
+   toutes les situations ; une grille est tirée au sort (3x3, 4x4 ou 5x5).
    Une ligne, une colonne ou une diagonale complète = bingo.
-   L'onglet "Les 118 situations" permet de tout cocher d'un coup.
+   L'onglet "Les situations" permet de tout cocher d'un coup.
 ===================================================== */
 (function () {
-  const BINGO_KEY = "advent-bingo-v1";
+  const BINGO_KEY = "advent-bingo-v2";
   const BINGO_CATS = [
-  { id: "quotidien", name: "Au quotidien", items: [
-    "On s'envoie des messages dès le réveil.", "On se souhaite toujours bonne nuit.", "On se raconte notre journée.",
-    "On se prévient quand on arrive quelque part.", "On s'envoie des photos de ce qu'on fait.", "On s'appelle même quand on n'a rien à se dire.",
-    "On regarde des films ensemble.", "On regarde des séries ensemble.", "On partage nos musiques préférées.",
-    "On se couche tard à force de discuter.", "On passe du temps ensemble sans forcément parler.", "On aime rester dans les bras l'un de l'autre.",
-    "On se fait des bisous sans raison.", "On se prend dans les bras dès qu'on se retrouve.", "On se tient la main en public.",
-    "On se fait des câlins avant de dormir.", "On a nos petits rituels à nous.", "On aime passer des journées entières ensemble.",
-    "On a du mal à se quitter." ] },
-  { id: "rires", name: "Fous rires et complicité", items: [
-    "On a déjà eu un fou rire impossible à arrêter.", "On a des blagues que personne d'autre ne comprend.", "On a des surnoms ridicules.",
-    "On se taquine constamment.", "On a déjà rigolé dans un moment où il ne fallait pas.", "On a déjà eu un fou rire pour quelque chose de complètement nul.",
-    "On a une expression qu'on répète tout le temps.", "On a déjà essayé de faire rire l'autre alors qu'il était sérieux.", "On a déjà eu un fou rire au téléphone." ] },
-  { id: "romantique", name: "Moments romantiques", items: [
-    "On s'est déjà fait une surprise.", "On s'est déjà écrit un joli message.", "On s'est déjà fait une déclaration.",
-    "On s'est déjà regardés dans les yeux sans rien dire.", "On s'est déjà fait un câlin pendant plusieurs minutes.", "On s'est déjà endormis dans les bras l'un de l'autre.",
-    "On s'est déjà embrassés spontanément.", "On s'est déjà dit qu'on s'aimait plusieurs fois d'affilée.", "On s'est déjà manqués alors qu'on venait de se quitter.",
-    "On s'est déjà regardé un coucher de soleil ensemble.", "On s'est déjà imaginé notre avenir ensemble.", "On a déjà passé une journée entière à deux.",
-    "On s'est déjà fait une soirée rien qu'à nous.", "On a déjà eu un moment particulièrement émouvant ensemble." ] },
-  { id: "vie", name: "La vie à deux", items: [
-    "On a déjà cuisiné ensemble.", "On a déjà mangé au lit.", "On a déjà commandé à manger.",
-    "On a déjà fait les courses ensemble.", "On a déjà fait du shopping ensemble.", "On a déjà fait une sieste ensemble.",
-    "On a déjà regardé un film jusqu'à très tard.", "On a déjà joué à un jeu ensemble.", "On a déjà pris une douche ensemble.",
-    "On a déjà partagé nos vêtements.", "On a déjà passé une soirée à ne rien faire.", "On a déjà fait une activité improvisée.",
-    "On a déjà passé plus de temps que prévu ensemble.", "On a déjà mangé dans un restaurant qu'on voulait tester.", "On a déjà passé une journée à la maison sans sortir." ] },
-  { id: "disputes", name: "Petits désaccords", items: [
-    "On s'est déjà disputés pour une bêtise.", "On a déjà boudé pour rien.", "On a déjà eu du mal à choisir un film.",
-    "On a déjà eu du mal à choisir où manger.", "On a déjà fait la tête pour une petite remarque.", "On s'est déjà réconciliés avec un câlin.",
-    "On s'est déjà taquinés jusqu'à ce que l'un s'énerve.", "On a déjà eu un désaccord sur le programme de la journée.", "On a déjà eu une petite crise de jalousie.",
-    "On a déjà mal interprété un message.", "On s'est déjà excusés après une dispute.", "On a déjà essayé de deviner ce que l'autre avait." ] },
-  { id: "telephone", name: "Au téléphone", items: [
-    "On s'est déjà endormis en appel.", "On a déjà passé plusieurs heures au téléphone.", "On s'est déjà appelés plusieurs fois dans la même journée.",
-    "On s'est déjà envoyé des dizaines de messages.", "On s'est déjà fait des appels vidéo.", "On s'est déjà envoyé des photos de nous.",
-    "On s'est déjà envoyé des messages juste pour dire « je t'aime ».", "On s'est déjà appelés uniquement pour se voir.", "On s'est déjà envoyé des vidéos drôles.",
-    "On a déjà attendu impatiemment un appel.", "On a déjà continué une conversation jusqu'au milieu de la nuit.", "On a déjà gardé un appel en fond pendant qu'on faisait autre chose." ] },
-  { id: "souvenirs", name: "Souvenirs", items: [
-    "On a déjà fêté notre anniversaire de couple.", "On a déjà pris une photo qu'on adore.", "On a déjà visité un nouvel endroit ensemble.",
-    "On a déjà fait une sortie spéciale.", "On a déjà vécu une journée inoubliable.", "On a déjà eu un premier moment mémorable.",
-    "On a déjà célébré un événement ensemble.", "On a déjà fait une sortie au cinéma.", "On a déjà assisté à un événement ensemble.",
-    "On a déjà passé une fête ensemble.", "On a déjà créé un souvenir qu'on raconte souvent.", "On a déjà fait quelque chose pour la première fois ensemble." ] },
-  { id: "connaitre", name: "Se connaître par cœur", items: [
-    "On arrive à se comprendre sans parler.", "On connaît les expressions de l'autre.", "On sait quand l'autre ne va pas bien.",
-    "On sait comment rassurer l'autre.", "On connaît les goûts de l'autre.", "On connaît les petites manies de l'autre.",
-    "On sait comment faire rire l'autre.", "On connaît les habitudes de sommeil de l'autre.", "On devine parfois ce que l'autre pense.",
-    "On termine parfois les phrases de l'autre.", "On a des références que nous seuls comprenons.", "On connaît les petites choses qui énervent l'autre.",
-    "On sait comment faire plaisir à l'autre.", "On connaît les rêves de l'autre." ] },
-  { id: "avenir", name: "Projets d'avenir", items: [
-    "On a déjà parlé de vivre ensemble.", "On a déjà parlé de voyager ensemble.", "On a déjà imaginé nos prochaines vacances.",
-    "On a déjà parlé de nos projets futurs.", "On a déjà imaginé notre maison idéale.", "On a déjà parlé d'adopter un animal.",
-    "On a déjà parlé de nos futurs anniversaires.", "On a déjà imaginé notre vie dans quelques années.", "On a déjà une liste de choses à faire ensemble.",
-    "On a déjà parlé de destinations de rêve.", "On a déjà imaginé des projets un peu fous à deux." ] }
+  { id: "quotidien", name: "Nos moments du quotidien", items: [
+    "S'endormir pendant un appel.",
+    "S'envoyer un message dès le réveil.",
+    "Se souhaiter bonne nuit tous les soirs.",
+    "Rester au téléphone pendant des heures.",
+    "Regarder un film ensemble.",
+    "S'endormir dans les bras de l'autre.",
+    "Se raconter sa journée en détail.",
+    "Faire une sieste ensemble.",
+    "Cuisiner un repas à deux.",
+    "Prendre le petit-déjeuner ensemble.",
+    "Passer une journée entière en pyjama.",
+    "Ne rien faire ensemble et apprécier quand même le moment.",
+    "Se faire des petites surprises.",
+    "Se prendre en photo ensemble.",
+    "Se voler la nourriture dans l'assiette de l'autre." ] },
+  { id: "romantique", name: "Nos moments romantiques", items: [
+    "Se faire un câlin sous la pluie.",
+    "S'embrasser sous les étoiles.",
+    "Regarder un coucher de soleil ensemble.",
+    "Se faire un massage.",
+    "Organiser un dîner romantique.",
+    "S'offrir des lettres d'amour.",
+    "Se préparer une surprise pour son anniversaire.",
+    "Danser ensemble sur une chanson romantique.",
+    "Se faire un bisou sur le front.",
+    "Se regarder dans les yeux sans parler.",
+    "Organiser un pique-nique romantique.",
+    "Se faire une journée entièrement consacrée à l'autre.",
+    "Se prendre dans les bras après une longue séparation.",
+    "Recréer notre premier rendez-vous.",
+    "Faire une séance photo de couple." ] },
+  { id: "sorties", name: "Nos sorties et aventures", items: [
+    "Aller à la patinoire.",
+    "Aller à la plage.",
+    "Aller au cinéma.",
+    "Faire un parc d'attractions.",
+    "Partir en week-end à deux.",
+    "Faire un road trip.",
+    "Visiter une ville inconnue.",
+    "Aller à un concert ensemble.",
+    "Faire une randonnée.",
+    "Aller dans un parc animalier.",
+    "Faire du bowling.",
+    "Faire un escape game.",
+    "Aller dans un spa.",
+    "Faire une journée shopping.",
+    "Aller voir un feu d'artifice.",
+    "Faire un voyage à l'étranger.",
+    "Découvrir un restaurant insolite.",
+    "Faire une activité que nous n'avons jamais essayée.",
+    "Partir spontanément pour une journée sans destination précise.",
+    "Faire un voyage en amoureux à la montagne." ] },
+  { id: "defis", name: "Nos défis et nos expériences amusantes", items: [
+    "Faire un karaoké ensemble.",
+    "Faire un concours de cuisine.",
+    "Jouer à un jeu de société.",
+    "Faire un blind test musical.",
+    "Se lancer un défi sportif.",
+    "Faire une bataille de polochons.",
+    "Construire une cabane avec des couvertures.",
+    "Faire une soirée jeux vidéo.",
+    "Faire un TikTok ensemble.",
+    "Se déguiser pour Halloween.",
+    "Faire une journée sans téléphone.",
+    "Tester une recette trouvée sur Internet.",
+    "Faire un puzzle à deux.",
+    "Se faire tatouer quelque chose en commun.",
+    "Apprendre une danse ensemble." ] },
+  { id: "avenir", name: "Notre avenir à deux", items: [
+    "Vivre ensemble.",
+    "Adopter un animal.",
+    "Décorer notre futur logement.",
+    "Fêter Noël ensemble.",
+    "Passer le Nouvel An ensemble.",
+    "Partir en vacances pendant une semaine.",
+    "Faire un voyage en amoureux à l'étranger.",
+    "Construire une bucket list de couple.",
+    "Célébrer notre anniversaire de rencontre chaque année.",
+    "Cuisiner ensemble pour recevoir nos proches.",
+    "Avoir une tradition rien qu'à nous.",
+    "Faire un album photo de notre histoire.",
+    "Assister à un mariage ensemble.",
+    "Acheter quelque chose pour notre futur chez-nous.",
+    "Fêter nos 10 ans ensemble.",
+    "Faire une surprise à l'autre sans occasion particulière." ] },
+  { id: "habitudes", name: "Nos petites habitudes et situations improbables", items: [
+    "Se chamailler pour savoir quel film regarder.",
+    "Se disputer gentiment pour choisir le restaurant.",
+    "Se donner des surnoms ridicules.",
+    "Se raconter les mêmes histoires plusieurs fois.",
+    "Se faire des grimaces.",
+    "Rire pour absolument rien.",
+    "Chanter faux ensemble.",
+    "Se taquiner jusqu'à faire rire l'autre.",
+    "Se voler le plaid.",
+    "Ne pas réussir à se dire au revoir.",
+    "Se perdre en suivant un itinéraire.",
+    "Faire une mauvaise blague et être le seul à rire.",
+    "S'endormir devant un film.",
+    "Commander trop de nourriture.",
+    "Se tromper de chemin pendant une sortie." ] }
 ];
   const BINGO_ALL = [];
   BINGO_CATS.forEach(c => c.items.forEach(t => BINGO_ALL.push({ id: BINGO_ALL.length, cat: c.id, text: t })));
@@ -3103,7 +3155,7 @@ function showPuzzle(lv) {
     body.innerHTML = "";
     body.appendChild(qEl("p", "game-intro", "Coche les situations qui nous ressemblent. Une ligne complète, c'est bingo ! ❤️"));
     const tabs = qEl("div", "bingo-tabs");
-    [["grille", "Grille"], ["liste", "Les 118 situations"]].forEach(([v, label]) => {
+    [["grille", "Grille"], ["liste", "Les " + BINGO_ALL.length + " situations"]].forEach(([v, label]) => {
       tabs.appendChild(bButton("bingo-tab" + (bs.view === v ? " on" : ""), label, () => { bs.view = v; bSave(); bRender(); }));
     });
     body.appendChild(tabs);
