@@ -656,7 +656,7 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
 .tr-fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 70; }
 @media (prefers-reduced-motion: reduce) { .tr * { animation: none !important; transition: none !important; } }
 
-/* ---------- Case 10 : Notre prochain rendez-vous (3 roues) ---------- */
+/* ---------- Case 10 : Notre prochain rendez-vous (2 roulettes) ---------- */
 .modal-content.xwide { width: min(100%, 980px); }
 .rv { --pk:#FBE4E7; --pk2:#F4C6CC; --paper:#FFFCF9; --sand:#F3E6D8; --rd:#B5313F; --rd2:#8E2230; --ink:#45272D; --soft:#80626A; --ln:#EBD3CF; text-align: center; color: var(--ink); }
 .rv [hidden] { display: none !important; }
@@ -672,7 +672,7 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
 .rv button:focus-visible { outline: 3px solid var(--pk2); outline-offset: 2px; }
 .rv-deco { display: flex; justify-content: center; gap: 14px; margin: 6px 0 14px; }
 .rv-deco svg { width: 64px; height: 64px; }
-.rv-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.rv-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; max-width: 720px; margin: 0 auto; }
 .rv-panel { background: var(--paper); border: 2px solid var(--ln); border-radius: 22px; padding: 14px 12px 16px; min-width: 0; }
 .rv-num { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--rd); font-weight: 800; margin: 0; }
 .rv-ptitle { font-family: 'Great Vibes', cursive; font-weight: normal; font-size: 32px; line-height: 1.1; color: var(--rd); margin: 0; }
@@ -688,11 +688,11 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
 .rv-result b { font-size: 15px; line-height: 1.3; }
 .rv-result.hit { background: var(--rd); color: #fff; animation: rvPop .5s both; }
 .rv-result.hit span { color: #FBE4E7; }
-.rv-reveal { margin-top: 18px; background: linear-gradient(#FFFCF9, #FBE4E7); border: 2px solid var(--pk2); border-radius: 24px; padding: 22px 14px; animation: rvReveal .9s cubic-bezier(.3,1.3,.5,1) both; }
+.rv-reveal { max-width: 720px; margin: 18px auto 0; background: linear-gradient(#FFFCF9, #FBE4E7); border: 2px solid var(--pk2); border-radius: 24px; padding: 22px 14px; animation: rvReveal .9s cubic-bezier(.3,1.3,.5,1) both; }
 @keyframes rvReveal { from { opacity: 0; transform: scale(.88) translateY(24px); } to { opacity: 1; transform: none; } }
 @keyframes rvPop { from { opacity: 0; transform: scale(.7) translateY(8px); } to { opacity: 1; transform: none; } }
 .rv-rtitle { font-family: 'Great Vibes', cursive; font-weight: normal; font-size: 38px; line-height: 1.1; color: var(--rd); margin: 2px 0 14px; text-wrap: balance; }
-.rv-rows { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-bottom: 16px; }
+.rv-rows { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-bottom: 16px; }
 .rv-row { background: #fff; border-radius: 16px; padding: 12px 10px; box-shadow: 0 4px 12px -6px rgba(142,34,48,.35); animation: rvPop .6s var(--d, 0s) both; }
 .rv-row small { display: block; font-size: 10px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--rd); font-weight: 800; margin-bottom: 4px; }
 .rv-row b { font-size: 16px; line-height: 1.35; }
@@ -4497,39 +4497,58 @@ const PM_EMBEDDED = {
 
 /* =====================================================
    CASE 10 : NOTRE PROCHAIN RENDEZ-VOUS ❤️
-   Trois roues de la chance : activité, lieu, ambiance.
+   Deux roulettes : l'activité et le lieu.
    Chaque proposition = [texte court sur la roue, texte complet affiché].
    Tu peux modifier, ajouter ou retirer des propositions ici.
-   (Garde un nombre multiple de 4 par roue pour un bel affichage.)
-===================================================== */
+   ===================================================== */
 (function () {
   "use strict";
 
   const KEEP = "rdv-kept";
   const WHEELS = [
     {
-      id: "act", titre: "L'activité", question: "Que va-t-on faire ?", bouton: "Faire tourner l'activité", libelle: "Notre activité", court: "L'activité",
+      id: "act", titre: "L'activité", question: "Que va-t-on faire ensemble ?", bouton: "Faire tourner l'activité", libelle: "Notre activité", court: "L'activité",
       items: [
-        ["Cinéma", "Aller au cinéma"], ["Bowling", "Faire un bowling"], ["Patinoire", "Aller à la patinoire"], ["Escape game", "Faire un escape game"],
-        ["Attractions", "Aller dans un parc d'attractions"], ["Mini-golf", "Faire une partie de mini-golf"], ["Restaurant", "Aller au restaurant"], ["Jeux société", "Faire une soirée jeux de société"],
-        ["Balade en mer", "Faire une balade en bord de mer"], ["Shopping", "Faire une journée shopping"], ["Pique-nique", "Faire un pique-nique"], ["Création", "Faire une activité créative"],
-        ["Un verre", "Aller boire un verre"], ["Ciné maison", "Faire une soirée cinéma à la maison"], ["Nouveauté", "Découvrir une nouvelle activité"], ["Surprise", "Faire une sortie surprise"]
+        ["Bowling", "Bowling"],
+        ["Patinoire", "Patinoire"],
+        ["Atelier cuisine", "Atelier cuisine"],
+        ["Pique-nique", "Pique-nique"],
+        ["Cinéma", "Cinéma"],
+        ["Parc d'attractions", "Parc d'attractions"],
+        ["Atelier créatif", "Atelier créatif"],
+        ["Karaoké", "Karaoké"],
+        ["Jeux de société", "Jeux de société"],
+        ["Escape game", "Escape game"],
+        ["Randonnée", "Randonnée"],
+        ["Journée spa", "Journée spa"],
+        ["Restaurant", "Restaurant"],
+        ["Shopping", "Shopping"],
+        ["Musée", "Musée"],
+        ["Balade à vélo", "Balade à vélo"],
+        ["Concert", "Concert"],
+        ["Blind test", "Blind test"],
+        ["Soirée jeux vidéo", "Soirée jeux vidéo"],
+        ["Séance photo", "Séance photo"]
       ]
     },
     {
-      id: "lieu", titre: "Le lieu", question: "Où allons-nous ?", bouton: "Faire tourner le lieu", libelle: "Notre lieu", court: "Le lieu",
+      id: "lieu", titre: "Le lieu", question: "Où allons-nous passer notre rendez-vous ?", bouton: "Faire tourner le lieu", libelle: "Notre lieu", court: "Le lieu",
       items: [
-        ["Dunkerque", "À Dunkerque"], ["Bray-Dunes", "À Bray-Dunes"], ["Lille", "À Lille"], ["Plage", "À la plage"],
-        ["Parc", "Dans un parc"], ["Centre-ville", "Dans un centre-ville"], ["Lieu inconnu", "Dans un endroit que nous ne connaissons pas"], ["Restaurant", "Dans un restaurant"],
-        ["Maison", "À la maison"], ["À l'improviste", "Dans un lieu choisi au dernier moment"], ["Jolie vue", "Dans un endroit avec une jolie vue"], ["Ville rêvée", "Dans une ville que nous aimerions découvrir"]
-      ]
-    },
-    {
-      id: "amb", titre: "L'ambiance", question: "Quelle sera l'atmosphère ?", bouton: "Faire tourner l'ambiance", libelle: "Notre ambiance", court: "L'ambiance",
-      items: [
-        ["Romantique ❤️", "Romantique ❤️"], ["Drôle 😂", "Drôle et pleine de surprises 😂"], ["Aventurière 🌍", "Aventurière 🌍"], ["Cocooning 🧸", "Cocooning 🧸"],
-        ["Compétitive 🏆", "Compétitive 🏆"], ["Gourmande 🍰", "Gourmande 🍰"], ["Spontanée ✨", "Spontanée ✨"], ["Chic 🥂", "Élégante et chic 🥂"],
-        ["Nostalgique 🥰", "Nostalgique : se remémorer nos souvenirs 🥰"], ["Féerique ✨", "Magique et féerique ✨"], ["Détendue 🌸", "Détendue et sans pression 🌸"], ["Folle 🤪", "Un peu folle 🤪"]
+        ["Plage", "À la plage"],
+        ["Maison", "À la maison"],
+        ["En ville", "En ville"],
+        ["Nature", "En pleine nature"],
+        ["Restaurant", "Au restaurant"],
+        ["Attractions", "Dans un parc d'attractions"],
+        ["Montagne", "À la montagne"],
+        ["Cinéma", "Au cinéma"],
+        ["Café", "Dans un café"],
+        ["Parc", "Dans un parc"],
+        ["Lac", "Au bord d'un lac"],
+        ["Autre ville", "Dans une autre ville"],
+        ["Lieu inconnu", "Dans un endroit que nous ne connaissons pas"],
+        ["Au hasard", "Dans un lieu choisi au hasard"],
+        ["Souvenir", "Dans un endroit qui nous rappelle un souvenir"]
       ]
     }
   ];
@@ -4575,7 +4594,9 @@ const PM_EMBEDDED = {
       c.strokeStyle = "#ffffff"; c.lineWidth = 3; c.stroke();
       c.save(); c.translate(cx, cx); c.rotate(a0 + seg / 2);
       c.textAlign = "right"; c.textBaseline = "middle"; c.fillStyle = "#45272D";
-      c.font = "800 24px Nunito, sans-serif";
+      let fs = 24;
+      c.font = "800 " + fs + "px Nunito, sans-serif";
+      while (fs > 13 && c.measureText(items[i][0]).width > R - 22 - 56) { fs--; c.font = "800 " + fs + "px Nunito, sans-serif"; }
       c.fillText(items[i][0], R - 22, 0);
       c.restore();
     }
@@ -4589,7 +4610,7 @@ const PM_EMBEDDED = {
     root.innerHTML = "";
     const deco = h("div", "rv-deco");
     deco.innerHTML = [0, 1, 2].map(i => `<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="28" fill="${COLORS[i]}" stroke="#B5313F" stroke-width="3"/><path d="M32 32L32 4M32 32L56 46M32 32L8 46" stroke="#fff" stroke-width="2"/><circle cx="32" cy="32" r="7" fill="#B5313F"/></svg>`).join("");
-    const t = h("p", "rv-text"); t.textContent = "Et si on laissait le hasard décider de notre prochaine aventure à deux ? Fais tourner les trois roues et découvre ce que nous réserve notre prochain rendez-vous !";
+    const t = h("p", "rv-text"); t.textContent = "Et si on laissait le hasard décider de notre prochaine aventure à deux ? Fais tourner les deux roulettes et découvre ce que nous réserve notre prochain rendez-vous !";
     const go = h("button", "rv-btn main", "C'est parti !"); go.type = "button";
     go.addEventListener("click", () => viewMain(false));
     root.append(h("p", "rv-kick", "Case 10"), deco, t, go);
@@ -4598,13 +4619,13 @@ const PM_EMBEDDED = {
   /* ---------- Écran des trois roues ---------- */
   function viewMain(autoSpin) {
     root.innerHTML = "";
-    st = { res: [null, null, null], rot: [0, 0, 0], spin: [false, false, false], kept: false };
+    st = { res: WHEELS.map(() => null), rot: WHEELS.map(() => 0), spin: WHEELS.map(() => false), kept: false };
     panels = [];
     const grid = h("div", "rv-grid");
     WHEELS.forEach((w, wi) => {
       const p = h("section", "rv-panel");
-      p.innerHTML = `<p class="rv-num">Roue ${wi + 1}</p><h3 class="rv-ptitle">${w.titre}</h3><p class="rv-q">${w.question}</p>
-        <div class="rv-wheelbox"><div class="rv-pointer"></div><div class="rv-disc"><canvas class="rv-canvas" role="img" aria-label="Roue : ${w.titre}"></canvas></div></div>
+      p.innerHTML = `<p class="rv-num">Roulette ${wi + 1}</p><h3 class="rv-ptitle">${w.titre}</h3><p class="rv-q">${w.question}</p>
+        <div class="rv-wheelbox"><div class="rv-pointer"></div><div class="rv-disc"><canvas class="rv-canvas" role="img" aria-label="Roulette : ${w.titre}"></canvas></div></div>
         <div class="rv-result" aria-live="polite"><span>Résultat</span><b>—</b></div>`;
       const btn = h("button", "rv-btn main", w.bouton); btn.type = "button";
       btn.addEventListener("click", () => spin(wi));
@@ -4620,7 +4641,7 @@ const PM_EMBEDDED = {
     if (autoSpin) spinAll();
   }
 
-  function spinAll() { [0, 1, 2].forEach(i => setTimeout(() => spin(i), i * 450)); }
+  function spinAll() { WHEELS.forEach((_, i) => setTimeout(() => spin(i), i * 450)); }
 
   /* ---------- Rotation d'une roue ---------- */
   function spin(wi) {
@@ -4662,10 +4683,10 @@ const PM_EMBEDDED = {
     reveal.innerHTML = `<p class="rv-kick">Surprise</p><h3 class="rv-rtitle">Notre prochain rendez-vous sera…</h3><div class="rv-rows">${rows()}</div><p class="rv-final"></p>`;
     reveal.querySelector(".rv-final").textContent = FINAL;
     const acts = h("div", "rv-acts");
-    const keep = h("button", "rv-btn main", "Garder ce rendez-vous"), replay = h("button", "rv-btn ghost", "Rejouer une roue"), again = h("button", "rv-btn ghost", "Tout recommencer");
+    const keep = h("button", "rv-btn main", "Garder ce rendez-vous"), replay = h("button", "rv-btn ghost", "Rejouer une roulette"), again = h("button", "rv-btn ghost", "Tout recommencer");
     keep.type = replay.type = again.type = "button";
     const pick = h("div", "rv-pick"); pick.hidden = true;
-    pick.appendChild(h("p", "", "Quelle roue veux-tu relancer ? Les deux autres résultats sont conservés."));
+    pick.appendChild(h("p", "", "Quelle roulette veux-tu relancer ? L'autre résultat est conservé."));
     WHEELS.forEach((w, wi) => {
       const b = h("button", "rv-chip", w.court); b.type = "button";
       b.addEventListener("click", () => { pick.hidden = true; spin(wi); panels[wi].el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" }); });
