@@ -3242,36 +3242,82 @@ const MAZE_WIN_MESSAGE =
     st.pos = 0; st.trail = [0]; st.moves = 0; st.won = false;
     save();
     build();
+    queue = []; celebrated = false; syncVis();
   }
 
   function restart() {
     st.pos = 0; st.trail = [0]; st.moves = 0; st.won = false;
     save();
+    queue = []; celebrated = false; syncVis();
   }
 
   /* ---------- Déplacements ---------- */
-  function moveTo(np) {
+  let vis = null;          // position affichée du cœur (coordonnées de cases) : il glisse en douceur
+  let queue = [];          // cases restant à parcourir
+  let raf = 0, lastT = 0, celebrated = false;
+
+  const cellXY = i => [i % st.size, Math.floor(i / st.size)];
+  function syncVis() { const [c, r] = cellXY(st.pos); vis = { x: c, y: r }; }
+
+  function moveTo(np) {    // met à jour l'état logique d'un pas
     const t = st.trail;
     if (t.length > 1 && t[t.length - 2] === np) t.pop(); else t.push(np);
     st.pos = np;
     st.moves++;
-    const justWon = !st.won && np === st.size * st.size - 1;
-    if (justWon) st.won = true;
+    if (!st.won && np === st.size * st.size - 1) { st.won = true; queue = []; }
     save();
-    draw();
     updateUI();
-    if (justWon) {
+  }
+
+  function kick() { if (!raf) { lastT = 0; raf = requestAnimationFrame(loop); } }
+
+  function loop(t) {
+    raf = 0;
+    if (!document.getElementById("maze-canvas")) { queue = []; return; }
+    const dt = Math.min(50, lastT ? t - lastT : 16);
+    lastT = t;
+    if (!vis) syncVis();
+    let [tc, tr] = cellXY(st.pos);
+    let dist = Math.hypot(tc - vis.x, tr - vis.y);
+    // case suivante dès que le cœur est presque arrivé : le mouvement reste continu
+    if (queue.length && !st.won && dist < 0.3) {
+      moveTo(queue.shift());
+      [tc, tr] = cellXY(st.pos);
+      dist = Math.hypot(tc - vis.x, tr - vis.y);
+    }
+    const speed = (queue.length > 4 ? 20 : queue.length ? 14 : 10) * dt / 1000;   // cases par seconde
+    if (dist <= speed) { vis.x = tc; vis.y = tr; }
+    else { vis.x += (tc - vis.x) / dist * speed; vis.y += (tr - vis.y) / dist * speed; }
+    draw();
+    const arrived = Math.hypot(tc - vis.x, tr - vis.y) < 0.001;
+    if (arrived && st.won && !celebrated) {
+      celebrated = true;
+      updateUI();
+      draw();
       burst();
       const w = document.getElementById("maze-win");
       if (w) setTimeout(() => w.scrollIntoView({ behavior: "smooth", block: "nearest" }), 350);
     }
+    if (!arrived || queue.length) kick();
   }
 
-  function step(di) {
+  /* Flèches / boutons : le cœur glisse tout le long du couloir jusqu'au prochain carrefour. */
+  function run(di) {
     if (st.won) return;
-    const n = st.size, c = st.pos % n, r = (st.pos - c) / n, d = DIRS[di];
-    if (!(cells[st.pos] & d[2])) return;
-    moveTo((r + d[1]) * n + c + d[0]);
+    const n = st.size, out = [];
+    let pos = st.pos, dir = di;
+    for (let guard = 0; guard < n * n; guard++) {
+      const d = DIRS[dir];
+      if (!(cells[pos] & d[2])) break;
+      const c = pos % n, r = (pos - c) / n;
+      pos = (r + d[1]) * n + c + d[0];
+      out.push(pos);
+      if (pos === n * n - 1) break;
+      const exits = [0, 1, 2, 3].filter(k => (cells[pos] & DIRS[k][2]) && k !== (dir + 2) % 4);
+      if (exits.length !== 1) break;      // carrefour ou impasse : on s'arrête
+      dir = exits[0];
+    }
+    if (out.length) { queue = out; kick(); }
   }
 
   /* Plus court chemin (en suivant les couloirs) de la position actuelle vers "target". */
@@ -3308,26 +3354,31 @@ const MAZE_WIN_MESSAGE =
     return r * n + c;
   }
 
+  /* Doigt / souris : le cœur suit les couloirs vers la case touchée (jamais à travers un mur). */
   function onPointer(e) {
     if (st.won) return;
-    const cv = e.currentTarget;
-    const target = pointerCell(e, cv);
-    if (target < 0 || target === st.pos) return;
-    const p = pathTo(target, 3);          // on suit les couloirs, jamais à travers un mur
-    if (p) p.forEach(cell => { if (!st.won) moveTo(cell); });
+    const target = pointerCell(e, e.currentTarget);
+    if (target < 0) return;
+    if (target === st.pos) { queue = []; return; }
+    const p = pathTo(target, 16);
+    if (p) { queue = p; kick(); }
   }
 
   /* ---------- Dessin ---------- */
   function draw() {
     const cv = document.getElementById("maze-canvas");
     if (!cv || !cells) return;
+    if (!vis) syncVis();
     const holder = cv.parentElement;
     const size = Math.max(200, Math.min(holder.clientWidth || 360, 460));
     const dpr = window.devicePixelRatio || 1;
-    cv.style.width = size + "px";
-    cv.style.height = size + "px";
-    cv.width = Math.round(size * dpr);
-    cv.height = Math.round(size * dpr);
+    const px = Math.round(size * dpr);
+    if (cv.width !== px || cv.style.width !== size + "px") {
+      cv.style.width = size + "px";
+      cv.style.height = size + "px";
+      cv.width = px;
+      cv.height = px;
+    }
     const ctx = cv.getContext("2d");
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, size, size);
@@ -3335,20 +3386,24 @@ const MAZE_WIN_MESSAGE =
     const n = st.size, pad = 8, cs = (size - pad * 2) / n;
     const cx = i => pad + (i % n) * cs + cs / 2;
     const cy = i => pad + Math.floor(i / n) * cs + cs / 2;
+    const vx = pad + (vis.x + 0.5) * cs, vy = pad + (vis.y + 0.5) * cs;
 
     // case d'arrivée en surbrillance
     const end = n * n - 1;
     ctx.fillStyle = "#f6e7bf";
     ctx.fillRect(pad + (n - 1) * cs, pad + (n - 1) * cs, cs, cs);
 
-    // fil d'Ariane
-    if (st.trail.length > 1) {
+    // fil d'Ariane (jusqu'à la position affichée du cœur)
+    if (st.trail.length > 1 || queue.length) {
       ctx.strokeStyle = "rgba(165,43,64,.35)";
       ctx.lineWidth = cs * 0.32;
       ctx.lineCap = "round";
       ctx.lineJoin = "round";
       ctx.beginPath();
-      st.trail.forEach((i, k) => k ? ctx.lineTo(cx(i), cy(i)) : ctx.moveTo(cx(i), cy(i)));
+      st.trail.slice(0, -1).forEach((i, k) => k ? ctx.lineTo(cx(i), cy(i)) : ctx.moveTo(cx(i), cy(i)));
+      const last = st.trail[st.trail.length - 1];
+      if (st.trail.length > 1) ctx.lineTo(cx(last), cy(last)); else ctx.moveTo(cx(last), cy(last));
+      ctx.lineTo(vx, vy);
       ctx.stroke();
     }
 
@@ -3372,12 +3427,12 @@ const MAZE_WIN_MESSAGE =
     ctx.textBaseline = "middle";
     ctx.font = Math.round(cs * 0.62) + "px " + EMOJI_FONT;
     ctx.fillText(MAZE_END_EMOJI, cx(end), cy(end) + cs * 0.03);
-    if (st.won) {
+    if (st.won && celebrated) {
       ctx.font = Math.round(cs * 0.4) + "px " + EMOJI_FONT;
       ctx.fillText(MAZE_START_EMOJI, cx(end) + cs * 0.28, cy(end) - cs * 0.3);
     } else {
       ctx.font = Math.round(cs * 0.62) + "px " + EMOJI_FONT;
-      ctx.fillText(MAZE_START_EMOJI, cx(st.pos), cy(st.pos) + cs * 0.03);
+      ctx.fillText(MAZE_START_EMOJI, vx, vy + cs * 0.03);
     }
   }
 
@@ -3386,10 +3441,11 @@ const MAZE_WIN_MESSAGE =
     const status = document.getElementById("maze-status");
     const win = document.getElementById("maze-win");
     if (!status || !win) return;
-    status.textContent = st.won
+    const fin = st.won && celebrated;
+    status.textContent = fin
       ? "Arrivé en " + st.moves + " pas ! 🎉"
       : (st.moves ? "Pas : " + st.moves : "Fais glisser le cœur ou utilise les flèches");
-    win.style.display = st.won ? "block" : "none";
+    win.style.display = fin ? "block" : "none";
   }
 
   function burst() {
@@ -3432,12 +3488,13 @@ const MAZE_WIN_MESSAGE =
     cv.setAttribute("aria-label", "Labyrinthe : guide le cœur jusqu'à la destination");
     cv.addEventListener("pointerdown", e => { cv.setPointerCapture(e.pointerId); onPointer(e); });
     cv.addEventListener("pointermove", e => { if (e.buttons || e.pointerType === "touch") onPointer(e); });
+    cv.addEventListener("pointerup", e => { if (cv.hasPointerCapture(e.pointerId)) cv.releasePointerCapture(e.pointerId); });
     wrap.appendChild(cv);
     body.appendChild(wrap);
 
     const pad = qEl("div", "maze-pad");
     [["up", "↑", 0, "Haut"], ["left", "←", 3, "Gauche"], ["down", "↓", 2, "Bas"], ["right", "→", 1, "Droite"]].forEach(([cls, sym, di, label]) => {
-      pad.appendChild(mButton("maze-key " + cls, sym, () => step(di), label));
+      pad.appendChild(mButton("maze-key " + cls, sym, () => run(di), label));
     });
     body.appendChild(pad);
 
@@ -3462,12 +3519,13 @@ const MAZE_WIN_MESSAGE =
     const map = { ArrowUp: 0, ArrowRight: 1, ArrowDown: 2, ArrowLeft: 3, w: 0, d: 1, s: 2, a: 3 };
     if (!(e.key in map)) return;
     e.preventDefault();
-    step(map[e.key]);
+    run(map[e.key]);
   });
   window.addEventListener("resize", draw);
 
   window.showMaze = function () {
     if (!valid()) newMaze(SIZES[st.size] ? st.size : 11); else build();
+    queue = []; celebrated = st.won; syncVis();
     render();
   };
 })();
