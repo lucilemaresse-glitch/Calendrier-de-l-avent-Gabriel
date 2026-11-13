@@ -5598,38 +5598,64 @@ const PM_EMBEDDED = {
 (function () {
   "use strict";
 
-  const CATS = ["❤️ Amour et couple", "🌍 Voyages et aventures", "😂 Dilemmes amusants", "🍿 Goûts et loisirs", "💕 Notre avenir et nos envies"];
+  const CATS = ["❤️ Amour et romantisme", "🏡 Notre quotidien à deux", "🌍 Voyage et aventure", "😂 Drôle et insolite", "💕 Notre avenir", "💘 Les dilemmes de couple", "🤔 Les questions un peu plus profondes"];
   const D = [
-    [0, "💋", "Recevoir 100 petits bisous", "🤗", "Recevoir un énorme câlin de 10 minutes"],
-    [0, "🕯️", "Une soirée romantique aux chandelles", "😂", "Une soirée à rire ensemble devant un film"],
-    [0, "🎒", "Partir en week-end surprise avec moi", "🗺️", "Organiser ensemble notre prochain voyage"],
-    [0, "💌", "Recevoir une lettre d'amour", "🎁", "Recevoir un cadeau surprise"],
-    [0, "📵", "Passer une journée entière à deux sans téléphone", "🌙", "Passer une soirée entière à discuter jusqu'au bout de la nuit"],
-    [0, "🥰", "Revivre notre premier rendez-vous", "😘", "Revivre notre premier bisou"],
-    [1, "🏔️", "Partir une semaine à la montagne", "🏖️", "Partir une semaine au bord de la mer"],
-    [1, "🏙️", "Visiter une grande ville inconnue", "🏡", "Découvrir un petit village plein de charme"],
-    [1, "🚗", "Faire un road trip sans itinéraire", "🏨", "Partir dans un hôtel de luxe"],
-    [1, "🌳", "Dormir dans une cabane dans les arbres", "🌊", "Dormir dans un hôtel avec vue sur la mer"],
-    [1, "✈️", "Partir à l'autre bout du monde", "📍", "Découvrir une destination près de chez toi"],
-    [1, "🎢", "Faire un voyage rempli d'activités", "🛋️", "Passer des vacances tranquilles sans programme"],
-    [2, "🍕", "Ne plus jamais manger de pizza", "🍔", "Ne plus jamais manger de burgers"],
-    [2, "🎤", "Chanter devant 100 personnes", "💃", "Danser devant 100 personnes"],
-    [2, "⏰", "Toujours arriver 30 minutes en avance", "🐢", "Toujours avoir 15 minutes de retard"],
-    [2, "😮", "Avoir le hoquet pendant une journée entière", "🤧", "Éternuer toutes les cinq minutes"],
-    [2, "🎬", "Ne plus jamais regarder de films", "📺", "Ne plus jamais regarder de séries"],
-    [2, "🧠", "Pouvoir lire dans les pensées", "🫥", "Pouvoir devenir invisible"],
-    [3, "🍿", "Une soirée cinéma avec plein de snacks", "🎲", "Une soirée jeux de société"],
-    [3, "🍽️", "Manger au restaurant", "👩‍🍳", "Cuisiner un bon repas à la maison"],
-    [3, "🎧", "Écouter de la musique toute la journée", "📺", "Regarder tes séries préférées toute la journée"],
-    [3, "🎸", "Aller à un concert de ton artiste préféré", "🎪", "Aller à un festival de musique"],
-    [3, "🏃", "Faire une activité sportive ensemble", "🎨", "Faire une activité créative ensemble"],
-    [3, "🧰", "Recevoir un cadeau utile", "🎉", "Recevoir un cadeau complètement inattendu"],
-    [4, "🌾", "Vivre dans une grande maison à la campagne", "🌆", "Vivre dans un bel appartement en ville"],
-    [4, "🐶", "Adopter un chien", "🐱", "Adopter un chat"],
-    [4, "🏠", "Construire une maison ensemble", "🌍", "Voyager pendant un an ensemble"],
-    [4, "🍷", "Avoir une soirée en amoureux chaque semaine", "🧳", "Partir en week-end en amoureux chaque mois"],
-    [4, "📸", "Pouvoir revivre tous nos meilleurs souvenirs", "🔮", "Découvrir dès maintenant tous les beaux moments qui nous attendent"],
-    [4, "🎀", "Me faire une surprise", "💝", "Que je te fasse une surprise"]
+    [0, "🤗", "Un long câlin", "😘", "Un long bisou"],
+    [0, "💌", "Recevoir une lettre d'amour", "🎁", "Un cadeau surprise"],
+    [0, "🕯️", "Une soirée romantique aux chandelles", "🧸", "Une soirée cocooning sous un plaid"],
+    [0, "✨", "Regarder les étoiles ensemble", "🌅", "Admirer un coucher de soleil"],
+    [0, "💬", "Recevoir 100 petits messages d'amour", "📜", "Un seul très long message"],
+    [0, "🎒", "Être surpris par une escapade romantique", "🗓️", "Organiser toi-même notre rendez-vous"],
+    [0, "💃", "Danser un slow avec moi", "🎤", "Chanter ensemble à tue-tête"],
+    [0, "💋", "Revivre notre premier baiser", "🥰", "Notre première rencontre"],
+    [1, "👩‍🍳", "Cuisiner ensemble", "🛵", "Commander à manger"],
+    [1, "🚿", "Prendre une douche ensemble", "🛁", "Prendre un bain ensemble"],
+    [1, "🫂", "Dormir dans les bras l'un de l'autre", "🛏️", "Avoir chacun son espace dans le lit"],
+    [1, "🏠", "Passer une journée entière à la maison", "🚶", "Sortir toute la journée"],
+    [1, "🛒", "Faire les courses ensemble", "🧽", "Faire le ménage ensemble"],
+    [1, "🥐", "Prendre le petit-déjeuner au lit", "🍽️", "Préparer un dîner à deux"],
+    [1, "📺", "Regarder une série toute la soirée", "🎲", "Jouer à des jeux ensemble"],
+    [1, "🧳", "Partir en week-end sur un coup de tête", "📋", "Planifier chaque détail"],
+    [2, "🏖️", "Partir une semaine à la mer", "🏔️", "Une semaine à la montagne"],
+    [2, "🏙️", "Visiter une grande ville", "🏡", "Découvrir un petit village"],
+    [2, "🚗", "Faire un road trip", "✈️", "Prendre l'avion vers une destination inconnue"],
+    [2, "🏨", "Dormir dans un hôtel de luxe", "🛖", "Dans un petit chalet insolite"],
+    [2, "📵", "Partir à l'aventure sans téléphone", "📶", "Ne jamais perdre ta connexion Internet"],
+    [2, "🎢", "Visiter un parc d'attractions", "🥾", "Faire une randonnée avec une belle vue"],
+    [2, "🌍", "Découvrir un nouveau pays", "🔁", "Retourner dans un endroit qu'on a adoré"],
+    [2, "☀️", "Partir en vacances en été", "❄️", "En hiver"],
+    [3, "🍕", "Ne plus jamais pouvoir manger de pizza", "🍔", "Ne plus jamais pouvoir manger de burgers"],
+    [3, "🎶", "Parler en chantant", "💃", "Danser à chaque fois que tu marches"],
+    [3, "🐢", "Avoir toujours 10 minutes de retard", "⏰", "Toujours 30 minutes d'avance"],
+    [3, "📱", "Échanger nos téléphones pendant une journée", "👗", "Échanger nos vêtements pendant une semaine"],
+    [3, "🎧", "Vivre sans musique", "🎬", "Sans films et séries"],
+    [3, "😮", "Avoir le hoquet à chaque fois que tu embrasses quelqu'un", "🤧", "Éternuer à chaque câlin"],
+    [3, "🤥", "Ne plus jamais pouvoir mentir", "🗣️", "Devoir dire tout ce que tu penses"],
+    [3, "🛗", "Être coincé dans un ascenseur avec moi pendant 3 heures", "🗺️", "Te perdre avec moi dans une ville inconnue"],
+    [4, "🌾", "Vivre à la campagne", "🌆", "En ville avec moi"],
+    [4, "🏠", "Avoir une grande maison", "🏢", "Un petit appartement très cosy"],
+    [4, "🐶", "Adopter un chien", "🐱", "Un chat"],
+    [4, "✈️", "Voyager pendant un an", "🔑", "Acheter notre futur logement"],
+    [4, "🎄", "Fêter Noël en famille", "🌴", "Partir en vacances tous les deux"],
+    [4, "🏗️", "Construire une maison ensemble", "🔨", "Rénover une ancienne maison"],
+    [4, "🌳", "Avoir un jardin", "🌇", "Une grande terrasse"],
+    [4, "😌", "Avoir une vie tranquille", "🧭", "Une vie remplie d'aventures"],
+    [5, "🧠", "Que je puisse lire dans tes pensées", "🔮", "Que tu puisses lire dans les miennes"],
+    [5, "😘", "Qu'on ne puisse plus jamais se faire de bisous", "🤗", "Plus jamais se faire de câlins"],
+    [5, "🔄", "Revivre notre rencontre tous les ans", "📸", "Découvrir chaque année un nouveau souvenir ensemble"],
+    [5, "💬", "Ne plus jamais pouvoir m'envoyer de messages", "📞", "Ne plus jamais pouvoir m'appeler"],
+    [5, "🧲", "Passer 24 heures collés l'un à l'autre", "📅", "Une semaine sans se voir"],
+    [5, "😂", "Connaître la date de notre prochain gros fou rire", "🧳", "Celle de notre prochain voyage"],
+    [5, "🎟️", "Que je choisisse toutes nos prochaines sorties", "🍴", "Que tu choisisses tous nos prochains repas"],
+    [5, "⏸️", "Pouvoir arrêter le temps pendant nos meilleurs moments", "⏪", "Pouvoir les revivre à volonté"],
+    [6, "🌟", "Être aimé pour ta personnalité", "🤝", "Pour tout ce que tu fais pour les autres"],
+    [6, "🗂️", "Connaître tous mes souvenirs", "💭", "Tous mes rêves"],
+    [6, "💞", "Qu'on se dise absolument tout", "🔒", "Qu'on garde chacun un petit jardin secret"],
+    [6, "🎉", "Vivre une histoire d'amour pleine de surprises", "🛡️", "Une histoire d'amour très rassurante"],
+    [6, "👯", "Qu'on ait exactement les mêmes goûts", "🔍", "Qu'on continue à se faire découvrir de nouvelles choses"],
+    [6, "🍬", "Recevoir beaucoup de petites attentions", "💍", "Quelques grandes preuves d'amour"],
+    [6, "🪄", "Qu'on ait une tradition rien qu'à nous", "🔄", "Qu'on invente toujours de nouvelles habitudes"],
+    [6, "💭", "Savoir ce que je pense de toi", "🔮", "Ce que j'imagine pour notre avenir"]
   ];
   const N = D.length;
   const FINAL = "Et voilà, tu as fait tous tes choix ! ❤️ Il y a des réponses auxquelles je m'attendais et d'autres qui m'ont peut-être surprise. L'essentiel, c'est qu'on puisse partager encore plein de choses ensemble !";
@@ -5666,7 +5692,7 @@ const PM_EMBEDDED = {
     root.appendChild(h("p", "tp-kick", "Case 15"));
     root.appendChild(h("div", "tp-icons", "<span aria-hidden='true'>🤔</span><span aria-hidden='true'>❤️</span><span aria-hidden='true'>🤔</span>"));
     const t = h("h3", "tp-title"); t.textContent = "Tu préfères ?"; root.appendChild(t);
-    const p = h("p", "tp-text"); p.textContent = "30 petits dilemmes, parfois romantiques, parfois complètement fous. À chaque fois, choisis la proposition qui te ressemble le plus. Il n'y a pas de mauvaise réponse !"; root.appendChild(p);
+    const p = h("p", "tp-text"); p.textContent = N + " petits dilemmes, parfois romantiques, parfois complètement fous. À chaque fois, choisis la proposition qui te ressemble le plus. Il n'y a pas de mauvaise réponse !"; root.appendChild(p);
     const go = h("button", "tp-btn main", "C'est parti !"); go.type = "button";
     go.addEventListener("click", start);
     const acts = h("div", "tp-acts"); acts.appendChild(go); root.appendChild(acts);
