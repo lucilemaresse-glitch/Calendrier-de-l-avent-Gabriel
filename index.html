@@ -6244,24 +6244,21 @@ const PM_EMBEDDED = {
   "use strict";
   const { h, toTop, burstAt, sel } = window.AV;
   const CATS = [
-    ["✈️", "Voyages et découvertes", [
-      ["🇯🇵", "Visiter le Japon ensemble 🇯🇵"], ["🏙️", "Découvrir une nouvelle ville"], ["🧳", "Partir en week-end à deux"], ["🚗", "Faire un road trip"],
-      ["🌍", "Partir en vacances à l'étranger"], ["🏕️", "Dormir dans un hôtel insolite"], ["🏞️", "Découvrir un endroit magnifique"], ["🗺️", "Visiter un pays que nous ne connaissons pas"]]],
-    ["💕", "Moments romantiques", [
-      ["🌅", "Regarder un coucher de soleil sur la plage"], ["✨", "Observer les étoiles ensemble"], ["🧺", "Faire un pique-nique romantique"], ["🫶", "Passer une journée entière rien que tous les deux"],
-      ["🎆", "Fêter le Nouvel An ensemble"], ["📸", "Prendre une photo au même endroit chaque année"], ["🕯️", "Créer une tradition rien qu'à nous"], ["💌", "Écrire une lettre à ouvrir dans quelques années"]]],
-    ["🎢", "Activités et aventures", [
-      ["🎡", "Faire un parc d'attractions ensemble"], ["🎤", "Assister à un concert"], ["🎯", "Tester une activité que nous n'avons jamais faite"], ["📵", "Faire une journée sans téléphone"],
-      ["🎪", "Aller à un festival"], ["🎲", "Faire une sortie improvisée"], ["😱", "Faire une activité qui nous fait un peu peur"], ["🎨", "Découvrir un nouveau loisir ensemble"]]],
-    ["🍿", "Petits plaisirs à deux", [
-      ["👩‍🍳", "Cuisiner un repas entièrement ensemble"], ["🃏", "Faire une soirée jeux"], ["🎬", "Organiser une soirée cinéma à la maison"], ["🍣", "Goûter plein de spécialités japonaises"],
-      ["🛍️", "Faire une journée shopping"], ["📖", "Créer un album photo de notre couple"], ["🍕", "Faire une bataille de nourriture"], ["🛋️", "Passer une journée à ne rien prévoir"]]],
-    ["🏡", "Nos rêves pour plus tard", [
-      ["🏠", "Avoir notre petit chez-nous"], ["🐾", "Adopter un animal ensemble"], ["🪴", "Décorer notre intérieur à deux"], ["🏖️", "Partir en vacances chaque année"],
-      ["🔁", "Créer nos propres habitudes"], ["🧸", "Construire un endroit où nous nous sentons bien"], ["🎂", "Célébrer plusieurs anniversaires de couple ensemble"], ["🌟", "Réaliser un grand projet à deux"]]]
+    ["✈️", "Voyages et aventures", [
+      ["🏙️", "Partir en week-end dans une ville inconnue"], ["🚗", "Faire un road trip à deux"], ["🌍", "Voyager dans un pays que nous rêvons de visiter"], ["🛫", "Prendre l'avion ensemble"], ["🛖", "Dormir dans un logement insolite"], ["🏖️", "Partir à la mer pendant plusieurs jours"], ["🏰", "Découvrir une capitale européenne"], ["🧭", "Faire un voyage sans programme précis"], ["🌅", "Admirer un coucher de soleil dans un endroit magnifique"], ["🎒", "Partir spontanément pour une journée"]]],
+    ["💕", "Romantisme et moments à deux", [
+      ["🧺", "Faire un pique-nique au coucher du soleil"], ["✨", "Regarder les étoiles allongés côte à côte"], ["🕯️", "Organiser un dîner aux chandelles à la maison"], ["💌", "Écrire une lettre d'amour à ouvrir dans quelques années"], ["🥰", "Recréer notre premier rendez-vous"], ["📸", "Faire une séance photo de couple"], ["💃", "Danser un slow dans le salon"], ["📵", "Passer une journée entière sans téléphone"], ["💆", "Se faire un massage chacun son tour"], ["🎂", "Célébrer notre anniversaire de couple d'une manière spéciale"]]],
+    ["🎢", "Défis et nouvelles expériences", [
+      ["🔐", "Faire un escape game ensemble"], ["😱", "Tester une activité qui nous fait un peu peur"], ["🕺", "Prendre un cours de danse"], ["🎤", "Faire du karaoké"], ["🏅", "Participer à un défi sportif à deux"], ["🎯", "Essayer une activité complètement insolite"], ["👩‍🍳", "Faire un atelier de cuisine ou de pâtisserie"], ["📚", "Apprendre quelque chose de nouveau ensemble"], ["🎁", "Faire une journée où chacun choisit une activité surprise"], ["📆", "Se lancer un défi pendant 30 jours"]]],
+    ["🍿", "Gourmandises et plaisirs", [
+      ["🙈", "Faire une soirée dégustation à l'aveugle"], ["🍽️", "Préparer un repas de trois plats ensemble"], ["🥞", "Faire une soirée crêpes"], ["🍴", "Tester un restaurant que nous ne connaissons pas"], ["🧑‍🍳", "Créer notre recette signature"], ["🧁", "Faire un concours de pâtisserie"], ["🥐", "Organiser un brunch maison"], ["🌏", "Goûter une spécialité d'un autre pays"], ["🎬", "Faire une soirée cinéma avec un énorme plateau de gourmandises"], ["🛏️", "Préparer un petit-déjeuner au lit"]]],
+    ["📸", "Souvenirs et traditions", [
+      ["📖", "Créer un album photo de notre couple"], ["📦", "Faire une boîte à souvenirs"], ["📝", "Écrire une liste de nos meilleurs souvenirs chaque année"], ["🪄", "Créer une tradition rien qu'à nous"], ["📍", "Prendre une photo au même endroit chaque année"], ["🎞️", "Faire une vidéo de nos meilleurs moments"], ["🎶", "Créer une playlist de notre couple"], ["🎄", "Célébrer Noël ensemble"], ["🎆", "Fêter le Nouvel An ensemble"], ["⏳", "Ouvrir une lettre que nous nous sommes écrite dans cinq ans"]]],
+    ["🏡", "Projets et futur", [
+      ["🏠", "Vivre ensemble"], ["🪴", "Décorer notre futur logement"], ["🐾", "Adopter un animal"], ["🗺️", "Faire un grand voyage ensemble"], ["🧸", "Construire notre petit cocon"], ["👨‍👩‍👧", "Organiser des vacances en famille"], ["📌", "Avoir un endroit préféré rien qu'à nous"], ["🌟", "Réaliser un rêve important de l'autre"], ["🗒️", "Créer une liste de projets pour les cinq prochaines années"], ["🔭", "Continuer à découvrir de nouvelles choses ensemble"]]]
   ];
   const FINAL = "Ce ne sont que quelques idées parmi toutes les aventures qui nous attendent. J'ai hâte de réaliser tous ces projets avec toi, de découvrir de nouveaux endroits et surtout de continuer à construire notre histoire. ❤️";
-  const KEY = "bucket-state";
+  const KEY = "bucket-state-v2";
   let run = 0, root, S;
 
   const save = () => store(KEY, S);
@@ -6347,18 +6344,18 @@ const PM_EMBEDDED = {
     });
 
     /* catégorie personnalisée */
-    const cs = section("💫", "Nos propres idées", "u");
+    const cs = section("💫", "Notre liste personnelle", "u");
     cs._ids = () => S.custom.map(x => "u" + x.id);
     const form = h("form", "bl-form"); form.setAttribute("aria-label", "Ajouter une idée");
-    const inp = h("input", "bl-in"); inp.placeholder = "Une nouvelle idée à ajouter…"; inp.maxLength = 120; inp.setAttribute("aria-label", "Nouvelle idée");
-    const add = h("button", "av-btn main", "Ajouter"); add.type = "submit"; add.style.minHeight = "46px";
+    const inp = h("input", "bl-in"); inp.placeholder = "Les choses que tu aimerais qu'on fasse ensemble"; inp.maxLength = 120; inp.setAttribute("aria-label", "Nouvelle idée");
+    const add = h("button", "av-btn main", "Ajouter à notre liste"); add.type = "submit"; add.style.minHeight = "46px";
     form.append(inp, add);
     form.addEventListener("submit", e => {
       e.preventDefault(); const v = inp.value.trim(); if (!v) return;
       S.custom.push({ id: Date.now().toString(36) + Math.floor(Math.random() * 99), t: v }); inp.value = ""; save(); renderCustom(); refresh();
     });
-    cs.insertBefore(form, cs._grid); secs.appendChild(cs); sections.push(cs);
-    const empty = h("p", "bl-empty", "Aucune idée ajoutée pour l'instant. Écris la tienne juste au-dessus !");
+    cs.insertBefore(form, cs._grid); cs.insertBefore(h("p", "av-note", "Pour terminer, c'est à toi d'ajouter tes propres envies : les choses que tu aimerais qu'on fasse ensemble."), form); secs.appendChild(cs); sections.push(cs);
+    const empty = h("p", "bl-empty", "Aucune envie ajoutée pour l'instant. Écris la tienne juste au-dessus !");
     cs.appendChild(empty);
 
     function renderCustom() {
