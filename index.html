@@ -1134,6 +1134,8 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
 .qs-pill { font-size: 12px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; background: rgba(255,255,255,.16); border-radius: 999px; padding: 6px 14px; }
 .qs-q { font-family: 'Great Vibes', cursive; font-size: 33px; line-height: 1.25; margin: 0; text-wrap: balance; }
 .qs-q.long { font-size: 29px; }
+.qs-ans { display: block; width: 100%; box-sizing: border-box; min-height: 84px; margin: 14px 0 0; padding: 10px 12px; border-radius: 14px; border: 2px solid rgba(255,255,255,.35); background: rgba(255,255,255,.95); color: #4A1620; font: inherit; font-size: 15px; resize: vertical; }
+.qs-ans:focus { outline: none; border-color: #F4C6CC; box-shadow: 0 0 0 3px rgba(244,198,204,.45); }
 .qs-hint { font-size: 12.5px; color: #F4C6CC; margin: 0; }
 .qs-nav { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 14px; }
 .qs-sum { text-align: left; display: grid; gap: 8px; margin: 12px auto; max-width: 480px; }
@@ -6503,6 +6505,7 @@ const PM_EMBEDDED = {
   CATS.forEach((c, ci) => c[2].forEach(q => QS.push({ ci, q })));
   const N = QS.length;
   let run = 0, root;
+  let notes = load("qs-notes-v1", {}); if (!notes || typeof notes !== "object") notes = {};
 
   function start() {
     const g = { order: shuffle(QS.map((_, i) => i)), pos: 0, st: new Array(N).fill(null), back: false };
@@ -6523,8 +6526,11 @@ const PM_EMBEDDED = {
     const card = h("div", "qs-card" + (g.back ? " back" : ""));
     const pill = h("span", "qs-pill"); pill.textContent = c[0] + " " + c[1];
     const qt = h("p", "qs-q" + (q.q.length > 70 ? " long" : "")); qt.textContent = q.q;
-    const hint = h("p", "qs-hint", "Prends le temps d'y réfléchir, à voix haute ou dans ta tête. Il n'y a pas de bonne réponse.");
-    card.append(pill, qt, hint);
+    const hint = h("p", "qs-hint", "Prends le temps d'y réfléchir. Il n'y a pas de bonne réponse.");
+    const ta = h("textarea", "qs-ans"); ta.placeholder = "Écris ta réponse ici…"; ta.rows = 3; ta.maxLength = 1500; ta.setAttribute("aria-label", "Ta réponse");
+    ta.value = notes[qi] || "";
+    ta.addEventListener("input", () => { notes[qi] = ta.value; store("qs-notes-v1", notes); });
+    card.append(pill, qt, ta, hint);
     stage.append(stars, card);
     const prev = h("button", "av-btn ghost", "← Précédente"); prev.type = "button"; prev.disabled = g.pos === 0;
     const skip = h("button", "av-btn ghost", "Passer cette question"); skip.type = "button";
@@ -6737,31 +6743,43 @@ const PM_EMBEDDED = {
   "use strict";
   const { h, toTop, burst, reduce, sel } = window.AV;
   const PROFILS = {
-    A: { e: "🌍", t: "Les aventuriers", bg: "linear-gradient(150deg,#D9704A,#B5313F)", d: "Vous aimez découvrir, bouger et vivre de nouvelles expériences.", p: "Avec vous, pas question de s'ennuyer : un nouvel endroit, une idée un peu folle, et c'est parti. Vous transformez chaque sortie en petite expédition, et vos plus beaux souvenirs sont ceux que personne n'avait prévus.", c: ["Toujours partants pour une nouvelle découverte", "Une belle énergie à deux", "Des souvenirs qui sortent de l'ordinaire"] },
-    F: { e: "💕", t: "Les amoureux fusionnels", bg: "linear-gradient(150deg,#E58C99,#B5313F)", d: "Vous adorez passer du temps ensemble et profiter de votre petite bulle.", p: "Quand vous êtes ensemble, le reste du monde peut attendre. Votre force : vous vous sentez bien, simplement côte à côte, dans votre cocon à vous où tout est doux et évident.", c: ["Une vraie bulle à deux", "Un confort et une tendresse du quotidien", "Des moments simples qui comptent énormément"] },
-    R: { e: "😂", t: "Les complices rigolos", bg: "linear-gradient(150deg,#E9A23B,#C9552F)", d: "Les taquineries, les fous rires et les délires font partie de votre quotidien.", p: "Chez vous, on se chambre avec amour et on rit pour un rien. Vos blagues que personne d'autre ne comprend sont votre petit langage secret, et votre complicité se voit dès que vous vous regardez.", c: ["Des fous rires à n'importe quel moment", "Des private jokes rien qu'à vous", "Une complicité qui rend tout plus léger"] },
-    M: { e: "🌹", t: "Les romantiques", bg: "linear-gradient(150deg,#C7506A,#8E2230)", d: "Vous aimez les petites attentions, les moments tendres et les surprises.", p: "Un petit mot, un geste, une surprise au bon moment : vous savez rendre les choses spéciales. Votre histoire est faite de tendresse et d'attentions qui se remarquent.", c: ["Des attentions qui font fondre", "Un goût pour les moments tendres", "L'art de faire des surprises"] },
-    G: { e: "🍓", t: "Les gourmands épicuriens", bg: "linear-gradient(150deg,#D6567A,#9B2B4F)", d: "Vous aimez partager des repas, découvrir de nouvelles saveurs et profiter des plaisirs simples.", p: "Pour vous, un bon repas à deux est un vrai rendez-vous. Vous aimez goûter, partager, cuisiner ensemble et savourer les petits plaisirs, et c'est souvent autour d'une table que naissent vos meilleurs moments.", c: ["Un bon repas vaut toutes les sorties", "La curiosité de goûter de nouvelles choses", "Le plaisir des petits bonheurs simples"] },
-    V: { e: "✨", t: "Les rêveurs ambitieux", bg: "linear-gradient(150deg,#8A6FB5,#B5313F)", d: "Vous aimez imaginer votre avenir et construire de beaux projets ensemble.", p: "Vous regardez loin, et vous le faites à deux. Un voyage à préparer, un chez-vous à imaginer, un grand projet : vous avez toujours une belle idée en tête pour la suite de votre histoire.", c: ["Plein de projets à vivre ensemble", "Une belle façon de regarder vers l'avenir", "L'envie de construire quelque chose de beau"] }
+    C: { e: "🤝", t: "Le couple complice et inséparable", s: "complice", bg: "linear-gradient(150deg,#E9A23B,#C9552F)", d: "Vous êtes aussi bien amoureux qu'amis. Vous adorez rire, vous taquiner et partager les petites choses du quotidien. Votre force, c'est votre complicité naturelle.", p: "", c: [] },
+    K: { e: "🧸", t: "Le couple cocooning", s: "cocooning", bg: "linear-gradient(150deg,#E58C99,#B5313F)", d: "Votre bonheur se trouve dans les choses simples. Un film, des câlins, une soirée tranquille et vous êtes heureux. Votre petit monde à deux vous suffit.", p: "", c: [] },
+    A: { e: "🌍", t: "Le couple aventurier", s: "aventurier", bg: "linear-gradient(150deg,#D9704A,#B5313F)", d: "Vous aimez découvrir, essayer de nouvelles choses et créer des souvenirs. Vous avez toujours une prochaine activité ou une nouvelle aventure à imaginer.", p: "", c: [] },
+    R: { e: "🌹", t: "Le couple romantique", s: "romantique", bg: "linear-gradient(150deg,#C7506A,#8E2230)", d: "Les petites attentions, les gestes tendres et les moments à deux occupent une place importante. Vous aimez vous montrer que vous comptez l'un pour l'autre.", p: "", c: [] },
+    S: { e: "🎉", t: "Le couple spontané et un peu fou", s: "spontané et un peu fou", bg: "linear-gradient(150deg,#D6567A,#9B2B4F)", d: "Vous aimez l'imprévu, les délires et les idées de dernière minute. Avec vous, il ne faut pas forcément de programme pour passer une bonne journée !", p: "", c: [] },
+    F: { e: "💞", t: "Le couple fusionnel et complémentaire", s: "fusionnel et complémentaire", bg: "linear-gradient(150deg,#8A6FB5,#B5313F)", d: "Vous aimez partager votre temps, vos envies et vos projets. Vous formez une équipe dans laquelle chacun apporte quelque chose à l'autre.", p: "", c: [] }
   };
   const KEYS = Object.keys(PROFILS);
   const QS = [
-    ["Notre rendez-vous idéal serait plutôt :", [["Une aventure et une activité originale.", "A"], ["Une journée tranquille à deux.", "F"], ["Une sortie romantique.", "M"], ["Une activité amusante avec plein de surprises.", "R"]]],
-    ["Quand nous sommes ensemble, nous préférons :", [["Découvrir de nouveaux endroits.", "A"], ["Rester tranquillement dans notre bulle.", "F"], ["Faire plein d'activités.", "R", "A"], ["Alterner entre sorties et moments cocooning.", "V", "F"]]],
-    ["Notre plus grande qualité en tant que couple est :", [["Notre complicité.", "F", "V"], ["Notre humour.", "R"], ["Notre tendresse.", "M"], ["Notre spontanéité.", "A"]]],
-    ["Si nous avions un week-end libre, nous choisirions :", [["Partir quelque part sur un coup de tête.", "A"], ["Organiser un petit voyage.", "V"], ["Rester ensemble à la maison.", "F"], ["Prévoir plein d'activités.", "R", "V"]]],
-    ["Dans notre couple, nous sommes plutôt :", [["Très câlins.", "F", "M"], ["Très taquins.", "R"], ["Très romantiques.", "M"], ["Un mélange de tout cela.", "G", "V"]]],
-    ["Pour un dîner à deux, nous choisirions plutôt :", [["Tester un restaurant jamais essayé.", "G", "A"], ["Cuisiner ensemble à la maison.", "G", "F"], ["Un dîner aux chandelles.", "M"], ["Un repas où l'on rigole pour tout.", "R"]]],
-    ["Une petite attention qui nous ressemble :", [["Un petit mot glissé quelque part.", "M"], ["Son snack préféré rapporté sans prévenir.", "G"], ["Un mème ou une blague envoyée au bon moment.", "R"], ["Une idée de projet à réaliser ensemble.", "V"]]],
-    ["Un vendredi soir parfait, c'est :", [["Un film sous un plaid.", "F"], ["Un jeu où l'on se chambre sans pitié.", "R"], ["Un endroit que nous ne connaissons pas.", "A"], ["Une recette à tester à deux.", "G"]]],
-    ["En voyage, nous adorons :", [["Sortir des sentiers battus.", "A"], ["Goûter toutes les spécialités locales.", "G"], ["Se promener main dans la main.", "M"], ["Imaginer comment ce serait d'y vivre.", "V"]]],
-    ["Dans cinq ans, nous nous voyons :", [["Dans un petit nid rien qu'à nous.", "F"], ["En plein dans un beau projet commun.", "V"], ["Dans un pays que nous ne connaissons pas encore.", "A"], ["Avec plein de traditions et de souvenirs.", "M"]]],
-    ["Nos messages sont surtout remplis de :", [["Mèmes, vocaux et délires.", "R"], ["Mots doux et cœurs.", "M"], ["Photos de ce que nous mangeons.", "G"], ["Idées de projets et de voyages.", "V"]]],
-    ["Pour nous réconcilier après un petit désaccord :", [["Un long câlin sans rien dire.", "F"], ["Une blague pour détendre l'ambiance.", "R"], ["Un geste tendre ou un petit mot.", "M"], ["Un bon plat que l'autre adore.", "G"]]],
-    ["Notre galerie photo est surtout pleine de :", [["Captures d'écran d'idées et de projets.", "V"], ["Selfies tendres et moments à deux.", "M"], ["Grimaces et photos ratées.", "R"], ["Plats et desserts.", "G"]]],
-    ["Notre rêve commun serait de :", [["Avoir un chez-nous bien douillet.", "F"], ["Faire le tour du monde.", "A"], ["Réaliser un grand projet à deux.", "V"], ["Cuisiner pour toute notre famille et nos amis.", "G"]]],
-    ["Pour fêter un anniversaire de couple, nous voudrions :", [["Partir en voyage.", "A", "V"], ["Une surprise pleine d'attentions.", "M"], ["Un grand repas qui dure des heures.", "G"], ["Une soirée complètement délirante.", "R"]]]
+    ["Qui de nous deux est le plus câlin au quotidien ?", [["Moi, sans hésiter", "K"], ["Toi, c'est évident", "R"], ["Les deux autant l'un que l'autre", "F"], ["Ça dépend de la journée", "C"]]],
+    ["Qui est le plus susceptible de proposer une sortie improvisée ?", [["Moi, toujours une idée en tête", "S"], ["Toi, tu as toujours une idée", "A"], ["Les deux, on se suit tout de suite", "C"], ["Aucun des deux, on préfère rester tranquilles", "K"]]],
+    ["Qui met le plus de temps à se préparer avant un rendez-vous ?", [["Moi, je veux être à mon avantage", "R"], ["Toi, il faut du temps", "K"], ["On se prépare ensemble en rigolant", "C"], ["Peu importe, on part comme on est", "S"]]],
+    ["Qui est le plus souvent en retard ?", [["Moi, le temps file trop vite", "S"], ["Toi, jamais à l'heure", "C"], ["Les deux, on arrive en retard ensemble", "F"], ["Aucun des deux, on est ponctuels", "A"]]],
+    ["Qui est le plus susceptible de s'endormir devant un film ?", [["Moi, dès le générique", "K"], ["Toi, au bout de dix minutes", "C"], ["Les deux, on finit blottis l'un contre l'autre", "F", "R"], ["Aucun, on regarde jusqu'au bout", "A"]]],
+    ["Quel est notre moment préféré de la journée lorsque nous sommes ensemble ?", [["Le matin, au réveil", "K"], ["Les repas partagés", "C"], ["Les balades et les sorties", "A"], ["Le soir, blottis l'un contre l'autre", "R", "F"]]],
+    ["Sommes-nous plutôt du genre à tout planifier ou à improviser au dernier moment ?", [["Tout planifier", "F"], ["Improviser au dernier moment", "S"], ["Un peu des deux", "C"], ["Prévoir une base et se laisser surprendre", "A"]]],
+    ["Qui de nous deux fait le plus rire l'autre ?", [["Moi, c'est moi le clown", "S"], ["Toi, tu me fais pleurer de rire", "C"], ["Nous deux, on forme un vrai duo", "C", "F"], ["Personne en particulier, on rit pour rien", "S"]]],
+    ["Qui est le plus susceptible de faire une blague au mauvais moment ?", [["Moi, c'est plus fort que moi", "S"], ["Toi, tu choisis toujours le pire moment", "C"], ["Nous deux, au pire moment possible", "S", "C"], ["Aucun des deux, on reste sérieux", "R"]]],
+    ["Avons-nous davantage besoin de parler ou simplement d'être ensemble pour passer un bon moment ?", [["Parler pendant des heures", "F"], ["Simplement être ensemble, même en silence", "K"], ["Rire ensemble avant tout", "C"], ["Faire des activités ensemble", "A"]]],
+    ["Qui connaît le mieux les petites habitudes de l'autre ?", [["Moi, je te connais par cœur", "F"], ["Toi, tu me connais par cœur", "R"], ["Les deux, on se lit comme un livre ouvert", "F", "C"], ["On se découvre encore tous les jours", "A"]]],
+    ["Quelle est la chose que nous faisons ensemble et qui nous ressemble le plus ?", [["Nos fous rires", "C"], ["Nos soirées tranquilles", "K"], ["Nos découvertes et nos sorties", "A"], ["Nos petites attentions", "R"]]],
+    ["Sommes-nous plutôt un couple qui se taquine constamment ou qui se fait beaucoup de compliments ?", [["Qui se taquine constamment", "C", "S"], ["Qui se fait beaucoup de compliments", "R"], ["Les deux, selon l'humeur", "F"], ["Qui se montre son affection par des gestes", "K", "R"]]],
+    ["Préférerions-nous partir en voyage sur un coup de tête ou organiser chaque détail ?", [["Partir sur un coup de tête", "S", "A"], ["Organiser chaque détail", "F"], ["Choisir la destination et improviser le reste", "A"], ["Faire un petit voyage près de chez nous", "K"]]],
+    ["Sommes-nous plutôt soirée tranquille à la maison ou sortie jusqu'au bout de la nuit ?", [["Soirée tranquille à la maison", "K"], ["Sortie jusqu'au bout de la nuit", "S"], ["Un bon restaurant puis retour au calme", "R"], ["Une soirée jeux pleine de fous rires", "C"]]],
+    ["Quelle activité nouvelle aimerions-nous le plus essayer ensemble ?", [["Une activité sportive en plein air", "A"], ["Un atelier créatif ou de cuisine", "F", "C"], ["Une activité insolite et un peu folle", "S"], ["Une activité détente, comme un spa", "R", "K"]]],
+    ["Préférerions-nous découvrir le monde à deux ou construire notre petit cocon ?", [["Découvrir le monde à deux", "A"], ["Construire notre petit cocon", "K"], ["Les deux : explorer puis rentrer au nid", "F"], ["Vivre au jour le jour, sans choisir", "S"]]],
+    ["Si nous avions un week-end entièrement libre, que choisirions-nous de faire ?", [["Partir à l'aventure", "A"], ["Rester sous le plaid à buller", "K"], ["Un week-end romantique rien que tous les deux", "R"], ["Décider au dernier moment, selon l'envie", "S"]]],
+    ["Sommes-nous plutôt du genre à collectionner les souvenirs ou à profiter de l'instant présent ?", [["Collectionner les souvenirs", "R"], ["Profiter de l'instant présent", "S"], ["Les deux à la fois", "F"], ["Prendre plein de photos pour en rire plus tard", "C"]]],
+    ["Qui de nous deux exprime le plus facilement ses sentiments ?", [["Moi, je dis tout", "R"], ["Toi, tu le dis facilement", "K"], ["Nous deux, on se dit tout", "F"], ["On le montre plus qu'on ne le dit", "C"]]],
+    ["Qui est le plus susceptible de préparer une surprise à l'autre ?", [["Moi, j'adore faire des surprises", "R"], ["Toi, tu me gâtes", "K"], ["Nous deux, chacun son tour", "F"], ["Nos surprises sont toujours spontanées", "S"]]],
+    ["Sommes-nous plutôt démonstratifs en public ou réservés sur notre affection ?", [["Démonstratifs, on s'en fiche du regard des autres", "S", "R"], ["Réservés, on garde ça pour nous", "K"], ["Un petit geste discret suffit", "F"], ["Ça dépend de l'endroit et de l'humeur", "C"]]],
+    ["Qu'est-ce qui nous rapproche le plus : les discussions, les fous rires, les activités ou les moments tendres ?", [["Les discussions", "F"], ["Les fous rires", "C"], ["Les activités", "A"], ["Les moments tendres", "R", "K"]]],
+    ["Quelle est la chose que nous ne voudrions jamais perdre dans notre relation ?", [["Notre complicité", "C"], ["Notre tendresse", "R", "K"], ["Notre envie de découvrir", "A"], ["Notre esprit d'équipe", "F"]]],
+    ["Si nous devions décrire notre couple en trois mots, lesquels choisirions-nous ?", [["Complices, rieurs, inséparables", "C"], ["Tendres, doux, cocooning", "K"], ["Fous, spontanés, aventuriers", "S", "A"], ["Amoureux, soudés, complémentaires", "R", "F"]]]
   ];
+  const QCAT = ["Notre quotidien à deux", "Notre complicité", "Nos envies et nos aventures", "Notre façon de nous aimer"];
+  const QCI = [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3];
   const N = QS.length;
   const FINAL = "Peu importe le type de couple que nous sommes, le plus important reste que nous écrivons notre histoire à notre façon. Et j'espère qu'il nous reste encore plein de belles aventures à vivre ensemble. ❤️";
   let run = 0, root;
@@ -6777,6 +6795,7 @@ const PM_EMBEDDED = {
     head.querySelector(".av-count").textContent = "Question " + (g.pos + 1) + " sur " + N;
     const bar = head.querySelector(".av-bar i");
     const wrap = h("div", "qc-wrap");
+    const cat = h("p", "av-kick"); cat.textContent = (QCI[g.pos] + 1) + ". " + QCAT[QCI[g.pos]];
     const qt = h("h3", "qc-q"); qt.textContent = q[0];
     const ans = h("div", "qc-ans"); ans.setAttribute("role", "group"); ans.setAttribute("aria-label", "Réponses possibles");
     const prev = h("button", "av-btn ghost", "← Précédente"); prev.type = "button"; prev.disabled = g.pos === 0;
@@ -6793,7 +6812,7 @@ const PM_EMBEDDED = {
       ans.appendChild(b); return b;
     });
     prev.addEventListener("click", () => { if (g.pos > 0) { g.pos--; view(g); } });
-    wrap.append(qt, ans);
+    wrap.append(cat, qt, ans);
     const acts = h("div", "av-acts"); acts.appendChild(prev);
     root.append(head, wrap, acts);
     requestAnimationFrame(() => requestAnimationFrame(() => { bar.style.width = (g.pos / N * 100) + "%"; }));
@@ -6810,8 +6829,7 @@ const PM_EMBEDDED = {
     const card = h("div", "qc-prof"); card.style.background = top.length === 1 ? PROFILS[top[0]].bg : `linear-gradient(150deg, ${top.slice(0, 3).map(k => PROFILS[k].bg.match(/#[0-9A-Fa-f]{6}/)[0]).join(",")})`;
     const ill = h("div", "qc-ill"); ill.textContent = top.map(k => PROFILS[k].e).join(" "); ill.style.fontSize = top.length > 2 ? "34px" : top.length > 1 ? "46px" : "64px"; ill.setAttribute("aria-hidden", "true");
     const t = h("h3", "qc-pt");
-    t.textContent = top.length === 1 ? PROFILS[top[0]].t : top.map(k => PROFILS[k].t.replace(/^Les /, "")).join(" & ");
-    if (top.length > 1) t.textContent = "Les " + t.textContent;
+    t.textContent = top.length === 1 ? PROFILS[top[0]].t : "Un couple " + top.map(k => PROFILS[k].s).join(" et ");
     card.append(ill, t);
     if (top.length > 1) card.appendChild(h("p", "qc-pd", "Un résultat combiné : vous êtes un peu de tout cela à la fois, et c'est ce qui vous rend uniques !"));
     top.forEach(k => {
@@ -6838,7 +6856,8 @@ const PM_EMBEDDED = {
     root.appendChild(h("p", "av-kick", "Case 20"));
     root.appendChild(h("div", "av-icons", "<span aria-hidden='true'>🌍</span><span aria-hidden='true'>💕</span><span aria-hidden='true'>😂</span><span aria-hidden='true'>🍓</span>"));
     const t = h("h3", "av-title"); t.textContent = "Quel genre de couple sommes-nous ? ❤️"; root.appendChild(t);
-    root.appendChild(h("p", "av-text", "15 questions sur nous, nos habitudes et nos envies. À la fin, tes réponses révèlent quel type de couple nous sommes. Il n'y a pas de mauvaise réponse, juste notre façon d'être ensemble !"));
+    root.appendChild(h("p", "av-text", N + " questions sur nous, nos habitudes et nos envies. À la fin, tes réponses révèlent quel type de couple nous sommes. Il n'y a pas de mauvaise réponse, juste notre façon d'être ensemble !"));
+    root.appendChild(h("p", "av-note", "Réponds spontanément, sans trop réfléchir."));
     const go = h("button", "av-btn main", "Commencer le quiz"); go.type = "button"; go.addEventListener("click", start);
     const acts = h("div", "av-acts"); acts.appendChild(go); root.appendChild(acts);
   };
@@ -7521,3 +7540,5 @@ const PM_EMBEDDED = {
 })();</script>
 </body>
 </html>
+
+  
