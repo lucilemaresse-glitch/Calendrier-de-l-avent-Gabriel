@@ -6420,21 +6420,83 @@ const PM_EMBEDDED = {
   "use strict";
   const { h, toTop, shuffle, burst, reduce, sel } = window.AV;
   const CATS = [
-    ["😂", "Questions amusantes", [
-      "Quelle est la chose la plus ridicule que tu aies faite pour me plaire ?", "Quelle habitude chez moi te fait rire ?", "Si notre couple était une série, quel serait son titre ?",
-      "Quelle serait notre plus grosse dispute pour une raison complètement absurde ?", "Si nous étions coincés sur une île déserte, qui serait le plus utile ?", "Quelle est la chose que je fais et que tu pourrais reconnaître entre mille ?"]],
-    ["❤️", "Amour et sentiments", [
-      "À quel moment as-tu compris que tu avais vraiment des sentiments pour moi ?", "Qu'est-ce qui te plaît le plus dans notre relation ?", "Quel est ton souvenir préféré avec moi ?",
-      "Qu'est-ce qui te fait te sentir aimé ?", "Quelle petite attention de ma part te touche particulièrement ?", "Qu'est-ce que tu aimerais que nous fassions plus souvent ensemble ?"]],
-    ["🫣", "Questions un peu gênantes", [
-      "Quelle a été ta première impression de moi ?", "As-tu déjà été jaloux sans me le dire ?", "Quelle est la chose la plus embarrassante qui te soit arrivée devant moi ?",
-      "As-tu déjà préparé une phrase dans ta tête avant de m'envoyer un message ?", "Quelle est la chose que tu n'oses pas toujours me demander ?", "As-tu déjà fait semblant d'aimer quelque chose pour me faire plaisir ?"]],
-    ["🌙", "Questions profondes", [
-      "Qu'est-ce qui te fait le plus peur dans une relation ?", "Qu'est-ce que tu aimerais que je comprenne mieux chez toi ?", "Quelle est ta plus grande peur pour l'avenir ?",
-      "Qu'est-ce qui te rassure lorsque nous sommes loin l'un de l'autre ?", "Qu'est-ce que tu aimerais améliorer dans notre communication ?", "Pour toi, qu'est-ce qui fait durer un couple ?"]],
+    ["💞", "Notre couple et nos sentiments", [
+      "À quel moment as-tu compris que tu commençais à t'attacher à moi ?",
+      "Qu'est-ce qui t'a attiré chez moi en premier ?",
+      "Qu'est-ce que tu préfères dans notre relation ?",
+      "Y a-t-il quelque chose que tu aimerais que je fasse plus souvent ?",
+      "Est-ce que tu as déjà eu peur de me perdre ?",
+      "Qu'est-ce que tu n'oses pas toujours me dire ?",
+      "Quelle est la chose que tu apprécies le plus chez moi ?",
+      "Est-ce que tu as parfois besoin de plus d'attention de ma part ?",
+      "Quelle est ta plus grande peur concernant notre couple ?",
+      "Qu'est-ce qui te fait te sentir aimé par moi ?"]],
+    ["🤫", "Les petites vérités", [
+      "Quelle est mon habitude qui t'agace le plus ?",
+      "Quelle est la chose que je fais et que tu trouves bizarre ?",
+      "Est-ce que tu as déjà fait semblant d'aimer quelque chose pour me faire plaisir ?",
+      "Quelle est la chose que tu n'oses pas me demander ?",
+      "Est-ce que tu as déjà été vexé par quelque chose que j'ai dit sans me le faire savoir ?",
+      "Quelle est la première chose que tu remarques quand tu me retrouves ?",
+      "Est-ce que tu as déjà fait semblant de ne pas être jaloux ?",
+      "Quelle est la chose que tu aimerais changer dans nos habitudes ?",
+      "Est-ce que tu trouves que je te comprends suffisamment ?",
+      "Quelle vérité sur toi pourrais-tu avoir du mal à m'avouer ?"]],
+    ["🔥", "Attirance et intimité", [
+      "Qu'est-ce que tu trouves le plus attirant chez moi ?",
+      "Quel détail physique chez moi préfères-tu ?",
+      "Quel est le moment où tu me trouves le plus séduisant(e) ?",
+      "Quelle tenue aimerais-tu me voir porter plus souvent ?",
+      "Quel genre de rapprochement préfères-tu entre nous ?",
+      "Préfères-tu les bisous spontanés ou les longs moments de tendresse ?",
+      "Quel est le geste de ma part qui te fait le plus craquer ?",
+      "Y a-t-il quelque chose de nouveau que tu aimerais essayer avec moi ?",
+      "Quel est ton souvenir le plus romantique ou intime avec moi ?",
+      "Qu'est-ce qui te donne le plus envie de te rapprocher de moi ?"]],
+    ["😒", "Jalousie et situations délicates", [
+      "Est-ce que tu es facilement jaloux ?",
+      "Quelle situation pourrait te rendre jaloux ?",
+      "Est-ce que tu serais à l'aise si je partais en vacances sans toi ?",
+      "Est-ce que tu pourrais pardonner un mensonge important ?",
+      "Quelle est ta limite à ne jamais dépasser dans un couple ?",
+      "Est-ce que tu penses qu'on doit tout se raconter ?",
+      "Que ferais-tu si une personne draguait ouvertement ton/ta partenaire ?",
+      "Est-ce que tu as déjà comparé notre relation à celle d'un autre couple ?",
+      "Quelle situation pourrait te faire perdre confiance en moi ?",
+      "Pour toi, qu'est-ce qui constitue une trahison ?"]],
     ["💍", "Notre avenir", [
-      "Où aimerais-tu partir avec moi ?", "Comment imagines-tu notre quotidien dans cinq ans ?", "Quelle tradition aimerais-tu créer ensemble ?",
-      "Quel projet aimerais-tu absolument réaliser avec moi ?", "Quel serait notre week-end idéal ?", "Quelle est une chose que tu aimerais absolument vivre avec moi au moins une fois ?"]]
+      "Est-ce que tu arrives à t'imaginer vivre avec moi ?",
+      "Comment imagines-tu notre vie dans cinq ans ?",
+      "Qu'aimerais-tu absolument vivre avec moi ?",
+      "Est-ce que tu aimerais te marier un jour ?",
+      "Aimerais-tu avoir des enfants ?",
+      "Quel genre de maison aimerais-tu construire avec moi ?",
+      "Quelle place souhaites-tu donner à notre couple dans ta vie future ?",
+      "Quelle est la chose qui pourrait compliquer notre avenir ensemble ?",
+      "Quel rêve aimerais-tu réaliser avant tout ?",
+      "Qu'est-ce que tu espères ne jamais voir changer entre nous ?"]],
+    ["🌙", "Questions qui font réfléchir", [
+      "Penses-tu que l'amour suffit pour faire durer une relation ?",
+      "Est-ce que tu crois au fait de rencontrer la bonne personne au bon moment ?",
+      "Quelle est ta plus grande insécurité dans une relation ?",
+      "Est-ce que tu trouves facile de parler de tes émotions ?",
+      "Quelle partie de ta personnalité aimerais-tu que je comprenne mieux ?",
+      "Qu'est-ce que tu as appris sur toi depuis que nous sommes ensemble ?",
+      "Quelle est la chose que tu ne voudrais jamais sacrifier par amour ?",
+      "Est-ce que tu penses que nous nous complétons ou que nous nous ressemblons ?",
+      "Selon toi, qu'est-ce qui pourrait nous rendre encore plus forts ?",
+      "Quelle question as-tu toujours voulu me poser sans oser le faire ?"]],
+    ["🎯", "Les questions vraiment audacieuses", [
+      "As-tu déjà eu un doute sur notre relation ?",
+      "Y a-t-il quelque chose que tu regrettes de m'avoir dit ?",
+      "Quelle est la chose que tu aimerais que je comprenne sans avoir à te l'expliquer ?",
+      "As-tu déjà eu peur de ne pas être à la hauteur pour moi ?",
+      "Quelle est la chose que tu trouves difficile chez moi ?",
+      "Si tu pouvais changer une seule chose dans notre relation, laquelle serait-ce ?",
+      "Y a-t-il une question dont tu redoutes ma réponse ?",
+      "Est-ce que tu as déjà gardé une pensée pour toi par peur de ma réaction ?",
+      "Quelle est la chose que tu aimerais que nous osions davantage ?",
+      "Si tu devais me dire une chose totalement honnête, sans avoir peur de me vexer, que me dirais-tu ?"]]
   ];
   const FINAL = "J'espère que ces petites questions t'auront permis de réfléchir, de sourire et peut-être même de découvrir de nouvelles choses sur nous. Il y a encore tellement de choses à apprendre l'un sur l'autre. ❤️";
   const QS = [];
@@ -6510,7 +6572,7 @@ const PM_EMBEDDED = {
     root.appendChild(h("p", "av-kick", "Case 19"));
     root.appendChild(h("div", "av-icons", "<span aria-hidden='true'>🌙</span><span aria-hidden='true'>❤️</span><span aria-hidden='true'>✨</span>"));
     const t = h("h3", "av-title"); t.textContent = "Nos questions sans filtre ❤️"; root.appendChild(t);
-    root.appendChild(h("p", "av-text", "30 questions pour mieux se connaître, rire un peu, parler de nous et peut-être se dire des choses qu'on ne s'est jamais dites. Joue à ton rythme : il n'y a ni bonne ni mauvaise réponse, et tu peux répondre à voix haute ou dans ta tête."));
+    root.appendChild(h("p", "av-text", N + " questions pour mieux se connaître, rire un peu, parler de nous et peut-être se dire des choses qu'on ne s'est jamais dites. Joue à ton rythme : il n'y a ni bonne ni mauvaise réponse, et tu peux répondre à voix haute ou dans ta tête."));
     const go = h("button", "av-btn main", "Commencer"); go.type = "button"; go.addEventListener("click", start);
     const acts = h("div", "av-acts"); acts.appendChild(go); root.appendChild(acts);
   };
