@@ -1170,6 +1170,9 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
 .dr-sc .av-btn { padding: 10px 14px; min-height: 44px; font-size: 14px; }
 .dr-sc .av-btn.on { background: var(--rd); color: #fff; border-color: var(--rd); }
 .dr-item.mid { border-color: var(--gold); }
+.dr-lab { display: block; text-align: left; max-width: 520px; margin: 10px auto 0; font-weight: 700; font-size: 14.5px; line-height: 1.4; }
+.dr-lab .dr-in { margin-top: 5px; font-weight: 400; }
+.dr-sec { max-width: 520px; margin: 18px auto 0; text-align: left; font-weight: 800; color: var(--rd2); font-size: 15px; border-bottom: 2px solid var(--pk2); padding-bottom: 4px; }
 @media (max-width: 480px) { .dr-q { font-size: 19px; } }
 
 /* ---------- Case 20 : Quel genre de couple sommes-nous ? ---------- */
@@ -6581,8 +6584,9 @@ const PM_EMBEDDED = {
    CASE 21 : DEVINE MES RÉPONSES ❤️
    35 questions : il écrit ce qu'il pense que je répondrais, je révèle ma vraie réponse,
    puis il se note : 1 point (exact), 0,5 (proche) ou 0 (complètement différent).
-   ➜ ÉCRIS TES VRAIES RÉPONSES : remplace le "" de chaque ["question", ""] par ta réponse.
-     Une réponse laissée vide n'est pas comptée dans le score.
+   ➜ Tes vraies réponses se saisissent DANS le jeu (bouton « Mes réponses », réservé à toi) :
+     elles sont gardées sur l'appareil. Tu peux aussi les écrire à la place des "" ci-dessous.
+     Une réponse vide n'est pas comptée dans le score.
 ===================================================== */
 (function () {
   "use strict";
@@ -6637,12 +6641,40 @@ const PM_EMBEDDED = {
     [35, "Tu es presque dans ma tête ! 🔮❤️"]
   ];
 
-  const QS = DATA.flatMap(([c, l]) => l.map(([q, r]) => ({ c, q, r: r.trim() }))), N = QS.length;
+  const BASE = DATA.flatMap(([c, l]) => l.map(([q, r]) => ({ c, q, r: r.trim() }))), N = BASE.length;
+  const KEY = "advent-devine-v1";
+  const saved = () => { const s = load(KEY, []); return Array.isArray(s) ? s : []; };
+  let QS = BASE;
+  const build = () => { const s = saved(); QS = BASE.map((b, i) => ({ c: b.c, q: b.q, r: ((s[i] || "") + "").trim() || b.r })); return QS.filter(x => x.r).length; };
   const fmt = n => String(n).replace(".", ",");
   const btn = (t, c) => { const b = h("button", "av-btn " + c, t); b.type = "button"; return b; };
   let run = 0, root;
 
-  function start() { view({ pos: 0, a: [], p: [] }); }
+  function start() { build(); view({ pos: 0, a: [], p: [] }); }
+
+  /* Écran réservé à elle : saisie de ses vraies réponses */
+  function setup() {
+    const s = saved(); toTop(); root.innerHTML = "";
+    root.appendChild(h("p", "av-kick", "Case 21 · réservé à toi 🤫"));
+    const t = h("h3", "av-title"); t.textContent = "Mes vraies réponses"; root.appendChild(t);
+    root.appendChild(h("p", "av-note", "Écris ici ce que tu répondrais vraiment. Ton copain ne doit pas regarder ! Tout est enregistré automatiquement sur cet appareil. Tu peux laisser des questions vides (elles ne seront pas comptées)."));
+    const cnt = h("p", "av-count"), upd = () => { cnt.textContent = s.filter(x => (x || "").trim()).length + " / " + N + " réponses saisies"; };
+    root.appendChild(cnt);
+    let cur = "";
+    BASE.forEach((b, i) => {
+      if (b.c !== cur) { cur = b.c; const c = h("div", "dr-sec"); c.textContent = cur; root.appendChild(c); }
+      const lab = h("label", "dr-lab"), ta = h("textarea", "dr-in");
+      lab.textContent = (i + 1) + ". " + b.q; ta.rows = 2; ta.maxLength = 300; ta.value = s[i] || "";
+      ta.placeholder = "Ta vraie réponse…";
+      ta.addEventListener("input", () => { s[i] = ta.value; store(KEY, s); upd(); });
+      lab.appendChild(ta); root.appendChild(lab);
+    });
+    upd();
+    const acts = h("div", "av-acts"), done = btn("Terminé ✅", "main"), clr = btn("Tout effacer", "ghost");
+    done.addEventListener("click", () => window.showDevineReponses());
+    clr.addEventListener("click", () => { if (confirm("Effacer toutes tes réponses ?")) { store(KEY, []); setup(); } });
+    acts.append(done, clr); root.appendChild(acts);
+  }
 
   function view(g) {
     root.innerHTML = "";
@@ -6717,8 +6749,10 @@ const PM_EMBEDDED = {
     const t = h("h3", "av-title"); t.textContent = "Devine mes réponses ❤️"; root.appendChild(t);
     root.appendChild(h("p", "av-text", "Pense comme si tu étais dans ma tête ! " + N + " questions : écris ce que tu penses que j'aurais répondu, puis je te dévoile ma vraie réponse. Ensuite, on découvre si tu me connais aussi bien que tu le crois…"));
     root.appendChild(h("p", "av-note", "1 point : réponse exacte · 0,5 point : réponse proche · 0 point : complètement différent."));
-    const go = btn("C'est parti !", "main"), acts = h("div", "av-acts");
-    go.addEventListener("click", start); acts.appendChild(go); root.appendChild(acts);
+    const n = build();
+    root.appendChild(h("p", "av-note", n ? "Mes réponses enregistrées : " + n + " / " + N + "." : "Je n'ai pas encore saisi mes réponses : clique d'abord sur « Mes réponses » (réservé à moi)."));
+    const go = btn("C'est parti !", "main"), me = btn("✏️ Mes réponses (réservé à elle)", "ghost"), acts = h("div", "av-acts");
+    go.disabled = !n; go.addEventListener("click", start); me.addEventListener("click", setup); acts.append(go, me); root.appendChild(acts);
   };
 })();
 
