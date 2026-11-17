@@ -1149,25 +1149,10 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
 /* ---------- Case 21 : Devine mes réponses ---------- */
 .dr-q { font-size: 21px; font-weight: 800; line-height: 1.35; margin: 4px auto 16px; max-width: 480px; text-wrap: balance; }
 .dr-wrap { animation: avSlide .35s both; }
-.dr-ans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; max-width: 560px; margin: 0 auto; }
-.dr-ans.two { max-width: 440px; }
-.dr-a { position: relative; font: inherit; color: var(--ink); text-align: center; cursor: pointer; background: var(--paper); border: 3px solid var(--ln); border-radius: 18px; padding: 14px 12px; min-height: 84px; font-weight: 800; font-size: 15px; line-height: 1.35; touch-action: manipulation; transition: transform .2s, border-color .2s, background .2s, opacity .3s; display: grid; align-content: center; gap: 4px; }
-.dr-a:hover:not(:disabled) { border-color: var(--pk2); transform: translateY(-2px); }
-.dr-a:disabled { cursor: default; }
-.dr-a.sel { border-color: var(--rd); background: #fff; transform: scale(1.03); box-shadow: 0 0 0 4px var(--pk2); }
-.dr-a .tag { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; font-weight: 800; }
-.dr-a.real { border-color: var(--good); background: var(--goodbg); transform: scale(1.03); animation: avPop .5s both; }
-.dr-a.real .tag { color: var(--good); }
-.dr-a.miss { border-color: var(--bad); background: var(--badbg); }
-.dr-a.miss .tag { color: var(--bad); }
-.dr-a.dim { opacity: .5; }
 .dr-res { max-width: 520px; margin: 14px auto 0; border-radius: 18px; padding: 14px 16px; text-align: left; animation: avPop .5s both; }
-.dr-res.ok { background: var(--goodbg); }
-.dr-res.ko { background: var(--badbg); }
 .dr-res.tbd { background: var(--sand); }
 .dr-res b { display: block; font-size: 16px; margin-bottom: 4px; }
 .dr-res p { margin: 0; font-size: 14.5px; line-height: 1.55; }
-.dr-res p.com { margin-top: 8px; font-style: italic; color: var(--soft); }
 .dr-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 14px auto; max-width: 480px; }
 .dr-stat { background: var(--pk); border-radius: 14px; padding: 10px 6px; }
 .dr-stat b { display: block; font-size: 26px; color: var(--rd2); }
@@ -1178,7 +1163,14 @@ footer { margin-top: 35px; color: var(--green); font-size: 13px; }
 .dr-item.ok { border-color: var(--good); }
 .dr-item.ko { border-color: var(--bad); }
 .dr-item small { display: block; color: var(--soft); margin-top: 3px; }
-@media (max-width: 480px) { .dr-ans { grid-template-columns: 1fr; } .dr-a { min-height: 60px; } .dr-q { font-size: 19px; } }
+.dr-in { display: block; width: 100%; max-width: 520px; min-height: 64px; margin: 0 auto; padding: 10px 12px; box-sizing: border-box; border-radius: 14px; border: 2px solid var(--ln); background: #fff; color: var(--ink); font: inherit; font-size: 16px; resize: vertical; }
+.dr-in:focus { outline: none; border-color: var(--rd); box-shadow: 0 0 0 3px var(--pk2); }
+.dr-sc { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 12px; }
+.dr-sc p { flex-basis: 100%; margin: 0; }
+.dr-sc .av-btn { padding: 10px 14px; min-height: 44px; font-size: 14px; }
+.dr-sc .av-btn.on { background: var(--rd); color: #fff; border-color: var(--rd); }
+.dr-item.mid { border-color: var(--gold); }
+@media (max-width: 480px) { .dr-q { font-size: 19px; } }
 
 /* ---------- Case 20 : Quel genre de couple sommes-nous ? ---------- */
 .qc-q { font-size: 21px; font-weight: 800; line-height: 1.35; margin: 6px auto 16px; max-width: 480px; text-wrap: balance; }
@@ -6587,138 +6579,134 @@ const PM_EMBEDDED = {
 
 /* =====================================================
    CASE 21 : DEVINE MES RÉPONSES ❤️
-
-   ============  MES VRAIES RÉPONSES À COMPLÉTER  ============
-   Pour chaque question :
-     - "bonne"       : le numéro de ta vraie réponse parmi les propositions, en partant de 0
-                       (0 = la première, 1 = la deuxième, 2 = la troisième, 3 = la quatrième).
-                       Laisse null tant que tu n'as pas choisi : la question n'est alors pas comptée.
-     - "commentaire" : un petit mot facultatif affiché après la réponse (laisse "" pour ne rien afficher).
-   Tu peux aussi modifier les propositions (options) si elles ne te conviennent pas.
-   Je n'ai renseigné aucune de tes vraies réponses.
+   35 questions : il écrit ce qu'il pense que je répondrais, je révèle ma vraie réponse,
+   puis il se note : 1 point (exact), 0,5 (proche) ou 0 (complètement différent).
+   ➜ ÉCRIS TES VRAIES RÉPONSES : remplace le "" de chaque ["question", ""] par ta réponse.
+     Une réponse laissée vide n'est pas comptée dans le score.
 ===================================================== */
 (function () {
   "use strict";
-  const { h, toTop, burst, reduce, sel } = window.AV;
-
-  const MES_VRAIES_REPONSES = [
-    /* 🌸 Mes goûts */
-    { cat: "🌸 Mes goûts", q: "Quelle est ma destination de voyage rêvée ?", options: ["Japon", "Italie", "États-Unis", "Corée du Sud"], bonne: null, commentaire: "" },
-    { cat: "🌸 Mes goûts", q: "Quel genre de soirée je préfère ?", options: ["Cinéma à la maison", "Sortie au restaurant", "Concert", "Promenade à deux"], bonne: null, commentaire: "" },
-    { cat: "🌸 Mes goûts", q: "Quel type de film je préfère ?", options: ["Comédie romantique", "Horreur", "Action", "Fantastique"], bonne: null, commentaire: "" },
-    { cat: "🌸 Mes goûts", q: "Quel est mon plaisir préféré ?", options: ["Faire du shopping", "Regarder une série", "Écouter de la musique", "Dormir"], bonne: null, commentaire: "" },
-    /* 💗 Ma personnalité */
-    { cat: "💗 Ma personnalité", q: "Suis-je plutôt organisée ou spontanée ?", options: ["Organisée", "Spontanée"], bonne: null, commentaire: "" },
-    { cat: "💗 Ma personnalité", q: "Est-ce que je suis plutôt timide ou extravertie ?", options: ["Timide", "Extravertie"], bonne: null, commentaire: "" },
-    { cat: "💗 Ma personnalité", q: "Est-ce que je préfère parler de mes émotions ou les garder pour moi ?", options: ["En parler", "Les garder pour moi"], bonne: null, commentaire: "" },
-    { cat: "💗 Ma personnalité", q: "Est-ce que je suis plutôt rancunière ou je pardonne facilement ?", options: ["Rancunière", "Je pardonne facilement"], bonne: null, commentaire: "" },
-    { cat: "💗 Ma personnalité", q: "Qu'est-ce qui me fait le plus plaisir ?", options: ["Les mots doux", "Les cadeaux", "Les moments ensemble", "Les petites attentions"], bonne: null, commentaire: "" },
-    /* 🧸 Mes habitudes */
-    { cat: "🧸 Mes habitudes", q: "Qu'est-ce que je pourrais faire pendant des heures ?", options: ["Regarder des séries", "Écouter de la musique", "Discuter avec toi", "Dormir"], bonne: null, commentaire: "" },
-    { cat: "🧸 Mes habitudes", q: "Suis-je plutôt du matin ou du soir ?", options: ["Du matin", "Du soir"], bonne: null, commentaire: "" },
-    { cat: "🧸 Mes habitudes", q: "Qu'est-ce que je fais lorsque je m'ennuie ?", options: ["Je traîne sur mon téléphone", "Je regarde une série", "Je dors", "Je t'envoie un message"], bonne: null, commentaire: "" },
-    { cat: "🧸 Mes habitudes", q: "Est-ce que je préfère prévoir les choses ou improviser ?", options: ["Prévoir", "Improviser"], bonne: null, commentaire: "" },
-    { cat: "🧸 Mes habitudes", q: "Qu'est-ce qui me met le plus facilement de bonne humeur ?", options: ["Un bon repas", "De la musique", "Un câlin", "Un message de toi"], bonne: null, commentaire: "" },
-    /* ❤️ Notre couple */
-    { cat: "❤️ Notre couple", q: "Quel est mon souvenir préféré avec toi ?", options: ["La patinoire", "Plopsaland", "La plage de Dunkerque", "Le cinéma"], bonne: null, commentaire: "" },
-    { cat: "❤️ Notre couple", q: "Quelle activité aimerais-je refaire avec toi ?", options: ["La patinoire", "Plopsaland", "Une balade à la plage", "Une soirée cinéma"], bonne: null, commentaire: "" },
-    { cat: "❤️ Notre couple", q: "Qu'est-ce que je préfère lorsque nous sommes ensemble ?", options: ["Les câlins", "Les fous rires", "Les discussions", "Les sorties"], bonne: null, commentaire: "" },
-    { cat: "❤️ Notre couple", q: "Qu'est-ce qui me manque le plus lorsque nous sommes loin ?", options: ["Tes câlins", "Ta voix", "Nos fous rires", "Simplement ta présence"], bonne: null, commentaire: "" },
-    { cat: "❤️ Notre couple", q: "Quel projet aimerais-je réaliser en premier avec toi ?", options: ["Visiter le Japon", "Un week-end à deux", "Partir en vacances ensemble", "Adopter un animal"], bonne: null, commentaire: "" }
+  const { h, toTop, burst, sel } = window.AV;
+  const DATA = [
+    ["🌸 Mes goûts et mes préférences", [
+      ["Si je devais manger un seul plat pendant une semaine, lequel choisirais-je ?", ""],
+      ["Quelle serait ma destination de voyage idéale ?", ""],
+      ["Quelle est la chose que je préfère faire pendant mon temps libre ?", ""],
+      ["Quel genre de film ou de série pourrais-je regarder pendant des heures ?", ""],
+      ["Si je pouvais assister au concert de n'importe quel artiste, qui choisirais-je ?", ""],
+      ["Quel petit plaisir me met instantanément de bonne humeur ?", ""],
+      ["Entre une journée à la mer, une journée shopping ou une journée cocooning, que choisirais-je ?", ""]]],
+    ["💗 Ma personnalité", [
+      ["Quelle est la chose qui m'énerve le plus facilement ?", ""],
+      ["Quelle est ma plus grande qualité selon moi ?", ""],
+      ["Dans quelle situation suis-je le plus timide ?", ""],
+      ["Est-ce que je préfère avoir raison ou éviter les conflits ?", ""],
+      ["Quelle est la chose que je fais lorsque je suis stressée ?", ""],
+      ["Suis-je plutôt quelqu'un qui réfléchit trop ou qui agit spontanément ?", ""],
+      ["Qu'est-ce qui me fait le plus rire ?", ""]]],
+    ["✨ Mes envies et mes rêves", [
+      ["Si je gagnais un million d'euros demain, quelle serait la première chose que je ferais ?", ""],
+      ["Quel pays aimerais-je absolument visiter ?", ""],
+      ["Quel est le projet que j'aimerais réaliser dans les prochaines années ?", ""],
+      ["Si je pouvais apprendre instantanément une nouvelle compétence, laquelle choisirais-je ?", ""],
+      ["Préférerais-je vivre près de la mer, à la campagne ou en ville ?", ""],
+      ["Quelle expérience aimerais-je absolument vivre au moins une fois dans ma vie ?", ""]]],
+    ["🧸 Mes petites habitudes et mes réactions", [
+      ["Quelle est la première chose que je fais en me réveillant ?", ""],
+      ["Qu'est-ce que je fais lorsque je m'ennuie ?", ""],
+      ["Quelle est l'application que j'utilise probablement le plus ?", ""],
+      ["Entre dormir une heure de plus ou prendre un bon petit-déjeuner, que choisirais-je ?", ""],
+      ["Quelle est la chose que je reporte toujours au lendemain ?", ""]]],
+    ["❤️ Nous deux", [
+      ["Quel est mon souvenir préféré de nous deux jusqu'à maintenant ?", ""],
+      ["Quelle activité est-ce que je préfère faire avec toi ?", ""],
+      ["Quel genre de rendez-vous me ferait le plus plaisir ?", ""],
+      ["Quelle petite attention de ta part me touche le plus ?", ""],
+      ["Si je pouvais revivre une journée passée ensemble, laquelle choisirais-je ?", ""],
+      ["Quelle est la chose que j'aimerais que nous fassions davantage ensemble ?", ""],
+      ["Qu'est-ce que je préfère chez toi ?", ""],
+      ["Quelle serait ma destination idéale pour un voyage en amoureux ?", ""],
+      ["Quel serait mon week-end parfait avec toi ?", ""],
+      ["Si je devais choisir un mot pour décrire ce que je ressens quand je suis avec toi, lequel serait-ce ?", ""]]]
   ];
-  /* ============  FIN DE LA PARTIE À COMPLÉTER  ============ */
+  /* Paliers (score sur 35) : [score maximum, message] */
+  const TIERS = [
+    [10, "Tu as encore quelques secrets à découvrir sur moi ! 😉"],
+    [20, "Tu commences à bien me connaître. 😊"],
+    [28, "Tu connais très bien ta chérie ! ❤️"],
+    [35, "Tu es presque dans ma tête ! 🔮❤️"]
+  ];
 
-  const QS = MES_VRAIES_REPONSES, N = QS.length;
-  const OK_MSGS = ["Bien vu, tu me connais ! 🎉", "Bingo ! Tu as tout compris. ❤️", "Exactement ! Je suis impressionnée. 😍"];
-  const KO_MSGS = ["Raté… mais c'était mignon d'essayer ! 😂", "Oups ! Il va falloir réviser. 🙈", "Pas tout à fait, mais je te pardonne. 😘"];
-  const real = q => (Number.isInteger(q.bonne) && q.bonne >= 0 && q.bonne < q.options.length ? q.bonne : null);
+  const QS = DATA.flatMap(([c, l]) => l.map(([q, r]) => ({ c, q, r: r.trim() }))), N = QS.length;
+  const fmt = n => String(n).replace(".", ",");
+  const btn = (t, c) => { const b = h("button", "av-btn " + c, t); b.type = "button"; return b; };
   let run = 0, root;
 
-  function start() { view({ pos: 0, ch: new Array(N).fill(null), done: new Array(N).fill(false) }); }
+  function start() { view({ pos: 0, a: [], p: [] }); }
 
   function view(g) {
     root.innerHTML = "";
     toTop();
-    const q = QS[g.pos], rb = real(q);
-    const head = h("div");
-    head.innerHTML = `<p class="av-kick">Case 21</p><div class="av-count"></div><div class="av-bar"><i></i></div>`;
-    head.querySelector(".av-count").textContent = "Question " + (g.pos + 1) + " sur " + N;
+    const q = QS[g.pos];
+    const head = h("div", "", `<p class="av-kick">Case 21</p><div class="av-count">Question ${g.pos + 1} sur ${N}</div><div class="av-bar"><i></i></div>`);
+    const cat = h("span", "av-cat"), qt = h("h3", "dr-q"), ta = h("textarea", "dr-in"), res = h("div"), sc = h("div", "dr-sc");
+    cat.textContent = q.c; qt.textContent = q.q;
+    ta.rows = 2; ta.maxLength = 300; ta.placeholder = "Ce que je répondrais, d'après toi…"; ta.setAttribute("aria-label", "Ta proposition");
+    res.hidden = sc.hidden = true; res.setAttribute("role", "status");
+    const ok = btn("Valider ma proposition", "main"), next = btn(g.pos === N - 1 ? "Voir mon résultat" : "Question suivante →", "main");
+    ok.disabled = true; next.hidden = true;
+    const acts = h("div", "av-acts"), wrap = h("div", "dr-wrap");
+    acts.append(ok, next); wrap.append(cat, qt, ta, res, sc); root.append(head, wrap, acts);
     const bar = head.querySelector(".av-bar i");
-    const wrap = h("div", "dr-wrap");
-    const cat = h("span", "av-cat"); cat.textContent = q.cat;
-    const qt = h("h3", "dr-q"); qt.textContent = q.q;
-    const ans = h("div", "dr-ans" + (q.options.length === 2 ? " two" : "")); ans.setAttribute("role", "group"); ans.setAttribute("aria-label", "Propositions");
-    const res = h("div"); res.hidden = true; res.setAttribute("role", "status");
-    const ok = h("button", "av-btn main", "Valider mon choix"); ok.type = "button"; ok.disabled = g.ch[g.pos] === null || g.done[g.pos];
-    const next = h("button", "av-btn main", g.pos === N - 1 ? "Voir mon résultat" : "Question suivante →"); next.type = "button"; next.hidden = true;
-    const acts = h("div", "av-acts"); acts.append(ok, next);
-    const btns = q.options.map((o, i) => {
-      const b = h("button", "dr-a" + (g.ch[g.pos] === i ? " sel" : ""), `<span></span><span class="tag"></span>`); b.type = "button";
-      b.firstChild.textContent = o; b.setAttribute("aria-pressed", String(g.ch[g.pos] === i));
-      b.addEventListener("click", () => { if (g.done[g.pos]) return; g.ch[g.pos] = i; btns.forEach((x, j) => { x.classList.toggle("sel", j === i); x.setAttribute("aria-pressed", String(j === i)); }); ok.disabled = false; });
-      ans.appendChild(b); return b;
-    });
-    function reveal(first) {
-      ok.hidden = true; next.hidden = false;
-      btns.forEach((b, i) => {
-        b.disabled = true; b.classList.remove("sel");
-        const tag = b.querySelector(".tag");
-        if (rb !== null) {
-          if (i === rb) { b.classList.add("real"); tag.textContent = i === g.ch[g.pos] ? "Ma vraie réponse · ta réponse" : "Ma vraie réponse"; }
-          else if (i === g.ch[g.pos]) { b.classList.add("miss"); tag.textContent = "Ta réponse"; }
-          else b.classList.add("dim");
-        } else if (i === g.ch[g.pos]) { b.classList.add("sel"); tag.textContent = "Ta réponse"; }
-      });
-      res.hidden = false; res.innerHTML = "";
-      const good = rb !== null && g.ch[g.pos] === rb;
-      res.className = "dr-res " + (rb === null ? "tbd" : good ? "ok" : "ko");
-      const b = h("b"); b.textContent = rb === null ? "Ma réponse reste à compléter 😉" : good ? OK_MSGS[g.pos % OK_MSGS.length] : KO_MSGS[g.pos % KO_MSGS.length];
-      res.appendChild(b);
-      if (rb === null) res.appendChild(h("p", "", "Cette question n'est pas comptée dans ton score."));
-      else if (!good) { const p = h("p"); p.textContent = "Ma vraie réponse : " + q.options[rb] + "."; res.appendChild(p); }
-      if (q.commentaire && q.commentaire.trim()) { const c = h("p", "com"); c.textContent = "« " + q.commentaire.trim() + " »"; res.appendChild(c); }
-      if (first && good) { const r = res.getBoundingClientRect(); burst(r.left + r.width / 2, r.top, 16); }
-    }
+    requestAnimationFrame(() => requestAnimationFrame(() => { bar.style.width = (g.pos / N * 100) + "%"; }));
+    ta.addEventListener("input", () => { ok.disabled = !ta.value.trim(); });
     ok.addEventListener("click", () => {
-      if (g.ch[g.pos] === null) return; g.done[g.pos] = true; reveal(true);
-      res.scrollIntoView && res.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "nearest" });
+      g.a[g.pos] = ta.value.trim(); ta.disabled = true; ok.hidden = res.hidden = false;
+      ok.hidden = true; res.className = "dr-res tbd"; res.innerHTML = "";
+      if (!q.r) {
+        res.append(h("b", "", "Ma réponse reste à compléter 😉"), h("p", "", "Cette question n'est pas comptée dans ton score."));
+        g.p[g.pos] = null; next.hidden = false; return;
+      }
+      const p = h("p"); p.textContent = q.r; res.append(h("b", "", "Ma vraie réponse :"), p);
+      sc.hidden = false; sc.appendChild(h("p", "av-note", "Alors, tu t'es approché ? Donne-toi tes points (ta chérie peut t'aider 😉) :"));
+      [["✅ Exact · 1", 1], ["🤏 Proche · 0,5", .5], ["❌ Différent · 0", 0]].forEach(([t, v]) => {
+        const b = btn(t, "ghost");
+        b.addEventListener("click", () => {
+          g.p[g.pos] = v; next.hidden = false;
+          sc.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b));
+          if (v === 1) { const r = b.getBoundingClientRect(); burst(r.left + r.width / 2, r.top, 14); }
+        });
+        sc.appendChild(b);
+      });
+      res.scrollIntoView && res.scrollIntoView({ block: "nearest" });
     });
     next.addEventListener("click", () => { g.pos++; if (g.pos >= N) result(g); else view(g); });
-    wrap.append(cat, qt, ans, res);
-    root.append(head, wrap, acts);
-    if (g.done[g.pos]) reveal(false);
-    requestAnimationFrame(() => requestAnimationFrame(() => { bar.style.width = ((g.pos + (g.done[g.pos] ? 1 : 0)) / N * 100) + "%"; }));
   }
 
   function result(g) {
     const id = run;
     root.innerHTML = "";
     toTop();
-    let good = 0, bad = 0, tbd = 0;
-    QS.forEach((q, i) => { const rb = real(q); if (rb === null) tbd++; else if (g.ch[i] === rb) good++; else bad++; });
-    const counted = good + bad, pct = counted ? Math.round(good / counted * 100) : 0;
+    const cnt = g.p.filter(v => v !== null).length, tot = g.p.reduce((a, v) => a + (v || 0), 0);
+    const ex = g.p.filter(v => v === 1).length, pr = g.p.filter(v => v === .5).length, s35 = cnt ? tot / cnt * N : 0;
     root.appendChild(h("p", "av-kick", "Ton résultat"));
     const t = h("h3", "av-title"); t.textContent = "Devine mes réponses ❤️"; root.appendChild(t);
-    if (!counted) {
-      root.appendChild(h("p", "av-text", "Aucune de mes vraies réponses n'est encore renseignée, donc je ne peux pas calculer ton score. Reviens quand j'aurai complété mes réponses ! 😉"));
-    } else {
-      root.appendChild(h("div", "dr-stats", `<div class="dr-stat"><b>${good}</b><span>Bonnes</span></div><div class="dr-stat"><b>${bad}</b><span>Mauvaises</span></div><div class="dr-stat"><b>${pct} %</b><span>Réussite</span></div>`));
-      const v = h("p", "dr-verdict");
-      v.textContent = pct >= 70 ? "Mais tu me connais par cœur ! Je suis impressionnée. ❤️" : pct >= 40 ? "Tu as encore quelques petites choses à apprendre sur moi… Heureusement, tu as toute la vie pour le faire !" : "Oups ! Il va falloir être un peu plus attentif à ta chérie ! 😂";
-      root.appendChild(v);
+    if (!cnt) root.appendChild(h("p", "av-text", "Mes vraies réponses ne sont pas encore renseignées, donc je ne peux pas calculer ton score. Reviens bientôt ! 😉"));
+    else {
+      root.appendChild(h("div", "dr-stats", `<div class="dr-stat"><b>${fmt(tot)}/${cnt}</b><span>Score</span></div><div class="dr-stat"><b>${ex}</b><span>Exactes</span></div><div class="dr-stat"><b>${pr}</b><span>Proches</span></div>`));
+      const v = h("p", "dr-verdict"); v.textContent = TIERS.find(x => s35 <= x[0])[1]; root.appendChild(v);
+      if (cnt < N) root.appendChild(h("p", "av-note", sel(N - cnt, "question n'est pas encore renseignée et n'est donc pas comptée", "questions ne sont pas encore renseignées et ne sont donc pas comptées") + "."));
     }
-    if (tbd && counted) root.appendChild(h("p", "av-note", sel(tbd, "question n'est pas encore renseignée et n'est donc pas comptée", "questions ne sont pas encore renseignées et ne sont donc pas comptées") + "."));
     const rec = h("div", "dr-recap");
     QS.forEach((q, i) => {
-      const rb = real(q), it = h("div", "dr-item" + (rb === null ? "" : g.ch[i] === rb ? " ok" : " ko"));
-      const b = h("span"); b.textContent = (rb === null ? "• " : g.ch[i] === rb ? "✅ " : "❌ ") + q.q; it.appendChild(b);
-      const s = h("small"); s.textContent = "Ta réponse : " + q.options[g.ch[i]] + (rb === null ? " · ma réponse : à compléter" : g.ch[i] === rb ? "" : " · ma réponse : " + q.options[rb]); it.appendChild(s);
-      rec.appendChild(it);
+      const p = g.p[i], it = h("div", "dr-item" + (p === 1 ? " ok" : p === 0 ? " ko" : p === .5 ? " mid" : "")), b = h("span"), s = h("small");
+      b.textContent = (p === null ? "• " : p === 1 ? "✅ " : p === .5 ? "🤏 " : "❌ ") + q.q;
+      s.textContent = "Ta réponse : " + g.a[i] + " · ma réponse : " + (q.r || "à compléter") + (p === null ? "" : " · " + fmt(p) + " pt");
+      it.append(b, s); rec.appendChild(it);
     });
-    root.appendChild(rec);
-    const acts = h("div", "av-acts"), again = h("button", "av-btn main", "Recommencer le jeu"); again.type = "button"; again.addEventListener("click", start);
-    acts.appendChild(again); root.appendChild(acts);
-    if (counted && pct >= 40) setTimeout(() => { if (id !== run) return; burst(window.innerWidth * 0.3, window.innerHeight * 0.3, 18); burst(window.innerWidth * 0.7, window.innerHeight * 0.3, 18); }, 250);
+    const acts = h("div", "av-acts"), again = btn("Recommencer le jeu", "main");
+    again.addEventListener("click", start); acts.appendChild(again); root.append(rec, acts);
+    if (cnt && s35 > 20) setTimeout(() => { if (id !== run) return; burst(window.innerWidth * 0.3, window.innerHeight * 0.3, 18); burst(window.innerWidth * 0.7, window.innerHeight * 0.3, 18); }, 250);
   }
 
   window.showDevineReponses = function () {
@@ -6727,9 +6715,10 @@ const PM_EMBEDDED = {
     root.appendChild(h("p", "av-kick", "Case 21"));
     root.appendChild(h("div", "av-icons", "<span aria-hidden='true'>🤔</span><span aria-hidden='true'>❤️</span><span aria-hidden='true'>🔮</span>"));
     const t = h("h3", "av-title"); t.textContent = "Devine mes réponses ❤️"; root.appendChild(t);
-    root.appendChild(h("p", "av-text", "Pour chaque question, devine ce que ta copine aurait répondu. Choisis, valide, et découvre ma vraie réponse !"));
-    const go = h("button", "av-btn main", "C'est parti !"); go.type = "button"; go.addEventListener("click", start);
-    const acts = h("div", "av-acts"); acts.appendChild(go); root.appendChild(acts);
+    root.appendChild(h("p", "av-text", "Pense comme si tu étais dans ma tête ! " + N + " questions : écris ce que tu penses que j'aurais répondu, puis je te dévoile ma vraie réponse. Ensuite, on découvre si tu me connais aussi bien que tu le crois…"));
+    root.appendChild(h("p", "av-note", "1 point : réponse exacte · 0,5 point : réponse proche · 0 point : complètement différent."));
+    const go = btn("C'est parti !", "main"), acts = h("div", "av-acts");
+    go.addEventListener("click", start); acts.appendChild(go); root.appendChild(acts);
   };
 })();
 
@@ -7540,5 +7529,3 @@ const PM_EMBEDDED = {
 })();</script>
 </body>
 </html>
-
-  
